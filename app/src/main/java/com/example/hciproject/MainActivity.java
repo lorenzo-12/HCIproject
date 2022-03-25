@@ -8,10 +8,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button workoutbutton,diarybutton,dietbutton,timerbutton;
+    Button workoutbtn,diarybtn,dietbtn,timerbtn;
+    ImageButton userbtn;
     ConstraintLayout layout;
 
 
@@ -22,24 +24,26 @@ public class MainActivity extends AppCompatActivity {
 
         layout = findViewById(R.id.constraintLayout);
         layout.setBackgroundColor(Color.WHITE);
-        workoutbutton = findViewById(R.id.WorkoutButton);
-        diarybutton = findViewById(R.id.DiaryButton);
-        dietbutton = findViewById(R.id.DietButton);
-        timerbutton = findViewById(R.id.TimerButton);
+        workoutbtn = findViewById(R.id.WorkoutButton);
+        diarybtn = findViewById(R.id.DiaryButton);
+        dietbtn = findViewById(R.id.DietButton);
+        timerbtn = findViewById(R.id.TimerButton);
+        userbtn = findViewById(R.id.userbutton);
 
-        //diarybutton.setOnClickListener(view -> layout.setBackgroundColor(Color.GREEN));
-        //dietbutton.setOnClickListener(view -> layout.setBackgroundColor(Color.RED));
-        //workoutbutton.setOnClickListener(view -> layout.setBackgroundColor(Color.BLUE));
-        //timerbutton.setOnClickListener(view -> layout.setBackgroundColor(Color.YELLOW));
 
-        diarybutton.setOnClickListener(new View.OnClickListener() {
+        userbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { openactivityuser();}
+        });
+
+        diarybtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openactivityDiary();
             }
         });
 
-        dietbutton.setOnClickListener(new View.OnClickListener() {
+        dietbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openactivityDiet();
@@ -47,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        workoutbutton.setOnClickListener(new View.OnClickListener() {
+        workoutbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openactivityworkout();
@@ -55,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        timerbutton.setOnClickListener(new View.OnClickListener() {
+        timerbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openactivitytimer();
@@ -81,6 +85,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void openactivitytimer(){
         Intent intent = new Intent(this, MainActivity5.class);
+        startActivity(intent);
+    }
+
+    public void openactivityuser(){
+        Intent intent = new Intent(this, MainActivity6.class);
         startActivity(intent);
     }
 }
