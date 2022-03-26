@@ -5,9 +5,12 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
+//stessa logica della classe Userr, siccome devo passare variabili tra le attività
+//devo fare si che la classa implementi PARCELABLE
 public class DB implements Parcelable {
     public ArrayList<User> users_list;
 
+    //costruttore della classe
     public DB(){
         this.users_list=new ArrayList<User>();
     }
@@ -16,6 +19,9 @@ public class DB implements Parcelable {
         this.users_list=l;
     }
 
+
+
+    //tutta roba creata dal sistema stesso per il fatto che implementa PARCEL
     protected DB(Parcel in) {
         users_list = in.createTypedArrayList(User.CREATOR);
     }

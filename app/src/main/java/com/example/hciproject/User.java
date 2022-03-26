@@ -3,18 +3,28 @@ package com.example.hciproject;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+
+//siccome il mio intento è quello di passare non delle semplici stringhe tra le attività
+//ma di passare delle variabili, allora devo far si che la classe implementi PARCELABLE
 public class User implements Parcelable {
 
+    //un utente è costituito dalle info di base
     public String username;
     public String password;
+    //e dalla dieta che sta facendo
+    //dove la dieta non è altro che una lista di <lista_cibi_mangiati_il_giotno_X, giorno x>
+    //siccome non voglio immettere subito 300 cose nel sistema per ora considero il cibo
     //public Diet diet;
 
+    //funzione per aggiungere un utente
     public User(String u, String p){
         this.username=u;
         this.password=p;
         //this.diet=new Diet();
     }
 
+    //siccome dovrò fare dei controlli sugli utenti nella gestione del database modifico nella classe
+    //stessa il concetto di uguaglianza tra utenti
     @Override
     public boolean equals(Object obj){
         if (obj == null){
@@ -31,11 +41,16 @@ public class User implements Parcelable {
         return false;
     }
 
+    //siccome ho modificato EQUALS devo modificare anche HASHCODE
     @Override
     public int hashCode(){
         return this.username.hashCode()+this.password.hashCode();
     }
 
+
+
+
+    //tutta sta roba l'ha creata il sistema automaticamente poichè implementa PARCEL
     protected User(Parcel in) {
         username = in.readString();
         password = in.readString();
@@ -63,6 +78,9 @@ public class User implements Parcelable {
         parcel.writeString(username);
         parcel.writeString(password);
     }
+
+    //funzioni relative alla dieta, ma che siccome non stiamo considerando ora le ho commentate in modo da non
+    //avere errori nel codice
     /*
     public User(String u,String p, Diet d){
         this.username=u;
