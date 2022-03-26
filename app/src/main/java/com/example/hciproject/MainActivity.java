@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     ConstraintLayout layout;
     Button debug;
     DB db = new DB();
-    User tmp = new User("test","1234");
+    User tmp = new User("admin","admin");
     ArrayList<User> lista = new ArrayList<User>();
 
 

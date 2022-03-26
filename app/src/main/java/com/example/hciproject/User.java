@@ -15,6 +15,27 @@ public class User implements Parcelable {
         //this.diet=new Diet();
     }
 
+    @Override
+    public boolean equals(Object obj){
+        if (obj == null){
+            return false;
+        }
+        if (obj.getClass() != this.getClass()){
+            return false;
+        }
+
+        User other = (User) obj;
+        if (this.username.equals(other.username) && this.password.equals(other.password)){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode(){
+        return this.username.hashCode()+this.password.hashCode();
+    }
+
     protected User(Parcel in) {
         username = in.readString();
         password = in.readString();
