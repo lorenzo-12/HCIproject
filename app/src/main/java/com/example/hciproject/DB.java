@@ -46,10 +46,18 @@ public class DB implements Parcelable {
         this.users_list.add(u);
     }
 
+    public void removeUser(User u){
+        this.users_list.remove(u);
+    }
+
     public void setUser(User u){
         if (this.users_list.contains(u)){
             this.User_logged=u.username;
         }
+    }
+
+    public void unsetUser(){
+        this.User_logged = "";
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.example.hciproject;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -18,9 +19,14 @@ public class MainActivity6 extends AppCompatActivity {
     //variabili globali usate dalla pagina User per il login
     ConstraintLayout layout;
     EditText username,password;
-    Button login,signup;
+    Button login,signup,logout;
     TextView debug,debug2;
     DB db;
+
+    //
+    public static final String SHARED_PREF = "shared_pref";
+    public static final String STATUS = "status";
+    public boolean status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +42,41 @@ public class MainActivity6 extends AppCompatActivity {
         password = (EditText) findViewById(R.id.passwordtxt);
         login = findViewById(R.id.loginbtn);
         signup = findViewById(R.id.signupbtn);
+        logout = findViewById(R.id.logoutbtn);
 
         //variabili per il debug
         debug = findViewById(R.id.debugtxt);
         debug2 = findViewById(R.id.debugtxt2);
 
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                db.unsetUser();
+                Intent i = new Intent();
+                i.putExtra("DB",db);
+                setResult(RESULT_OK,i);
+
+                Toast.makeText(MainActivity6.this,"SignUp successful",Toast.LENGTH_LONG).show();
+                debug.setText(db.User_logged);
+                logout.setEnabled(false);
+                saveData();
+
+
+                //codice necessario per far si che ci sia un minimo di delay nel passggio dalla pagina di login alla main page
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        //finish server poichè senza di essa non viene effettivamente mandato indietro il messaggio con il database
+                        //finish inoltre stoppa la pagina corrente e torna a quella precedente
+                        MainActivity6.this.finish();
+                    }
+                }, 500);
+
+                saveData();
+            }
+        });
 
         //funzione che si attiva quando clicchiamo sul pulsante di  SIGN UP
         signup.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +119,7 @@ public class MainActivity6 extends AppCompatActivity {
                         //mostro un messaggio in cui notifico all'utente che la procedura è andata a buon fine
                         Toast.makeText(MainActivity6.this,"SignUp successful",Toast.LENGTH_LONG).show();
                         debug.setText(usr+" "+psw+" "+db.User_logged);
+                        logout.setEnabled(true);
 
                         //codice necessario per far si che ci sia un minimo di delay nel passggio dalla pagina di login alla main page
                         new Handler().postDelayed(new Runnable() {
@@ -101,6 +138,8 @@ public class MainActivity6 extends AppCompatActivity {
                         Toast.makeText(MainActivity6.this,"Username alredy used, please try another username",Toast.LENGTH_LONG).show();
                     }
                 }
+
+                saveData();
             }
         });
 
@@ -139,7 +178,7 @@ public class MainActivity6 extends AppCompatActivity {
 
                     //avviso l'utente che il login è andato a buon fine
                     Toast.makeText(MainActivity6.this,"login successful",Toast.LENGTH_LONG).show();
-
+                    logout.setEnabled(true);
                     debug.setText(usr+" "+psw+db.User_logged);
 
                     //codice necessario per far si che ci sia un minimo di delay nel passggio dalla pagina di login alla main page
@@ -159,7 +198,30 @@ public class MainActivity6 extends AppCompatActivity {
                     Toast.makeText(MainActivity6.this,"Wrong Username or Password",Toast.LENGTH_LONG).show();
                 }
 
+
+                saveData();
             }
         });
+
+        loadData();
+        updateView();
+    }
+
+    public void saveData(){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putBoolean(String.valueOf(STATUS), logout.isEnabled());
+        editor.apply();
+    }
+
+    public void loadData(){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
+
+        status = sharedPreferences.getBoolean(STATUS, false);
+    }
+
+    public void updateView(){
+        logout.setEnabled(status);
     }
 }
