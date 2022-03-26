@@ -23,7 +23,9 @@ public class MainActivity6 extends AppCompatActivity {
     TextView debug,debug2;
     DB db;
 
-    //
+    //variabili necessarie per salvare lo stato dei pulsanti,testo ecc...
+    //poichè se un pulsante lo setto a NON CLICCABILE ma poi cambio pagina tale cambiamento
+    //non rimane salvato, quindi lo devo fare manualmente
     public static final String SHARED_PREF = "shared_pref";
     public static final String STATUS = "status";
     public boolean status;
@@ -60,7 +62,7 @@ public class MainActivity6 extends AppCompatActivity {
                 Toast.makeText(MainActivity6.this,"SignUp successful",Toast.LENGTH_LONG).show();
                 debug.setText(db.User_logged);
                 logout.setEnabled(false);
-                saveData();
+
 
 
                 //codice necessario per far si che ci sia un minimo di delay nel passggio dalla pagina di login alla main page
@@ -74,6 +76,8 @@ public class MainActivity6 extends AppCompatActivity {
                     }
                 }, 500);
 
+                //siccome nel passare da una pagina all'altra le informazioni relative ai pulsanti,testo ecc...
+                //non vengono salvate quello che faccio è salvare tali informazioni in una struttura chiamata SHARED_PREFERENCE
                 saveData();
             }
         });
@@ -139,6 +143,8 @@ public class MainActivity6 extends AppCompatActivity {
                     }
                 }
 
+                //siccome nel passare da una pagina all'altra le informazioni relative ai pulsanti,testo ecc...
+                //non vengono salvate quello che faccio è salvare tali informazioni in una struttura chiamata SHARED_PREFERENCE
                 saveData();
             }
         });
@@ -198,14 +204,20 @@ public class MainActivity6 extends AppCompatActivity {
                     Toast.makeText(MainActivity6.this,"Wrong Username or Password",Toast.LENGTH_LONG).show();
                 }
 
-
+                //siccome nel passare da una pagina all'altra le informazioni relative ai pulsanti,testo ecc...
+                //non vengono salvate quello che faccio è salvare tali informazioni in una struttura chiamata SHARED_PREFERENCE
                 saveData();
             }
         });
 
+        //funzioni che riprendono e applicano lo stato precedente dei bottoni,testi ecc...
         loadData();
         updateView();
     }
+
+
+    //funzioni che salvano, caricano e applicano lo stato dei pulsanti,testo ecc...
+
 
     public void saveData(){
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
