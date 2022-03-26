@@ -75,12 +75,14 @@ public class MainActivity6 extends AppCompatActivity {
                     if (different_username == true) {
                         //inserisco l'utente all'interno del database
                         db.addUser(u);
+                        db.setUser(u);
                         Intent i = new Intent();
                         //mando alla pagina padre (main page) il Database modificato
                         i.putExtra("DB",db);
                         setResult(RESULT_OK,i);
                         //mostro un messaggio in cui notifico all'utente che la procedura è andata a buon fine
                         Toast.makeText(MainActivity6.this,"SignUp successful",Toast.LENGTH_LONG).show();
+                        debug.setText(usr+" "+psw+" "+db.User_logged);
 
                         //codice necessario per far si che ci sia un minimo di delay nel passggio dalla pagina di login alla main page
                         new Handler().postDelayed(new Runnable() {
@@ -131,11 +133,15 @@ public class MainActivity6 extends AppCompatActivity {
                     //anche se non sto facendo cambiamenti al database comunque la pagina PADRE si aspetta un risultato
                     //quindi semplicemente gli rimando indietro il database che mi ha mandato lui
                     i = new Intent();
+                    db.setUser(u);
                     i.putExtra("DB",db);
                     setResult(RESULT_OK,i);
 
                     //avviso l'utente che il login è andato a buon fine
                     Toast.makeText(MainActivity6.this,"login successful",Toast.LENGTH_LONG).show();
+
+                    debug.setText(usr+" "+psw+db.User_logged);
+
                     //codice necessario per far si che ci sia un minimo di delay nel passggio dalla pagina di login alla main page
                     new Handler().postDelayed(new Runnable() {
                         @Override

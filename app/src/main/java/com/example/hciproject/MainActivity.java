@@ -154,7 +154,8 @@ public class MainActivity extends AppCompatActivity {
                 db = data.getParcelableExtra("DB");
 
                 //modifico la scritta nel testo di debug per capire se i cambiamenti sono avvenuti correttamente
-                debug.setText("***"+db.users_list.size()+"***");
+                debug.setText(db.users_list.size()+" "+db.User_logged);
+
             }
         }
     }

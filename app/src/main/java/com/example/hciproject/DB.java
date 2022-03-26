@@ -8,6 +8,7 @@ import java.util.ArrayList;
 //stessa logica della classe Userr, siccome devo passare variabili tra le attività
 //devo fare si che la classa implementi PARCELABLE
 public class DB implements Parcelable {
+    public String User_logged;
     public ArrayList<User> users_list;
 
     //costruttore della classe
@@ -19,10 +20,8 @@ public class DB implements Parcelable {
         this.users_list=l;
     }
 
-
-
-    //tutta roba creata dal sistema stesso per il fatto che implementa PARCEL
     protected DB(Parcel in) {
+        User_logged = in.readString();
         users_list = in.createTypedArrayList(User.CREATOR);
     }
 
@@ -47,8 +46,10 @@ public class DB implements Parcelable {
         this.users_list.add(u);
     }
 
-    public void removeUser(User u){
-        this.users_list.remove(u);
+    public void setUser(User u){
+        if (this.users_list.contains(u)){
+            this.User_logged=u.username;
+        }
     }
 
     @Override
@@ -58,6 +59,7 @@ public class DB implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(User_logged);
         parcel.writeTypedList(users_list);
     }
 }
