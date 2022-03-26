@@ -1,5 +1,6 @@
 package com.example.hciproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -44,6 +45,11 @@ public class MainActivity6 extends AppCompatActivity {
                     aux=aux+"A";
                 }
                 debug2.setText(aux);
+
+                Intent i = new Intent();
+                i.putExtra("DB",db);
+                setResult(RESULT_OK,i);
+                finish();
             }
         });
     }

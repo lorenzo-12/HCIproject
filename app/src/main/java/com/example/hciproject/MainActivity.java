@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -17,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     Button workoutbtn,diarybtn,dietbtn,timerbtn;
     ImageButton userbtn;
     ConstraintLayout layout;
+    Button debug;
     DB db = new DB();
     User tmp = new User("test","1234");
     ArrayList<User> lista = new ArrayList<User>();
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         dietbtn = findViewById(R.id.DietButton);
         timerbtn = findViewById(R.id.TimerButton);
         userbtn = findViewById(R.id.userbutton);
+        debug = findViewById(R.id.buttondebug);
 
         lista.add(tmp);
         db.addUser(tmp);
@@ -55,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 openactivityDiet();
-
             }
         });
 
@@ -63,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 openactivityworkout();
-
             }
         });
 
@@ -71,9 +72,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 openactivitytimer();
-
             }
         });
+
+        debug.setText("***"+db.users_list.size()+"***");
+
     }
 
     public void openactivityDiary(){
@@ -96,9 +99,22 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intentTimer);
     }
 
-    public void openactivityuser(){
+    public void openactivityuser() {
         Intent intentUser = new Intent(this, MainActivity6.class);
         intentUser.putExtra("DB",db);
-        startActivity(intentUser);
+        //startActivity(intentUser);
+        startActivityForResult(intentUser,1);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1){
+            if (resultCode == RESULT_OK){
+                db = data.getParcelableExtra("DB");
+                debug.setText("***"+db.users_list.size()+"***");
+            }
+        }
     }
 }
