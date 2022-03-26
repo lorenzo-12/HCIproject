@@ -15,12 +15,14 @@ public class MainActivity6 extends AppCompatActivity {
     EditText username,password;
     Button login;
     TextView debug,debug2;
-    DB db = new DB();
+    DB db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main6);
+
+        db = getIntent().getParcelableExtra("DB");
 
         layout = findViewById(R.id.constraintLayout);
         username = (EditText) findViewById(R.id.usernametxt);
@@ -37,7 +39,7 @@ public class MainActivity6 extends AppCompatActivity {
                 debug.setText(usr+" "+psw);
                 User u = new User(usr,psw);
                 db.addUser(u);
-                String aux="A";
+                String aux="";
                 for (User e : db.users_list) {
                     aux=aux+"A";
                 }

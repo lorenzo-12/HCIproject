@@ -1,8 +1,5 @@
 package com.example.hciproject;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,11 +7,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     Button workoutbtn,diarybtn,dietbtn,timerbtn;
     ImageButton userbtn;
     ConstraintLayout layout;
+    DB db = new DB();
+    User tmp = new User("test","1234");
+    ArrayList<User> lista = new ArrayList<User>();
 
 
     @Override
@@ -29,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
         dietbtn = findViewById(R.id.DietButton);
         timerbtn = findViewById(R.id.TimerButton);
         userbtn = findViewById(R.id.userbutton);
+
+        lista.add(tmp);
+        db.addUser(tmp);
 
 
         userbtn.setOnClickListener(new View.OnClickListener() {
@@ -69,27 +77,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openactivityDiary(){
-        Intent intent = new Intent(this, MainActivity2.class);
-        startActivity(intent);
+        Intent intentDiary = new Intent(this, MainActivity2.class);
+        startActivity(intentDiary);
     }
 
     public void openactivityDiet(){
-        Intent intent = new Intent(this, MainActivity3.class);
-        startActivity(intent);
+        Intent intentDiet = new Intent(this, MainActivity3.class);
+        startActivity(intentDiet);
     }
 
     public void openactivityworkout(){
-        Intent intent = new Intent(this, MainActivity4.class);
-        startActivity(intent);
+        Intent intentWorkout = new Intent(this, MainActivity4.class);
+        startActivity(intentWorkout);
     }
 
     public void openactivitytimer(){
-        Intent intent = new Intent(this, MainActivity5.class);
-        startActivity(intent);
+        Intent intentTimer = new Intent(this, MainActivity5.class);
+        startActivity(intentTimer);
     }
 
     public void openactivityuser(){
-        Intent intent = new Intent(this, MainActivity6.class);
-        startActivity(intent);
+        Intent intentUser = new Intent(this, MainActivity6.class);
+        intentUser.putExtra("DB",db);
+        startActivity(intentUser);
     }
 }
