@@ -22,17 +22,16 @@ public class MainActivity6 extends AppCompatActivity {
     //variabili globali usate dalla pagina User per il login
     ConstraintLayout layout;
     EditText username,password;
-    Button login,signup,logout;
+    Button login,signup;
     TextView debug,debug2;
     DB db;
 
     //variabili necessarie per salvare lo stato dei pulsanti,testo ecc...
     //poichè se un pulsante lo setto a NON CLICCABILE ma poi cambio pagina tale cambiamento
     //non rimane salvato, quindi lo devo fare manualmente
-    public static final String STATUS = "status";
     public static final String DATABASE = "database";
     public String db_s;
-    public boolean status;
+
 
     //parte necessaria affinchè quando l'utente preme "<-" per tornare alla pagina precedente la funzione
     //onBackPressed venga chiamata
@@ -93,32 +92,11 @@ public class MainActivity6 extends AppCompatActivity {
         password = (EditText) findViewById(R.id.passwordtxt);
         login = findViewById(R.id.loginbtn);
         signup = findViewById(R.id.signupbtn);
-        logout = findViewById(R.id.logoutbtn);
 
         //variabili per il debug
         debug = findViewById(R.id.debugtxt);
         debug2 = findViewById(R.id.debugtxt2);
 
-
-
-
-
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                db.unsetUser();
-
-                Toast.makeText(MainActivity6.this,"SignUp successful",Toast.LENGTH_LONG).show();
-                debug.setText(db.User_logged);
-                logout.setEnabled(false);
-
-                //siccome nel passare da una pagina all'altra le informazioni relative ai pulsanti,testo ecc...
-                //non vengono salvate quello che faccio è salvare tali informazioni in una struttura chiamata SHARED_PREFERENCE
-
-                saveData();
-                onBackPressed();
-            }
-        });
 
         //funzione che si attiva quando clicchiamo sul pulsante di  SIGN UP
         signup.setOnClickListener(new View.OnClickListener() {
@@ -156,7 +134,6 @@ public class MainActivity6 extends AppCompatActivity {
                         //mostro un messaggio in cui notifico all'utente che la procedura è andata a buon fine
                         Toast.makeText(MainActivity6.this,"SignUp successful",Toast.LENGTH_LONG).show();
                         debug.setText(usr+" "+psw+" "+db.User_logged);
-                        logout.setEnabled(true);
                     }
 
                     //se invece lo Username inserito esiste già allora notifico l'utente di ciò
@@ -204,7 +181,6 @@ public class MainActivity6 extends AppCompatActivity {
 
                     //avviso l'utente che il login è andato a buon fine
                     Toast.makeText(MainActivity6.this,"login successful",Toast.LENGTH_LONG).show();
-                    logout.setEnabled(true);
                     debug.setText(usr+" "+psw+db.User_logged);
                 }
 
@@ -227,10 +203,8 @@ public class MainActivity6 extends AppCompatActivity {
         loadData();
         updateView();
 
-        if (db.User_logged.equals("none")){
-            logout.setEnabled(false);
-        }
-        else {
+
+        if (db.User_logged.equals("none") == false){
             User tmp = db.getUser(db.User_logged);
             if (tmp != null) {
                 username.setText(tmp.username);
@@ -247,7 +221,6 @@ public class MainActivity6 extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putBoolean(STATUS, logout.isEnabled());
         editor.putString(DATABASE,db.toString());
         editor.apply();
     }
@@ -255,14 +228,11 @@ public class MainActivity6 extends AppCompatActivity {
     public void loadData(){
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
 
-        status = sharedPreferences.getBoolean(STATUS, false);
         db_s = sharedPreferences.getString(DATABASE, "UL:none\n");
     }
 
     public void updateView(){
-        logout.setEnabled(status);
         db = new DB(db_s);
-        //db2 = new DB(db_s);
         debug2.setText(db_s);
     }
 

@@ -1,10 +1,9 @@
 package com.example.hciproject;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-
-import android.graphics.Color;
-import android.os.Bundle;
 
 public class MainActivity3 extends AppCompatActivity {
 
@@ -16,6 +15,6 @@ public class MainActivity3 extends AppCompatActivity {
         setContentView(R.layout.activity_main3);
 
         layout = findViewById(R.id.constraintLayout);
-        layout.setBackgroundColor(Color.RED);
+
     }
 }

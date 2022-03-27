@@ -10,9 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HCIproject">
         <activity
+            android:name=".MainActivity7"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".MainActivity6"
             android:exported="false"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity5"
             android:exported="false"
@@ -41,6 +45,3 @@
     </application>
 
 </manifest>
-
-    <!-- quando vogliamo inserire la freccetta per tornare alla pagina precedente ci basta inserire questa riga e specificare la pagina precedente -->
-    <!-- android:parentActivityName=".MainActivity" -->
