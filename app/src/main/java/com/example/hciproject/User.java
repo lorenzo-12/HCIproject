@@ -1,12 +1,11 @@
 package com.example.hciproject;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 
 //siccome il mio intento è quello di passare non delle semplici stringhe tra le attività
 //ma di passare delle variabili, allora devo far si che la classe implementi PARCELABLE
-public class User implements Parcelable {
+public class User {
 
     //un utente è costituito dalle info di base
     public String username;
@@ -73,28 +72,7 @@ public class User implements Parcelable {
         password = in.readString();
     }
 
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
 
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(username);
-        parcel.writeString(password);
-    }
 
     //funzioni relative alla dieta, ma che siccome non stiamo considerando ora le ho commentate in modo da non
     //avere errori nel codice

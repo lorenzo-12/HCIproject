@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -31,6 +30,15 @@ public class MainActivity extends AppCompatActivity {
     //variabili temporanea usate per debug
     User tmp = new User("admin","admin");
     ArrayList<User> lista = new ArrayList<User>();
+
+    @Override
+    public void onResume() {
+        // After a pause OR at startup
+        super.onResume();
+        //Refresh your stuff here
+        loadData();
+        updateView();
+    }
 
 
     @Override
@@ -97,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         //fatti al database vengono riportati per intero oppure no
         //in questo caso utilizzo una casella di testo per mostrare se effettivamente il numero di User nel databese
         //incrementa oppure no (poichè non posso fare la print)
-        debug.setText("***"+db.users_list.size()+"***");
+        debug.setText(db.users_list.size()+" "+db.User_logged);
 
 
     }
@@ -128,47 +136,12 @@ public class MainActivity extends AppCompatActivity {
 
         //creo la nuova pagina (intentUser)
         Intent intentUser = new Intent(this, MainActivity6.class);
-        //per poter passare delle informazioni/variabili da una pagina all'altra si può
-        //usare il PUTEXTRA che prende in input <KEY,DATA> in modo che se inviamo
-        //più dati è possibile distinguerli tramite la KEY
-        intentUser.putExtra("DB",db);
-
-        //se non mi interessa ricevere delle informazioni dalla pagina figlia allora posso usare
-        //direttamente STARTACTIVITY
-        //startActivity(intentUser);
 
         saveData();
+        //se non mi interessa ricevere delle informazioni dalla pagina figlia allora posso usare
+        //direttamente STARTACTIVITY
+        startActivity(intentUser);
 
-        //se invece sono interessato anche a ricevere delle informazioni indietro
-        //quindi la comunicazione non è solo PADRE --> FIGLIO ma anche FIGLIO --> PADRE
-        //allora uso questa funzione che mi permette di riottenere il risultato ottenuto dal FIGLIO
-        //teoricamente dovrei usare un'altra funzione siccome questa è deprecatea, ma l'altra funzione
-        //possibile è complicata e non mi va di perderci 2 giorni, inoltre questa funziona benissimo
-        startActivityForResult(intentUser,1);
-
-    }
-
-    //funzione di callback che si attiva automanticamente quando il una pagina FIGLIA restituisce un valore
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1){
-            if (resultCode == RESULT_OK){
-
-                //in generale quando si  passa un messagio basta usare GETEXTRA ma siccome noi non stiamo inviando
-                //una semplice stringa ma stiamo passando una variabile (puntatore) allora dobbiamo usare
-                //GETPARCELABLEEXTRA che ci permette di ricevere una variabile
-
-                //quello che faccio è semplicemente modificare il database ponendolo uguale a quello in output
-                //dalla pagina FIGLIA
-                db = data.getParcelableExtra("DB");
-                saveData();
-
-                //modifico la scritta nel testo di debug per capire se i cambiamenti sono avvenuti correttamente
-                debug.setText(db.users_list.size()+" "+db.User_logged);
-
-            }
-        }
     }
 
     public void saveData(){
@@ -177,15 +150,16 @@ public class MainActivity extends AppCompatActivity {
 
         editor.putString(DATABASE,db.toString());
         editor.apply();
-        //Toast.makeText(this,"DATA_SAVED",Toast.LENGTH_LONG).show();
+        //Toast.makeText(this,"DATA_SAVED", Toast.LENGTH_LONG).show();
     }
 
     public void loadData(){
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY",MODE_PRIVATE);
-        database_tostring = sharedPreferences.getString(DATABASE, "");
+        database_tostring = sharedPreferences.getString(DATABASE, "UL;none\nU;admin;admin\n");
     }
 
     public void updateView(){
         db = new DB(database_tostring);
+        debug.setText(db.users_list.size()+" "+db.User_logged);
     }
 }
