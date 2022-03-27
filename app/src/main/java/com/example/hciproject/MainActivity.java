@@ -1,7 +1,7 @@
 package com.example.hciproject;
 
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +14,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final String DATABASE = "database";
+    public String database_tostring;
 
 
     //variabili globali usate dalla Main page
@@ -37,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         //associo a ogni variabile il corrispettivo bottone/testo ecc...
         layout = findViewById(R.id.constraintLayout);
-        layout.setBackgroundColor(Color.WHITE);
+        //layout.setBackgroundColor(Color.WHITE);
         workoutbtn = findViewById(R.id.WorkoutButton);
         diarybtn = findViewById(R.id.DiaryButton);
         dietbtn = findViewById(R.id.DietButton);
@@ -87,11 +90,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        loadData();
+        updateView();
+
         //codice utilizzato per capire se quando aggiungo un utente dalla pagina (activity) di login i cambiamenti
         //fatti al database vengono riportati per intero oppure no
         //in questo caso utilizzo una casella di testo per mostrare se effettivamente il numero di User nel databese
         //incrementa oppure no (poichè non posso fare la print)
         debug.setText("***"+db.users_list.size()+"***");
+
 
     }
 
@@ -113,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void openactivitytimer(){
         Intent intentTimer = new Intent(this, MainActivity5.class);
+        saveData();
         startActivity(intentTimer);
     }
 
@@ -128,6 +136,8 @@ public class MainActivity extends AppCompatActivity {
         //se non mi interessa ricevere delle informazioni dalla pagina figlia allora posso usare
         //direttamente STARTACTIVITY
         //startActivity(intentUser);
+
+        saveData();
 
         //se invece sono interessato anche a ricevere delle informazioni indietro
         //quindi la comunicazione non è solo PADRE --> FIGLIO ma anche FIGLIO --> PADRE
@@ -152,11 +162,30 @@ public class MainActivity extends AppCompatActivity {
                 //quello che faccio è semplicemente modificare il database ponendolo uguale a quello in output
                 //dalla pagina FIGLIA
                 db = data.getParcelableExtra("DB");
+                saveData();
 
                 //modifico la scritta nel testo di debug per capire se i cambiamenti sono avvenuti correttamente
                 debug.setText(db.users_list.size()+" "+db.User_logged);
 
             }
         }
+    }
+
+    public void saveData(){
+        SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString(DATABASE,db.toString());
+        editor.apply();
+        //Toast.makeText(this,"DATA_SAVED",Toast.LENGTH_LONG).show();
+    }
+
+    public void loadData(){
+        SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY",MODE_PRIVATE);
+        database_tostring = sharedPreferences.getString(DATABASE, "");
+    }
+
+    public void updateView(){
+        db = new DB(database_tostring);
     }
 }

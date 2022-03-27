@@ -18,8 +18,8 @@ public class User implements Parcelable {
 
     //funzione per aggiungere un utente
     public User(String u, String p){
-        this.username=u;
-        this.password=p;
+        this.username = u.toLowerCase();
+        this.password = p.toLowerCase();
         //this.diet=new Diet();
     }
 
@@ -48,7 +48,24 @@ public class User implements Parcelable {
     }
 
 
+    @Override
+    public String toString() {
+        return "U;"+this.username+";"+this.password+"\n";
+    }
 
+    public User(String user_string){
+        this.username = "";
+        this.password = "";
+        if ((user_string == null) || (user_string.equals(""))){
+            return;
+        }
+        user_string = user_string.replace("\n","");
+        String[] param = user_string.split(";");
+        if ((param.length == 3) && (param[0].equals("U"))){
+            this.username = param[1].toLowerCase();
+            this.password = param[2].toLowerCase();
+        }
+    }
 
     //tutta sta roba l'ha creata il sistema automaticamente poichè implementa PARCEL
     protected User(Parcel in) {

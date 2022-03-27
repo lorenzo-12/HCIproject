@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,9 +29,52 @@ public class MainActivity6 extends AppCompatActivity {
     //variabili necessarie per salvare lo stato dei pulsanti,testo ecc...
     //poichè se un pulsante lo setto a NON CLICCABILE ma poi cambio pagina tale cambiamento
     //non rimane salvato, quindi lo devo fare manualmente
-    public static final String SHARED_PREF = "shared_pref";
     public static final String STATUS = "status";
+    public static final String DATABASE = "database";
+    public String db_s;
     public boolean status;
+
+    //parte necessaria affinchè quando l'utente preme "<-" per tornare alla pagina precedente la funzione
+    //onBackPressed venga chiamata
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        /*
+         * without call to super onBackPress() will not be called when
+         * keyCode == KeyEvent.KEYCODE_BACK
+         */
+        return super.onKeyUp(keyCode, event);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    //se l'utente preme "<-" e non si modifca questa funzione quello che accade è che l'Activity non restituisce in outout
+    //il database modificato, pertanto è necessario fare si che quando si preme tale bottone si invii anche il db modificato
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        Intent i = new Intent();
+        i.putExtra("DB",db);
+        setResult(RESULT_OK,i);
+        Log.d("MainActivity","onBackPressed");
+        //Toast.makeText(this,"AAAAAAA",Toast.LENGTH_LONG).show();
+        finish();
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +95,12 @@ public class MainActivity6 extends AppCompatActivity {
         //variabili per il debug
         debug = findViewById(R.id.debugtxt);
         debug2 = findViewById(R.id.debugtxt2);
+
+        debug.setText(db.toString());
+        if (db.User_logged.equals("none")){
+            logout.setEnabled(false);
+            saveData();
+        }
 
 
         logout.setOnClickListener(new View.OnClickListener() {
@@ -220,20 +272,25 @@ public class MainActivity6 extends AppCompatActivity {
 
 
     public void saveData(){
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putBoolean(String.valueOf(STATUS), logout.isEnabled());
+        editor.putBoolean(STATUS, logout.isEnabled());
+        editor.putString(DATABASE,db.toString());
         editor.apply();
     }
 
     public void loadData(){
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
 
         status = sharedPreferences.getBoolean(STATUS, false);
+        db_s = sharedPreferences.getString(DATABASE, "UL:none\n");
     }
 
     public void updateView(){
         logout.setEnabled(status);
+        db = new DB(db_s);
+        //db2 = new DB(db_s);
+        debug2.setText(db_s);
     }
 }

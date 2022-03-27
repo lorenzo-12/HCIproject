@@ -13,10 +13,12 @@ public class DB implements Parcelable {
 
     //costruttore della classe
     public DB(){
+        this.User_logged = "none";
         this.users_list=new ArrayList<User>();
     }
 
     public DB(ArrayList<User> l){
+        this.User_logged = "none";
         this.users_list=l;
     }
 
@@ -54,6 +56,38 @@ public class DB implements Parcelable {
         if (this.users_list.contains(u)){
             this.User_logged=u.username;
         }
+    }
+
+    @Override
+    public String toString() {
+        String res = "UL;"+this.User_logged+"\n";
+        for (User u : this.users_list){
+            res = res+u.toString();
+        }
+        return res;
+    }
+
+    public DB(String db_string){
+        this.User_logged = "none";
+        this.users_list = new ArrayList<User>();
+
+        if ((db_string == null) || (db_string.equals(""))){
+            return;
+        }
+        String[] lines = db_string.split("\n");
+        for (String line : lines){
+            line = line.replace("\n","");
+            if (line.length()==0) return;
+            String[] param = line.split(";");
+            if ((param.length == 2) && (param[0].equals("UL"))){
+                this.User_logged = param[1];
+            }
+            else if ((param.length == 3) && (param[0].equals("U"))){
+                User u = new User(line);
+                this.addUser(u);
+            }
+        }
+
     }
 
     public void unsetUser(){
