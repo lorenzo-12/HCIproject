@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -96,6 +98,9 @@ public class MainActivity6 extends AppCompatActivity {
         //variabili per il debug
         debug = findViewById(R.id.debugtxt);
         debug2 = findViewById(R.id.debugtxt2);
+
+        username.addTextChangedListener(resetTextWatcher);
+        password.addTextChangedListener(resetTextWatcher);
 
 
         //funzione che si attiva quando clicchiamo sul pulsante di  SIGN UP
@@ -212,6 +217,33 @@ public class MainActivity6 extends AppCompatActivity {
             }
         }
     }
+
+    public TextWatcher resetTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            String usr = username.getText().toString();
+            String psw = password.getText().toString();
+
+            debug.setText(usr+" "+psw);
+
+            login.setEnabled(false);
+            signup.setEnabled(false);
+            if (!usr.isEmpty() && !psw.isEmpty()) {
+                signup.setEnabled(true);
+                login.setEnabled(true);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
 
 
     //funzioni che salvano, caricano e applicano lo stato dei pulsanti,testo ecc...
