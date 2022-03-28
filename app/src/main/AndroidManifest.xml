@@ -10,11 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HCIproject">
         <activity
-            android:name=".MainActivity7"
+            android:name=".ChangeUsernamePage"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".MainActivity6"
+            android:name=".ChangePasswordPage"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".UserPage"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
         <activity

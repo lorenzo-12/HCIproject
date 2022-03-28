@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/Logout_item"
+        android:icon="@drawable/ic_baseline_info_24"
+        android:title="LOGOUT"
+        app:showAsAction="collapseActionView" />
+    <item
+        android:id="@+id/Change_password_item"
+        android:icon="@drawable/ic_baseline_info_24"
+        android:title="CHANGE PASSWORD"
+        app:showAsAction="collapseActionView" />
+    <item
+        android:id="@+id/Change_username_item"
+        android:icon="@drawable/ic_baseline_info_24"
+        android:title="CHANGE USERNAME"
+        app:showAsAction="collapseActionView" />
+    <item
+        android:id="@+id/LightMode_item"
+        android:icon="@drawable/ic_baseline_dark_mode_24"
+        app:showAsAction="ifRoom"
+        android:title="LightMode" />
+</menu>

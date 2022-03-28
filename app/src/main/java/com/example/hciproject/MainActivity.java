@@ -136,12 +136,15 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intentUser;
         //creo la nuova pagina (intentUser)
+        intentUser = new Intent(this, UserPage.class);
+        /*
         if (db.User_logged.equals("none")) {
-            intentUser = new Intent(this, MainActivity6.class);
+            intentUser = new Intent(this, UserPage.class);
         }
         else {
-            intentUser = new Intent(this,MainActivity7.class);
+            intentUser = new Intent(this,ChangePasswordPage.class);
         }
+        */
         saveData();
         //se non mi interessa ricevere delle informazioni dalla pagina figlia allora posso usare
         //direttamente STARTACTIVITY

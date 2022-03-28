@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity7 extends AppCompatActivity {
+public class ChangePasswordPage extends AppCompatActivity {
 
     //variabili globali usate dalla pagina User per il login
     EditText oldpassword,newpassword;
@@ -79,7 +79,7 @@ public class MainActivity7 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main7);
+        setContentView(R.layout.activity_change_password_page);
 
         logout = findViewById(R.id.logoutbtn);
         reset = findViewById(R.id.resetbtn);
@@ -95,7 +95,7 @@ public class MainActivity7 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 db.unsetUser();
-                Toast.makeText(MainActivity7.this,"Logout successful",Toast.LENGTH_LONG).show();
+                Toast.makeText(ChangePasswordPage.this,"Logout successful",Toast.LENGTH_LONG).show();
                 saveData();
                 onBackPressed();
             }
@@ -109,10 +109,10 @@ public class MainActivity7 extends AppCompatActivity {
                     User u = db.getUser(db.User_logged);
                     if (oldpassword.getText().toString().equals(u.password)){
                         u.password = newpassword.getText().toString();
-                        Toast.makeText(MainActivity7.this,"Password changed correctly",Toast.LENGTH_LONG).show();
+                        Toast.makeText(ChangePasswordPage.this,"Password changed correctly",Toast.LENGTH_LONG).show();
                     }
                     else{
-                        Toast.makeText(MainActivity7.this,"Old password doesn't match current password",Toast.LENGTH_LONG).show();
+                        Toast.makeText(ChangePasswordPage.this,"Old password doesn't match current password",Toast.LENGTH_LONG).show();
                     }
                 }
                 saveData();
