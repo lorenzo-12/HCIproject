@@ -10,12 +10,12 @@ public class DB {
 
     //costruttore della classe
     public DB(){
-        this.User_logged = "none";
+        this.User_logged = "none".toLowerCase();
         this.users_list=new ArrayList<User>();
     }
 
     public DB(ArrayList<User> l){
-        this.User_logged = "none";
+        this.User_logged = "none".toLowerCase();
         this.users_list=l;
     }
 
@@ -35,7 +35,7 @@ public class DB {
 
     public void setUser(User u){
         if (this.users_list.contains(u)){
-            this.User_logged=u.username;
+            this.User_logged = u.username.toLowerCase();
         }
     }
 
@@ -67,6 +67,17 @@ public class DB {
         return null;
     }
 
+    public void unsetUser(){
+        this.User_logged = "";
+    }
+
+    public void print(){
+        System.out.println("Logged: "+this.User_logged);
+        for (User e : this.users_list){
+            e.print();
+        }
+    }
+
     @Override
     public String toString() {
         String res = "UL;"+this.User_logged+"\n";
@@ -80,27 +91,27 @@ public class DB {
         this.User_logged = "none";
         this.users_list = new ArrayList<User>();
 
+        db_string = db_string.trim();
         if ((db_string == null) || (db_string.equals(""))){
             return;
         }
+
         String[] lines = db_string.split("\n");
-        for (String line : lines){
-            line = line.replace("\n","");
-            if (line.length()==0) return;
-            String[] param = line.split(";");
-            if ((param.length == 2) && (param[0].equals("UL"))){
-                this.User_logged = param[1];
-            }
-            else if ((param.length == 3) && (param[0].equals("U"))){
-                User u = new User(line);
-                this.addUser(u);
-            }
+        String prima_riga_String = lines[0].replace("\n", "");
+        String[] prima_riga = prima_riga_String.split(";");
+        if ((lines.length == 0) || (prima_riga_String.length() == 0)) return;
+        if ((prima_riga.length != 2) || (prima_riga[0].equals("DB") == false)) return;
+        this.User_logged = prima_riga[1].toLowerCase();
+
+        String lista_utenti_stringa = db_string.replace(prima_riga_String, "");
+        String[] lista_utenti = lista_utenti_stringa.split("<end_user>\n");
+
+        for (String e : lista_utenti){
+            e = e.trim()+"\n";
+            User u = new User(e);
+            this.users_list.add(u);
         }
 
-    }
-
-    public void unsetUser(){
-        this.User_logged = "";
     }
 
 }
