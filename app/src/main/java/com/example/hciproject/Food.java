@@ -1,5 +1,8 @@
 package com.example.hciproject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 public class Food {
 
     public String name;
@@ -28,48 +31,6 @@ public class Food {
         this.quantity = food_quantity;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if ((obj == null) || (obj.getClass() != this.getClass())){
-            return false;
-        }
-        Food other = (Food) obj;
-        if (other.name.equals(this.name)) {
-            return true;
-        }
-        return false;
-    }
-
-    public void setCategory(String new_category){
-        this.category = new_category.toLowerCase();
-    }
-
-    public void setKcal(int new_kcal){
-        this.kcal = new_kcal;
-    }
-
-    public void setName(String new_name){
-        this.name = new_name.toLowerCase();
-    }
-
-    public void setQuantity(int new_quantity){
-        this.quantity = new_quantity;
-    }
-
-    public void print(){
-        System.out.println("\t    \\___"+this.name+","+this.kcal+","+this.category+","+this.quantity);
-    }
-
-    @Override
-    public int hashCode() {
-        return this.name.hashCode()+this.kcal+this.category.hashCode()+this.quantity;
-    }
-
-    @Override
-    public String toString() {
-        return "F;"+this.name+";"+this.kcal+";"+this.category+";"+this.quantity+"\n";
-    }
-
     public Food(String food_string){
         if ((food_string == null) || (food_string.equals(""))){
             return;
@@ -96,4 +57,42 @@ public class Food {
         }
     }
 
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if ((obj == null) || (obj.getClass() != this.getClass())){
+            return false;
+        }
+        Food other = (Food) obj;
+        if (other.name.equals(this.name)) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.name.hashCode()+this.kcal+this.category.hashCode()+this.quantity;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "F;"+this.name+";"+this.kcal+";"+this.category+";"+this.quantity+"\n";
+    }
+
+    public void setCategory(String new_category){
+        this.category = new_category.toLowerCase();
+    }
+
+    public void setKcal(int new_kcal){
+        this.kcal = new_kcal;
+    }
+
+    public void setName(String new_name){
+        this.name = new_name.toLowerCase();
+    }
+
+    public void setQuantity(int new_quantity){
+        this.quantity = new_quantity;
+    }
 }

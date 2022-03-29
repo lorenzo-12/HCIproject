@@ -188,6 +188,8 @@ public class UserPage extends AppCompatActivity {
                 String psw = password.getText().toString().toLowerCase(Locale.ROOT);
                 User u = new User(usr,psw);
 
+                debug.setText(u.toString());
+
                 //se uno dei due è vuoto mostro un messaggio in cui riporto l'errore
                 if (usr.equals("") || psw.equals("")){
                     if (usr.equals("")){
@@ -276,7 +278,7 @@ public class UserPage extends AppCompatActivity {
 
                 invalidateOptionsMenu();
                 saveData();
-                onBackPressed();
+                //onBackPressed();
             }
         });
 

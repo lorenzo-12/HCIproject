@@ -43,26 +43,6 @@ public class User {
         return false;
     }
 
-    public void setUsername(String new_usename){
-        this.username = new_usename.toLowerCase();
-    }
-
-    public void setPassword(String new_password){
-        this.username = new_password.toLowerCase();
-    }
-
-    public void addDailyDiet(DailyDiet dailydiet){
-        this.diet.add(dailydiet);
-    }
-
-    public void print(){
-        System.out.println("Username: "+this.username);
-        System.out.println("Password: "+this.password);
-        for (DailyDiet dd : this.diet){
-            dd.print();
-        }
-    }
-
     //siccome ho modificato EQUALS devo modificare anche HASHCODE
     @Override
     public int hashCode(){
@@ -72,11 +52,7 @@ public class User {
 
     @Override
     public String toString() {
-        String res = "U;"+this.username+";"+this.password+"\n";
-        for (DailyDiet d : this.diet){
-            res = res+d.toString()+"<end_user>\n";
-        }
-        return res;
+        return "U;"+this.username+";"+this.password+"\n"+this.diet.toString();
     }
 
     public User(String user_string){
@@ -86,26 +62,24 @@ public class User {
         if ((user_string == null) || (user_string.equals(""))){
             return;
         }
+
         String[] lines = user_string.split("\n");
-        if ((lines.length == 0) || (lines[0].length() == 0)){
-            return;
-        }
-        String prima_riga_strig = lines[0].replace("\n", "");
-        String[] prima_riga = prima_riga_strig.split(";");
+        if (lines.length == 0) return;
+        String[] prima_linea = lines[0].replace("\n","").split(";");
+        if ((prima_linea.length != 3) || (prima_linea[0].equals("U") == false)) return;
+        this.username = prima_linea[1].toLowerCase();
+        this.password = prima_linea[2].toLowerCase();
 
-        if ((prima_riga.length != 3) || (prima_riga[0].equals("U") == false)) return;
-        this.username = prima_riga[1].toLowerCase();
-        this.password = prima_riga[2].toLowerCase();
 
-        String lista_dd = user_string.replace(prima_riga_strig, "");
-        String[] DD = lista_dd.split("<end_dailydiet>\n");
 
-        for (String e : DD){
-            e = e.trim()+"\n";
-            DailyDiet d = new DailyDiet(e);
-            this.diet.add(d);
-        }
+    }
 
+    public void setUsername(String new_usename){
+        this.username = new_usename.toLowerCase();
+    }
+
+    public void setPassword(String new_password){
+        this.username = new_password.toLowerCase();
     }
 
 }

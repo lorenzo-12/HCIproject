@@ -63,30 +63,8 @@ public class DailyDiet {
         }
     }
 
-    public Food findFood(String name){
-        for (Food e : this.food_list){
-            if (e.name.equals(name)) return e;
-        }
-        return null;
-    }
-
-    public Exercise findExercise(String name){
-        for (Exercise e : this.exercise_list){
-            if (e.name.equals(name)) return e;
-        }
-        return null;
-    }
-
-    public Boolean containsFood(Food food){
-        return this.food_list.contains(food);
-    }
-
-    public Boolean containsExercise(Exercise exercise){
-        return this.exercise_list.contains(exercise);
-    }
-
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if ((obj == null) || (obj.getClass() != this.getClass())){
             return false;
         }
@@ -108,44 +86,30 @@ public class DailyDiet {
         return true;
     }
 
-    public void print(){
-        System.out.println("\t\\___"+this.date);
-        for (Food e : this.food_list){
-            e.print();
-        }
-        for (Exercise e : this.exercise_list){
-            e.print();
-        }
-    }
-
     @Override
     public int hashCode() {
         return this.date.hashCode()+this.food_list.hashCode()+this.food_list.hashCode();
     }
 
+    @NonNull
     @Override
     public String toString() {
         String res = "DD;"+this.date.toString()+"\n";
-
         for (Food e : this.food_list){
-            res = res+"F;"+e.name+";"+e.kcal+";"+e.category+";"+e.quantity+"\n";
+            res = res+e.toString();
         }
         for (Exercise e : this.exercise_list){
-            res = res+"E;"+e.name+";"+e.category+"\n";
+            res = res+e.toString();
         }
-        res = res+"<end_dailydiet>\n";
-
         return res;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public DailyDiet(String dailydiet_string){
-
-        this.date = LocalDate.now();
-        this.food_list = new ArrayList<Food>();
-        this.exercise_list = new ArrayList<Exercise>();
-
         if ((dailydiet_string == null) || (dailydiet_string.equals(""))) return;
 
+        this.food_list = new ArrayList<Food>();
+        this.exercise_list = new ArrayList<Exercise>();
         String[] lines = dailydiet_string.split("\n");
         if (lines.length == 0) return;
         String[] prima_riga = lines[0].replace("\n","").split(";");
@@ -154,17 +118,17 @@ public class DailyDiet {
         try {
             this.date = LocalDate.parse(prima_riga[1]);
         } catch (Exception e){
-            this.date = LocalDate.now();
+            return;
         }
         for (String e : lines){
             String[] param = e.replace("\n","").split(";");
             if ((param.length == 5) && (param[0].equals("F"))){
                 Food fo = new Food(e);
-                this.food_list.add(fo);
+                food_list.add(fo);
             }
             else if ((param.length == 3) && (param[0].equals("E"))){
                 Exercise ex = new Exercise(e);
-                this.exercise_list.add(ex);
+                exercise_list.add(ex);
             }
         }
     }
