@@ -97,8 +97,8 @@ public class ChangeUsernamePage extends AppCompatActivity {
                 if ((oldusername.getText().length() > 0) && (newusername.getText().length() > 0)){
                     User u = db.getUser(db.User_logged);
                     if (oldusername.getText().toString().equals(u.password)){
-                        u.username = newusername.getText().toString();
-                        db.User_logged = newusername.getText().toString();
+                        u.username = newusername.getText().toString().toLowerCase();
+                        db.User_logged = newusername.getText().toString().toLowerCase();
                         Toast.makeText(ChangeUsernamePage.this,"Password changed correctly",Toast.LENGTH_LONG).show();
                     }
                     else{
