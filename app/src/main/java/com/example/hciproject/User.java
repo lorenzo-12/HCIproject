@@ -1,7 +1,7 @@
 package com.example.hciproject;
 
-import android.os.Parcel;
 
+import java.util.ArrayList;
 
 //siccome il mio intento è quello di passare non delle semplici stringhe tra le attività
 //ma di passare delle variabili, allora devo far si che la classe implementi PARCELABLE
@@ -10,6 +10,9 @@ public class User {
     //un utente è costituito dalle info di base
     public String username;
     public String password;
+    public ArrayList<DailyDiet> diet;
+
+
     //e dalla dieta che sta facendo
     //dove la dieta non è altro che una lista di <lista_cibi_mangiati_il_giotno_X, giorno x>
     //siccome non voglio immettere subito 300 cose nel sistema per ora considero il cibo
@@ -19,7 +22,7 @@ public class User {
     public User(String u, String p){
         this.username = u.toLowerCase();
         this.password = p.toLowerCase();
-        //this.diet=new Diet();
+        this.diet=new ArrayList<DailyDiet>();
     }
 
     //siccome dovrò fare dei controlli sugli utenti nella gestione del database modifico nella classe
@@ -43,49 +46,43 @@ public class User {
     //siccome ho modificato EQUALS devo modificare anche HASHCODE
     @Override
     public int hashCode(){
-        return this.username.hashCode()+this.password.hashCode();
+        return this.username.hashCode()+this.password.hashCode()+this.diet.hashCode();
     }
 
 
     @Override
     public String toString() {
-        return "U;"+this.username+";"+this.password+"\n";
+        String res = "U;"+this.username+";"+this.password+"\n";
+        if (this.diet.isEmpty()) return res;
+        res = res+this.diet.toString();
+        return res;
     }
 
     public User(String user_string){
         this.username = "";
         this.password = "";
+        this.diet = new ArrayList<DailyDiet>();
         if ((user_string == null) || (user_string.equals(""))){
             return;
         }
-        user_string = user_string.replace("\n","");
-        String[] param = user_string.split(";");
-        if ((param.length == 3) && (param[0].equals("U"))){
-            this.username = param[1].toLowerCase();
-            this.password = param[2].toLowerCase();
-        }
+
+        String[] lines = user_string.split("\n");
+        if (lines.length == 0) return;
+        String[] prima_linea = lines[0].replace("\n","").split(";");
+        if ((prima_linea.length != 3) || (prima_linea[0].equals("U") == false)) return;
+        this.username = prima_linea[1].toLowerCase();
+        this.password = prima_linea[2].toLowerCase();
+
+
+
     }
 
-    //tutta sta roba l'ha creata il sistema automaticamente poichè implementa PARCEL
-    protected User(Parcel in) {
-        username = in.readString();
-        password = in.readString();
+    public void setUsername(String new_usename){
+        this.username = new_usename.toLowerCase();
     }
 
-
-
-    //funzioni relative alla dieta, ma che siccome non stiamo considerando ora le ho commentate in modo da non
-    //avere errori nel codice
-    /*
-    public User(String u,String p, Diet d){
-        this.username=u;
-        this.password=p;
-        this.diet=d;
+    public void setPassword(String new_password){
+        this.username = new_password.toLowerCase();
     }
-
-    public void changeDiet(Diet d){
-        this.diet=d;
-    }
-    */
 
 }

@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openactivitytimer(){
-        Intent intentTimer = new Intent(this, MainActivity5.class);
+        Intent intentTimer = new Intent(this, TimerPage.class);
         saveData();
         startActivity(intentTimer);
     }

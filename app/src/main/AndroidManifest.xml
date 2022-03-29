@@ -10,13 +10,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HCIproject">
         <activity
+            android:name=".TimerPage"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
+        <activity
             android:name=".ChangeUsernamePage"
             android:exported="false"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".UserPage" />
         <activity
             android:name=".ChangePasswordPage"
             android:exported="false"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".UserPage" />
         <activity
             android:name=".UserPage"
             android:exported="false"
