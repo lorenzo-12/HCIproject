@@ -124,9 +124,12 @@ public class UserPage extends AppCompatActivity {
             case R.id.Logout_item:
                 db.unsetUser();
                 Toast.makeText(this,"Logout successful",Toast.LENGTH_LONG).show();
-                item_logout.setEnabled(false);
-                item_psw_change.setEnabled(false);
-                item_usr_change.setEnabled(false);
+                //item_logout.setEnabled(false);
+                //item_psw_change.setEnabled(false);
+                //item_usr_change.setEnabled(false);
+                debug.setText("updatebutton");
+                debug2.setText(db.toString());
+                updateButtons();
                 saveData();
                 return true;
             case R.id.Change_password_item:
@@ -217,7 +220,7 @@ public class UserPage extends AppCompatActivity {
                         //mostro un messaggio in cui notifico all'utente che la procedura è andata a buon fine
                         Toast.makeText(UserPage.this,"SignUp successful",Toast.LENGTH_LONG).show();
                         debug.setText(usr+" "+psw+" "+db.User_logged);
-                        onBackPressed();
+                        //onBackPressed();
                     }
 
                     //se invece lo Username inserito esiste già allora notifico l'utente di ciò
@@ -230,6 +233,8 @@ public class UserPage extends AppCompatActivity {
                 //non vengono salvate quello che faccio è salvare tali informazioni in una struttura chiamata SHARED_PREFERENCE
 
                 saveData();
+                debug.setText("updatebutton");
+                updateButtons();
                 //onBackPressed();
             }
         });
@@ -278,6 +283,8 @@ public class UserPage extends AppCompatActivity {
 
                 invalidateOptionsMenu();
                 saveData();
+                debug.setText("updatebutton");
+                updateButtons();
                 //onBackPressed();
             }
         });
@@ -286,6 +293,8 @@ public class UserPage extends AppCompatActivity {
         //VANNO MESSI SEMPRE ALLA FINE SENNO L'APP CRASHA
         loadData();
         updateView();
+        //debug.setText("updatebutton");
+        //updateButtons();
 
 
         if (db.User_logged.equals("none") == false){
@@ -295,6 +304,7 @@ public class UserPage extends AppCompatActivity {
                 password.setText(tmp.password);
             }
         }
+
     }
 
     /*
@@ -325,17 +335,7 @@ public class UserPage extends AppCompatActivity {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            String usr = username.getText().toString();
-            String psw = password.getText().toString();
-
-            debug.setText(usr+" "+psw);
-
-            login.setEnabled(false);
-            signup.setEnabled(false);
-            if (!usr.isEmpty() && !psw.isEmpty()) {
-                signup.setEnabled(true);
-                login.setEnabled(true);
-            }
+            updateButtons();
         }
 
         @Override
@@ -368,6 +368,44 @@ public class UserPage extends AppCompatActivity {
         db = new DB(db_s);
         lightmode = lightmode_s;
         debug2.setText(db_s);
+    }
+
+    public void updateButtons(){
+        //controllo se l'utente è loggato poichè se non è loggato allora non può fare queste cose
+        MenuItem item_logout = null;
+        MenuItem item_usr_change = null;
+        MenuItem item_psw_change = null;
+        if (menu_bar != null) {
+            item_logout = menu_bar.findItem(R.id.Logout_item);
+            item_psw_change = menu_bar.findItem(R.id.Change_password_item);
+            item_usr_change = menu_bar.findItem(R.id.Change_username_item);
+        }
+        String usr = "";
+        String psw = "";
+        if (username != null) {
+            usr = username.getText().toString();
+        }
+        if (password != null) {
+            psw = password.getText().toString();
+        }
+        if ((menu_bar != null) && (db.User_logged.equals("none"))){
+            item_logout.setEnabled(false);
+            item_psw_change.setEnabled(false);
+            item_usr_change.setEnabled(false);
+        }
+        else if (menu_bar != null) {
+            item_logout.setEnabled(true);
+            item_psw_change.setEnabled(true);
+            item_usr_change.setEnabled(true);
+        }
+        if (!usr.isEmpty() && !psw.isEmpty() && (db.User_logged.equals("none"))) {
+            signup.setEnabled(true);
+            login.setEnabled(true);
+        }
+        else{
+            login.setEnabled(false);
+            signup.setEnabled(false);
+        }
     }
 
 

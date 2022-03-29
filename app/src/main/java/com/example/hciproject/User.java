@@ -52,7 +52,10 @@ public class User {
 
     @Override
     public String toString() {
-        return "U;"+this.username+";"+this.password+"\n"+this.diet.toString();
+        String res = "U;"+this.username+";"+this.password+"\n";
+        if (this.diet.isEmpty()) return res;
+        res = res+this.diet.toString();
+        return res;
     }
 
     public User(String user_string){

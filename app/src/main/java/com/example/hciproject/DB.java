@@ -100,7 +100,7 @@ public class DB {
     }
 
     public void unsetUser(){
-        this.User_logged = "";
+        this.User_logged = "none";
     }
 
 }
