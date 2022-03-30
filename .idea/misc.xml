@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/activity_LogoutPage.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/activity_change_password_page.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/activity_change_username_page.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/activity_diary.xml" value="0.25" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/activity_diary2.xml" value="0.38697916666666665" />
@@ -16,6 +17,7 @@
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/activity_second.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/activity_timer_page.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/activity_timerpage.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/activity_userpage.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/menu/menu.xml" value="0.38697916666666665" />
       </map>
     </option>

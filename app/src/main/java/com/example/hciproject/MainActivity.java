@@ -14,8 +14,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String DATABASE = "database";
-    public String database_tostring;
+    public static final String USER_LOGGED = "user_logged";
+    public String user_logged;
 
 
     //variabili globali usate dalla Main page
@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         //Refresh your stuff here
         loadData();
-        updateView();
     }
 
 
@@ -99,13 +98,12 @@ public class MainActivity extends AppCompatActivity {
 
 
         loadData();
-        updateView();
 
         //codice utilizzato per capire se quando aggiungo un utente dalla pagina (activity) di login i cambiamenti
         //fatti al database vengono riportati per intero oppure no
         //in questo caso utilizzo una casella di testo per mostrare se effettivamente il numero di User nel databese
         //incrementa oppure no (poichè non posso fare la print)
-        debug.setText(db.users_list.size()+" "+db.User_logged);
+        debug.setText(user_logged);
 
 
     }
@@ -137,14 +135,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intentUser;
         //creo la nuova pagina (intentUser)
         intentUser = new Intent(this, UserPage.class);
-        /*
-        if (db.User_logged.equals("none")) {
-            intentUser = new Intent(this, UserPage.class);
-        }
-        else {
-            intentUser = new Intent(this,ChangePasswordPage.class);
-        }
-        */
         saveData();
         //se non mi interessa ricevere delle informazioni dalla pagina figlia allora posso usare
         //direttamente STARTACTIVITY
@@ -153,21 +143,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void saveData(){
-        SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY",MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.putString(DATABASE,db.toString());
+        editor.putString(USER_LOGGED,user_logged);
         editor.apply();
-        //Toast.makeText(this,"DATA_SAVED", Toast.LENGTH_LONG).show();
     }
 
     public void loadData(){
-        SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY",MODE_PRIVATE);
-        database_tostring = sharedPreferences.getString(DATABASE, "UL;none\nU;admin;admin\n");
-    }
-
-    public void updateView(){
-        db = new DB(database_tostring);
-        debug.setText(db.users_list.size()+" "+db.User_logged);
+        SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
+        user_logged = sharedPreferences.getString(USER_LOGGED, "UL:none\n");
     }
 }

@@ -3,7 +3,6 @@ package com.example.hciproject;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -19,17 +18,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ChangePasswordPage extends AppCompatActivity {
 
-    //variabili globali usate dalla pagina User per il login
-    EditText oldpassword,newpassword;
-    Button logout,reset;
-    DB db;
-    TextView debug;
+    public static final String LIGHTMODE = "lightmode";
+    public static final String USER_TABLE = "users";
+    public static final String CUSERNAME = "username";
+    public static final String CPASSWORD = "password";
+    public static final String USER_LOGGED = "user_logged";
+    public Boolean lightmode;
+    public String user_logged;
 
-    //variabili necessarie per salvare lo stato dei pulsanti,testo ecc...
-    //poichè se un pulsante lo setto a NON CLICCABILE ma poi cambio pagina tale cambiamento
-    //non rimane salvato, quindi lo devo fare manualmente
-    public static final String DATABASE = "database";
-    public String db_s;
+    EditText curpassword,newpassword;
+    Button logout,reset;
+    TextView debug;
+    DBHelper db;
+
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
@@ -60,9 +61,11 @@ public class ChangePasswordPage extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
+        saveData();
         Intent i = new Intent();
-        Log.d("MainActivity","onBackPressed");
+        Log.d("UserPage","onBackPressed");
         //codice necessario per far si che ci sia un minimo di delay nel passggio dalla pagina di login alla main page
+        /*
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -72,7 +75,8 @@ public class ChangePasswordPage extends AppCompatActivity {
                 finish();
             }
         }, 500);
-        //finish();
+         */
+        finish();
     }
 
 
@@ -81,47 +85,40 @@ public class ChangePasswordPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password_page);
 
-        logout = findViewById(R.id.logoutbtn);
         reset = findViewById(R.id.resetbtn);
-        oldpassword = findViewById(R.id.oldpasswordtxt);
+        curpassword = findViewById(R.id.curpasswordtxt);
         newpassword = findViewById(R.id.newpasswordtxt);
         debug = findViewById(R.id.debug);
-
-        oldpassword.addTextChangedListener(resetTextWatcher);
+        db = new DBHelper(this);
+        curpassword.addTextChangedListener(resetTextWatcher);
         newpassword.addTextChangedListener(resetTextWatcher);
 
 
-        logout.setOnClickListener(new View.OnClickListener() {
+        reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                db.unsetUser();
-                Toast.makeText(ChangePasswordPage.this,"Logout successful",Toast.LENGTH_LONG).show();
+                String curpsw = curpassword.getText().toString().toLowerCase();
+                String newpsw = newpassword.getText().toString().toLowerCase();
+                if (!curpsw.isEmpty() && !newpsw.isEmpty()){
+                    Boolean check = db.checkUser(user_logged,curpsw);
+                    if (check){
+                        Boolean res = db.updateUserPassword(user_logged,newpsw);
+                        if (res) {
+                            Toast.makeText(ChangePasswordPage.this,"Password updated correctly",Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(ChangePasswordPage.this,"Error",Toast.LENGTH_SHORT).show();
+                        }
+                    }else {
+                        Toast.makeText(ChangePasswordPage.this,"Wrong current password",Toast.LENGTH_SHORT).show();
+                    }
+                }
                 saveData();
                 onBackPressed();
             }
         });
 
-        reset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                debug.setText(db.toString()+"\noldpassword: "+oldpassword.getText().toString());
-                if ((oldpassword.getText().length() > 0) && (newpassword.getText().length() > 0)){
-                    User u = db.getUser(db.User_logged);
-                    if (oldpassword.getText().toString().equals(u.password)){
-                        u.password = newpassword.getText().toString().toLowerCase();
-                        Toast.makeText(ChangePasswordPage.this,"Password changed correctly",Toast.LENGTH_LONG).show();
-                    }
-                    else{
-                        Toast.makeText(ChangePasswordPage.this,"Old password doesn't match current password",Toast.LENGTH_LONG).show();
-                    }
-                }
-                saveData();
-                //onBackPressed();
-            }
-        });
-
         loadData();
-        updateView();
+        updateButtons();
     }
 
     public TextWatcher resetTextWatcher = new TextWatcher() {
@@ -132,13 +129,7 @@ public class ChangePasswordPage extends AppCompatActivity {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            String input_oldpsw = oldpassword.getText().toString();
-            String input_newpsw = newpassword.getText().toString();
-
-            debug.setText(input_oldpsw+"\n"+input_newpsw);
-
-            reset.setEnabled(false);
-            if (!input_newpsw.isEmpty() && !input_oldpsw.isEmpty()) reset.setEnabled(true);
+            updateButtons();
         }
 
         @Override
@@ -150,18 +141,28 @@ public class ChangePasswordPage extends AppCompatActivity {
     public void saveData(){
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.putString(DATABASE,db.toString());
+        editor.putString(USER_LOGGED,user_logged);
+        editor.putBoolean(LIGHTMODE,lightmode);
         editor.apply();
     }
 
     public void loadData(){
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
-
-        db_s = sharedPreferences.getString(DATABASE, "UL:none\n");
+        lightmode = sharedPreferences.getBoolean(LIGHTMODE,true);
+        user_logged = sharedPreferences.getString(USER_LOGGED, "UL:none\n");
     }
 
-    public void updateView(){
-        db = new DB(db_s);
+    public void updateButtons(){
+        String curpsw = "";
+        String newpsw = "";
+        if ((curpassword != null) && (newpassword != null)) {
+            curpsw = curpassword.getText().toString();
+            newpsw = newpassword.getText().toString();
+        }
+        if (!curpsw.isEmpty() && !newpsw.isEmpty()){
+            reset.setEnabled(true);
+        } else {
+            reset.setEnabled(false);
+        }
     }
 }
