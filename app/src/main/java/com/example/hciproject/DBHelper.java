@@ -16,8 +16,15 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CUSERNAME = "username";
     public static final String CPASSWORD = "password";
 
-    public static final String CREATE_USER_TABLE = "CREATE TABLE "+USER_TABLE+" ("+CUSERNAME+" TEXT PRIMARY KEY, "+CPASSWORD+" TEXT NOT NULL);";
+    public static final String FOOD_TABLE = "food";
+    public static final String CNAME_FOOD = "food_name";
+    public static final String CCATEGORY_FOOD = "food_category";
+    public static final String CCARB = "carb";
+    public static final String CPROT = "prot";
+    public static final String CFAT = "fat";
 
+    public static final String CREATE_USER_TABLE = "CREATE TABLE "+USER_TABLE+" ("+CUSERNAME+" TEXT PRIMARY KEY, "+CPASSWORD+" TEXT NOT NULL);";
+    public static final String CREATE_FOOD_TABLE = "CREATE TABLE "+FOOD_TABLE+" ("+CNAME_FOOD+" TEXT PRIMARY KEY, "+CCATEGORY_FOOD+" TEXT, "+CCARB+" INTEGER, "+CPROT+" INTEGER, "+CFAT+" INTEGER );";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -27,11 +34,86 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_USER_TABLE);
+        db.execSQL(CREATE_FOOD_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        db.execSQL("DROP TABLE IF EXISTS "+ DATABASE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+ USER_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS "+ FOOD_TABLE);
+    }
+
+    public Boolean addFood(String name, String category, int carb, int prot, int fat){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(CNAME_FOOD,name);
+        cv.put(CCATEGORY_FOOD,category);
+        cv.put(CCARB,carb);
+        cv.put(CPROT,prot);
+        cv.put(CFAT,fat);
+
+        long result = db.insert(FOOD_TABLE,null,cv);
+        if (result == -1) return false;
+        return true;
+    }
+
+    public Boolean updateFood(String name,String category,int carb,int prot,int fat){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(CCATEGORY_FOOD,category);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + FOOD_TABLE + " WHERE name = ? ", new String[]{name});
+        if (cursor.getCount() > 0) {
+            long result = db.update(FOOD_TABLE, cv, "food_name=?", new String[]{name});
+            if (result == -1) return false;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public Boolean deleteFood(String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + FOOD_TABLE + " WHERE foos_name = ? ", new String[]{name});
+        if (cursor.getCount() > 0) {
+            long result = db.delete(FOOD_TABLE,"food_name=?", new String[]{name});
+            if (result == -1) return false;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public Cursor readAllDataFood(){
+        String  query = "SELECT * FROM "+ FOOD_TABLE;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if (db != null){
+            cursor = db.rawQuery(query,null);
+        }
+        return cursor;
+    }
+
+    public Boolean findFood(String name){
+        String query = "SELECT * FROM "+FOOD_TABLE+" WHERE food_name=?";
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (db == null) return false;
+        Cursor cursor = db.rawQuery(query, new String[]{name});
+        if(cursor.getCount() == 0) return false;
+        return true;
+    }
+
+    public String viewFoods(){
+        Cursor cursor = readAllDataFood();
+        if(cursor.getCount() == 0) return "No Data";
+        String res = "";
+        while (cursor.moveToNext()){
+            res += cursor.getString(0)+" "+cursor.getString(1)+" "+cursor.getString(2)+" "+cursor.getString(3)+" "+cursor.getString(4)+"\n";
+        }
+        return res;
     }
 
     public Boolean addUser(String username,String password){
@@ -74,7 +156,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor readAllData(){
+    public Cursor readAllDataUser(){
         String  query = "SELECT * FROM "+ USER_TABLE;
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -104,7 +186,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public String viewUsers(){
-        Cursor cursor = readAllData();
+        Cursor cursor = readAllDataUser();
         if(cursor.getCount() == 0) return "No Data";
         String res = "";
         while (cursor.moveToNext()){

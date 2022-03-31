@@ -1,7 +1,6 @@
 package com.example.hciproject;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,7 +20,6 @@ public class ChangeUsernamePage extends AppCompatActivity {
     //variabili globali usate dalla pagina User per il login
     EditText oldusername,newusername;
     Button logout,reset;
-    DB db;
     TextView debug;
 
     //variabili necessarie per salvare lo stato dei pulsanti,testo ecc...
@@ -93,20 +90,7 @@ public class ChangeUsernamePage extends AppCompatActivity {
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                debug.setText(db.toString()+"\noldpassword: "+oldusername.getText().toString());
-                if ((oldusername.getText().length() > 0) && (newusername.getText().length() > 0)){
-                    User u = db.getUser(db.User_logged);
-                    if (oldusername.getText().toString().equals(u.password)){
-                        u.username = newusername.getText().toString().toLowerCase();
-                        db.User_logged = newusername.getText().toString().toLowerCase();
-                        Toast.makeText(ChangeUsernamePage.this,"Password changed correctly",Toast.LENGTH_LONG).show();
-                    }
-                    else{
-                        Toast.makeText(ChangeUsernamePage.this,"Old password doesn't match current password",Toast.LENGTH_LONG).show();
-                    }
-                }
-                saveData();
-                //onBackPressed();
+
             }
         });
 
@@ -122,13 +106,7 @@ public class ChangeUsernamePage extends AppCompatActivity {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            String input_oldusr = oldusername.getText().toString();
-            String input_newusr = newusername.getText().toString();
 
-            debug.setText(input_oldusr+"\n"+input_newusr);
-
-            reset.setEnabled(false);
-            if (!input_newusr.isEmpty() && !input_oldusr.isEmpty()) reset.setEnabled(true);
         }
 
         @Override
@@ -138,20 +116,26 @@ public class ChangeUsernamePage extends AppCompatActivity {
     };
 
     public void saveData(){
+        /*
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.putString(DATABASE,db.toString());
         editor.apply();
+         */
     }
 
     public void loadData(){
+        /*
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
 
         db_s = sharedPreferences.getString(DATABASE, "UL:none\n");
+         */
     }
 
     public void updateView(){
+        /*
         db = new DB(db_s);
+         */
     }
 }

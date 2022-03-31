@@ -256,12 +256,14 @@ public class UserPage extends AppCompatActivity {
     public void loadData(){
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
         lightmode = sharedPreferences.getBoolean(LIGHTMODE,true);
-        user_logged = sharedPreferences.getString(USER_LOGGED, "UL:none\n");
+        user_logged = sharedPreferences.getString(USER_LOGGED, "none");
         updateButtons();
     }
 
     public void updateButtons(){
         //controllo se l'utente è loggato poichè se non è loggato allora non può fare queste cose
+
+
         MenuItem item_logout = null;
         MenuItem item_usr_change = null;
         MenuItem item_psw_change = null;
@@ -273,17 +275,19 @@ public class UserPage extends AppCompatActivity {
         String usr = "";
         String psw = "";
         if (username != null) {
-            usr = username.getText().toString();
+            usr = username.getText().toString().toLowerCase();
         }
         if (password != null) {
-            psw = password.getText().toString();
+            psw = password.getText().toString().toLowerCase();
         }
         if ((menu_bar != null) && (user_logged.equals("none"))){
+            //Toast.makeText(UserPage.this,"if "+user_logged,Toast.LENGTH_SHORT).show();
             item_logout.setEnabled(false);
             item_psw_change.setEnabled(false);
             item_usr_change.setEnabled(false);
         }
         else if (menu_bar != null) {
+            //Toast.makeText(UserPage.this,"else if "+user_logged,Toast.LENGTH_SHORT).show();
             item_logout.setEnabled(true);
             item_psw_change.setEnabled(true);
             item_usr_change.setEnabled(true);
@@ -296,7 +300,10 @@ public class UserPage extends AppCompatActivity {
             login.setEnabled(false);
             signup.setEnabled(false);
         }
+
     }
+
+
 
 
 }
