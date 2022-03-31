@@ -15,22 +15,62 @@ import java.util.ArrayList;
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
 
     public static final String CNAME_FOOD = "food_name";
-    public static final String CCATEGORY_FOOD = "food_category";
-    public static final String CCARB = "carb";
-    public static final String CPROT = "prot";
-    public static final String CFAT = "fat";
-
+    public OnItemClickListener mlistener;
     Context context;
     ArrayList<String> food_name_list, food_category_list, food_carb_list, food_prot_list, food_fat_list;
 
 
-    CustomAdapter(Context context, ArrayList list_name,ArrayList list_category,ArrayList list_carb,ArrayList list_prot,ArrayList list_fat ){
-        this.context = context;
-        this.food_name_list = list_name;
-        this.food_category_list = list_category;
-        this.food_carb_list = list_carb;
-        this.food_prot_list = list_prot;
-        this.food_fat_list = list_fat;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+        void onDeleteClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.mlistener = listener;
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+
+        public TextView name_txt,category_txt,carb_txt,prot_txt,fat_txt,number_txt;
+        public ImageView mdeletebtn;
+
+        public MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            name_txt = itemView.findViewById(R.id.food_name);
+            category_txt = itemView.findViewById(R.id.food_category);
+            carb_txt = itemView.findViewById(R.id.food_carb);
+            prot_txt = itemView.findViewById(R.id.food_prot);
+            fat_txt = itemView.findViewById(R.id.food_fat);
+            mdeletebtn = itemView.findViewById(R.id.delete_img);
+            number_txt = itemView.findViewById(R.id.number_txt);
+
+            mdeletebtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mlistener != null){
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            mlistener.onDeleteClick(position);
+                        }
+                    }
+                }
+            });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mlistener != null){
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            mlistener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
+        }
     }
 
     @NonNull
@@ -48,6 +88,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.carb_txt.setText(String.valueOf(food_carb_list.get(position)));
         holder.prot_txt.setText(String.valueOf(food_prot_list.get(position)));
         holder.fat_txt.setText(String.valueOf(food_fat_list.get(position)));
+        holder.number_txt.setText(String.valueOf(position));
 
     }
 
@@ -56,28 +97,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         return food_name_list.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-
-        public TextView name_txt,category_txt,carb_txt,prot_txt,fat_txt;
-        public ImageView deletebtn;
-
-        public MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            name_txt = itemView.findViewById(R.id.food_name);
-            category_txt = itemView.findViewById(R.id.food_category);
-            carb_txt = itemView.findViewById(R.id.food_carb);
-            prot_txt = itemView.findViewById(R.id.food_prot);
-            fat_txt = itemView.findViewById(R.id.food_fat);
-            deletebtn = itemView.findViewById(R.id.delete_food_btn);
-
-            deletebtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                }
-            });
-
-        }
+    CustomAdapter(Context context, ArrayList list_name,ArrayList list_category,ArrayList list_carb,ArrayList list_prot,ArrayList list_fat ){
+        this.context = context;
+        this.food_name_list = list_name;
+        this.food_category_list = list_category;
+        this.food_carb_list = list_carb;
+        this.food_prot_list = list_prot;
+        this.food_fat_list = list_fat;
     }
+
 }

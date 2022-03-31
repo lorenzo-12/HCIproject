@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,13 +29,12 @@ public class FoodPage extends AppCompatActivity {
     public static final String CPROT = "prot";
     public static final String CFAT = "fat";
 
-    ConstraintLayout layout;
     FloatingActionButton addbtn;
     DBHelper db;
-    RecyclerView recyclerView;
     ArrayList<String> food_name_list, food_category_list, food_carb_list, food_prot_list, food_fat_list;
+    ConstraintLayout layout;
+    RecyclerView recyclerView;
     CustomAdapter customAdapter;
-    ImageButton deletebtn;
 
     @Override
     public void onBackPressed() {
@@ -52,6 +50,14 @@ public class FoodPage extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        //Toast.makeText(FoodPage.this,"resumed",Toast.LENGTH_SHORT).show();
+        storeDataInArrays();
+        customAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_foodpage);
@@ -59,23 +65,14 @@ public class FoodPage extends AppCompatActivity {
         layout = findViewById(R.id.constraintLayout);
         recyclerView = findViewById(R.id.recycleView);
         addbtn = findViewById(R.id.add_food_btn);
-
-        db = new DBHelper(this);
-        food_name_list = new ArrayList<String>();
-        food_category_list = new ArrayList<String>();
-        food_carb_list = new ArrayList<String>();
-        food_prot_list = new ArrayList<String>();
-        food_fat_list = new ArrayList<String>();
-        customAdapter = new CustomAdapter(FoodPage.this,food_name_list, food_category_list, food_carb_list, food_prot_list, food_fat_list);
-        recyclerView.setAdapter(customAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(FoodPage.this));
+        buildRecyclerView();
 
         addbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(FoodPage.this, AddFoodPage.class);
                 startActivity(intent);
-                return ;
+                return;
             }
         });
 
@@ -86,6 +83,11 @@ public class FoodPage extends AppCompatActivity {
 
     public void storeDataInArrays(){
         Cursor cursor = db.readAllDataFood();
+        food_name_list.clear();
+        food_category_list.clear();
+        food_carb_list.clear();
+        food_prot_list.clear();
+        food_fat_list.clear();
         if (cursor.getCount() == 0){
             Toast.makeText(FoodPage.this,"No Data",Toast.LENGTH_SHORT).show();
         }else {
@@ -100,5 +102,36 @@ public class FoodPage extends AppCompatActivity {
 
     }
 
+    public void buildRecyclerView(){
+        db = new DBHelper(this);
+        food_name_list = new ArrayList<String>();
+        food_category_list = new ArrayList<String>();
+        food_carb_list = new ArrayList<String>();
+        food_prot_list = new ArrayList<String>();
+        food_fat_list = new ArrayList<String>();
+
+        customAdapter = new CustomAdapter(FoodPage.this,food_name_list, food_category_list, food_carb_list, food_prot_list, food_fat_list);
+        recyclerView.setAdapter(customAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(FoodPage.this));
+
+        customAdapter.setOnItemClickListener(new CustomAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                String index = String.valueOf(position);
+                //Toast.makeText(FoodPage.this,"clicked: "+index,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onDeleteClick(int position) {
+                String index = String.valueOf(position);
+                //Toast.makeText(FoodPage.this,food_name_list.get(position).toString(),Toast.LENGTH_SHORT).show();
+                Boolean result = db.deleteFood(food_name_list.get(position).toString().toLowerCase());
+                storeDataInArrays();
+                customAdapter.notifyDataSetChanged();
+            }
+        });
+
+        customAdapter.notifyDataSetChanged();
+    }
 
 }

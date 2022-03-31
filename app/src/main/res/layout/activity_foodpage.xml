@@ -15,7 +15,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:paddingTop="?android:attr/actionBarSize"/>
+        android:paddingTop="?android:attr/actionBarSize"
+        android:background="@android:color/darker_gray"
+        android:scrollbars="vertical"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_food_btn"

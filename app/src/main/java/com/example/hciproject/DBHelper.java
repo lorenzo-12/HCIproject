@@ -75,7 +75,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Boolean deleteFood(String name){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + FOOD_TABLE + " WHERE foos_name = ? ", new String[]{name});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + FOOD_TABLE + " WHERE food_name = ? ", new String[]{name});
         if (cursor.getCount() > 0) {
             long result = db.delete(FOOD_TABLE,"food_name=?", new String[]{name});
             if (result == -1) return false;
