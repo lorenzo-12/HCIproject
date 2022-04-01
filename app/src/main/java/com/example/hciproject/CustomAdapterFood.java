@@ -12,14 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
+public class CustomAdapterFood extends RecyclerView.Adapter<CustomAdapterFood.MyViewHolder> {
 
     public static final String CNAME_FOOD = "food_name";
     public OnItemClickListener mlistener;
     Context context;
     ArrayList<String> food_name_list, food_category_list, food_carb_list, food_prot_list, food_fat_list;
-
-
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -44,9 +42,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             carb_txt = itemView.findViewById(R.id.food_carb);
             prot_txt = itemView.findViewById(R.id.food_prot);
             fat_txt = itemView.findViewById(R.id.food_fat);
-            mdeletebtn = itemView.findViewById(R.id.delete_img);
-            mupdatebtn = itemView.findViewById(R.id.modify_img);
-            number_txt = itemView.findViewById(R.id.number_txt);
+            mdeletebtn = itemView.findViewById(R.id.delete_food_img);
+            mupdatebtn = itemView.findViewById(R.id.modify_food_img);
+            number_txt = itemView.findViewById(R.id.number_txt_food);
 
             mupdatebtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -89,14 +87,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     @NonNull
     @Override
-    public CustomAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CustomAdapterFood.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.my_row,parent,false);
+        View view = inflater.inflate(R.layout.my_row_food,parent,false);
         return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CustomAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CustomAdapterFood.MyViewHolder holder, int position) {
         holder.name_txt.setText(String.valueOf(food_name_list.get(position)));
         holder.category_txt.setText(String.valueOf(food_category_list.get(position)));
         holder.carb_txt.setText(String.valueOf(food_carb_list.get(position)));
@@ -111,7 +109,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         return food_name_list.size();
     }
 
-    CustomAdapter(Context context, ArrayList list_name,ArrayList list_category,ArrayList list_carb,ArrayList list_prot,ArrayList list_fat ){
+    CustomAdapterFood(Context context, ArrayList list_name, ArrayList list_category, ArrayList list_carb, ArrayList list_prot, ArrayList list_fat ){
         this.context = context;
         this.food_name_list = list_name;
         this.food_category_list = list_category;

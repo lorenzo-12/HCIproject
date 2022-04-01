@@ -10,10 +10,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HCIproject">
         <activity
+            android:name=".UpdateWorkoutPage"
+            android:exported="false"
+            android:label="UpdateWorkoutPage"
+            android:parentActivityName=".WorkoutPage"/>
+        <activity
+            android:name=".AddWorkoutPage"
+            android:exported="false"
+            android:label="AddWorkoutPage"
+            android:parentActivityName=".WorkoutPage" />
+        <activity
             android:name=".UpdateFoodPage"
             android:exported="false"
             android:label="UpdateFoodPage"
-            android:parentActivityName=".FoodPage"/>
+            android:parentActivityName=".FoodPage" />
         <activity
             android:name=".TimerPage"
             android:exported="false"
