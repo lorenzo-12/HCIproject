@@ -10,10 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HCIproject">
         <activity
+            android:name=".UpdateFoodPage"
+            android:exported="false"
+            android:label="UpdateFoodPage"
+            android:parentActivityName=".FoodPage"/>
+        <activity
             android:name=".TimerPage"
             android:exported="false"
             android:label="TimerPage"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".ChangeUsernamePage"
             android:exported="false"

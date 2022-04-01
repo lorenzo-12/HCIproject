@@ -9,7 +9,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp">
+        android:layout_marginRight="2dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -62,40 +62,74 @@
                 android:id="@+id/food_carb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="110dp"
                 android:text="carb"
                 android:textSize="14sp"
-                app:layout_constraintStart_toEndOf="@+id/number_txt"
+                app:layout_constraintStart_toEndOf="@+id/testo_fisso_carb"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/food_fat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
                 android:text="fat"
-                app:layout_constraintStart_toEndOf="@+id/food_prot"
+                app:layout_constraintStart_toEndOf="@+id/tsto_fisso_fat"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/food_prot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
                 android:text="prot"
                 android:textSize="14sp"
-                app:layout_constraintStart_toEndOf="@+id/food_carb"
+                app:layout_constraintStart_toEndOf="@+id/testo_fisso_prot"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/delete_img"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginStart="316dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="28dp"
+                app:layout_constraintStart_toEndOf="@+id/modify_img"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_delete_24" />
+
+            <ImageView
+                android:id="@+id/modify_img"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="270dp"
                 android:layout_marginTop="28dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_delete_24" />
+                app:srcCompat="@drawable/ic_baseline_create_24" />
+
+            <TextView
+                android:id="@+id/testo_fisso_carb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="100dp"
+                android:text="carb:"
+                app:layout_constraintStart_toEndOf="@+id/food_name"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/testo_fisso_prot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="prot:"
+                app:layout_constraintStart_toEndOf="@+id/food_carb"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tsto_fisso_fat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="fat:"
+                app:layout_constraintStart_toEndOf="@+id/food_prot"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

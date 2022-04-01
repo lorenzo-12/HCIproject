@@ -17,14 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class AddFoodPage extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     public static final String USER_TABLE = "users";
-    public static final String CUSERNAME = "username";
-    public static final String CPASSWORD = "password";
-
     public static final String CNAME_FOOD = "food_name";
-    public static final String CCATEGORY_FOOD = "food_category";
-    public static final String CCARB = "carb";
-    public static final String CPROT = "prot";
-    public static final String CFAT = "fat";
 
     DBHelper db;
     EditText input_name,input_carb,input_prot,input_fat;
@@ -117,8 +110,8 @@ public class AddFoodPage extends AppCompatActivity implements AdapterView.OnItem
         Boolean check = db.findFood(name);
         Boolean result = false;
         if (check){
-            result = db.updateFood(name,input_category,carb,prot,fat);
-            return result;
+            Toast.makeText(AddFoodPage.this, "Food already exist",Toast.LENGTH_SHORT).show();
+            return false;
         } else {
             result = db.addFood(name,input_category,carb,prot,fat);
             return result;

@@ -62,6 +62,9 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(CCATEGORY_FOOD,category);
+        cv.put(CCARB,carb);
+        cv.put(CPROT,prot);
+        cv.put(CFAT,fat);
         Cursor cursor = db.rawQuery("SELECT * FROM " + FOOD_TABLE + " WHERE name = ? ", new String[]{name});
         if (cursor.getCount() > 0) {
             long result = db.update(FOOD_TABLE, cv, "food_name=?", new String[]{name});

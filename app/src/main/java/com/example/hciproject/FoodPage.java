@@ -1,6 +1,7 @@
 package com.example.hciproject;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
@@ -94,9 +95,9 @@ public class FoodPage extends AppCompatActivity {
             while (cursor.moveToNext()){
                 food_name_list.add(cursor.getString(0).toLowerCase());
                 food_category_list.add(cursor.getString(1).toLowerCase());
-                food_carb_list.add("Carb: "+cursor.getString(2).toLowerCase());
-                food_prot_list.add("Prot: "+cursor.getString(3).toLowerCase());
-                food_fat_list.add("Fat:  "+cursor.getString(4).toLowerCase());
+                food_carb_list.add(cursor.getString(2).toLowerCase());
+                food_prot_list.add(cursor.getString(3).toLowerCase());
+                food_fat_list.add(cursor.getString(4).toLowerCase());
             }
         }
 
@@ -125,13 +126,38 @@ public class FoodPage extends AppCompatActivity {
             public void onDeleteClick(int position) {
                 String index = String.valueOf(position);
                 //Toast.makeText(FoodPage.this,food_name_list.get(position).toString(),Toast.LENGTH_SHORT).show();
-                Boolean result = db.deleteFood(food_name_list.get(position).toString().toLowerCase());
+                Boolean result = db.deleteFood(food_name_list.get(position).toLowerCase());
                 storeDataInArrays();
                 customAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onUpdateClick(int position) {
+                Toast.makeText(FoodPage.this,"Update",Toast.LENGTH_SHORT).show();
+                String name = food_name_list.get(position).toLowerCase();
+                String category = food_category_list.get(position).toLowerCase();
+                String carb = food_carb_list.get(position).toLowerCase();
+                String prot = food_prot_list.get(position).toLowerCase();
+                String fat = food_fat_list.get(position).toLowerCase();
+                passFoodData(name,category,carb,prot,fat);
+                Intent intent = new Intent(FoodPage.this, UpdateFoodPage.class);
+                startActivity(intent);
+                return;
             }
         });
 
         customAdapter.notifyDataSetChanged();
+    }
+
+    public void passFoodData(String name,String category,String carb, String prot,String fat){
+        SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("food_name",name);
+        editor.putString("food_category",category);
+        editor.putString("food_carb",carb);
+        editor.putString("food_prot",prot);
+        editor.putString("food_fat",fat);
+        editor.apply();
     }
 
 }

@@ -24,6 +24,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     public interface OnItemClickListener {
         void onItemClick(int position);
         void onDeleteClick(int position);
+        void onUpdateClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -33,7 +34,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView name_txt,category_txt,carb_txt,prot_txt,fat_txt,number_txt;
-        public ImageView mdeletebtn;
+        public ImageView mdeletebtn,mupdatebtn;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -44,7 +45,20 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             prot_txt = itemView.findViewById(R.id.food_prot);
             fat_txt = itemView.findViewById(R.id.food_fat);
             mdeletebtn = itemView.findViewById(R.id.delete_img);
+            mupdatebtn = itemView.findViewById(R.id.modify_img);
             number_txt = itemView.findViewById(R.id.number_txt);
+
+            mupdatebtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mlistener != null){
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            mlistener.onUpdateClick(position);
+                        }
+                    }
+                }
+            });
 
             mdeletebtn.setOnClickListener(new View.OnClickListener() {
                 @Override
