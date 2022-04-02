@@ -119,7 +119,7 @@ public class WorkoutPage extends AppCompatActivity {
             public void onDeleteClick(int position) {
                 String index = String.valueOf(position);
                 //Toast.makeText(FoodPage.this,food_name_list.get(position).toString(),Toast.LENGTH_SHORT).show();
-                Boolean result = db.deleteFood(workout_name_list.get(position).toLowerCase());
+                Boolean result = db.deleteWorkout(workout_name_list.get(position).toLowerCase());
                 storeDataInArrays();
                 customAdapterWorkout.notifyDataSetChanged();
             }
