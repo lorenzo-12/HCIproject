@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/ExerciseFilter_item"
+        app:showAsAction="always"
+        android:title="FILTER">
+
+        <menu>
+            <item
+                android:id="@+id/AllExercise_filter"
+                android:title="All"/>
+            <item
+                android:id="@+id/Chest_filter"
+                android:title="Chest"/>
+            <item
+                android:id="@+id/Legs_filter"
+                android:title="Legs"/>
+            <item
+                android:id="@+id/Shoulders_filter"
+                android:title="Shoulders"/>
+            <item
+                android:id="@+id/Abs_filter"
+                android:title="Abs"/>
+            <item
+                android:id="@+id/Arms_filter"
+                android:title="Arms"/>
+            <item
+                android:id="@+id/Beck_filter"
+                android:title="Beck"/>
+            <item
+                android:id="@+id/OtherExercise_filter"
+                android:title="Other"/>
+        </menu>
+    </item>
+</menu>

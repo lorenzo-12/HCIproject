@@ -6,9 +6,12 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,7 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class WorkoutPage extends AppCompatActivity {
+public class ExercisePage extends AppCompatActivity {
 
     public static final String USER_TABLE = "users";
     public static final String CUSERNAME = "username";
@@ -29,18 +32,20 @@ public class WorkoutPage extends AppCompatActivity {
     public static final String CCATEGORY_WORKOUT = "workout_category";
     public static final String CREPS_WORKOUT = "workout_reps";
     public static final String CSERIES_WORKOUT = "workout_series";
+    public Menu menu_bar;
+    public String filter = "all";
 
     FloatingActionButton addbtn;
     DBHelper db;
     ArrayList<String> workout_name_list, workout_category_list, workout_reps_list, workout_series_list;
     ConstraintLayout layout;
     RecyclerView recyclerView;
-    CustomAdapterWorkout customAdapterWorkout;
+    CustomAdapterExercise customAdapterExercise;
 
     @Override
     public void onBackPressed() {
         Intent i = new Intent();
-        Log.d("WorkoutPage","onBackPressed");
+        Log.d("ExercisePage","onBackPressed");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -55,13 +60,82 @@ public class WorkoutPage extends AppCompatActivity {
         super.onResume();
         //Toast.makeText(FoodPage.this,"resumed",Toast.LENGTH_SHORT).show();
         storeDataInArrays();
-        customAdapterWorkout.notifyDataSetChanged();
+        customAdapterExercise.notifyDataSetChanged();
+    }
+
+    @Override
+    public void invalidateOptionsMenu() {
+        super.invalidateOptionsMenu();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.exercisemenu, menu);
+        menu_bar = menu;
+
+        MenuItem filter_all = menu.findItem(R.id.AllExercise_filter);
+        MenuItem filter_chest = menu.findItem(R.id.Chest_filter);
+        MenuItem filter_legs = menu.findItem(R.id.Legs_filter);
+        MenuItem filter_shoulders = menu.findItem(R.id.Shoulders_filter);
+        MenuItem filter_abs = menu.findItem(R.id.Abs_filter);
+        MenuItem filter_arms = menu.findItem(R.id.Arms_filter);
+        MenuItem filter_beck = menu.findItem(R.id.Beck_filter);
+        MenuItem filter_other = menu.findItem(R.id.OtherExercise_filter);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.AllExercise_filter:
+                filter = "all";
+                storeDataInArrays();
+                customAdapterExercise.notifyDataSetChanged();
+                return true;
+            case R.id.Chest_filter:
+                filter = "chest";
+                storeDataInArrays();
+                customAdapterExercise.notifyDataSetChanged();
+                return true;
+            case R.id.Legs_filter:
+                filter = "legs";
+                storeDataInArrays();
+                customAdapterExercise.notifyDataSetChanged();
+                return true;
+            case R.id.Shoulders_filter:
+                filter = "shoulders";
+                storeDataInArrays();
+                customAdapterExercise.notifyDataSetChanged();
+                return true;
+            case R.id.Abs_filter:
+                filter = "abs";
+                storeDataInArrays();
+                customAdapterExercise.notifyDataSetChanged();
+                return true;
+            case R.id.Arms_filter:
+                filter = "arms";
+                storeDataInArrays();
+                customAdapterExercise.notifyDataSetChanged();
+                return true;
+            case R.id.Beck_filter:
+                filter = "beck";
+                storeDataInArrays();
+                customAdapterExercise.notifyDataSetChanged();
+                return true;
+            case R.id.OtherExercise_filter:
+                filter = "other";
+                storeDataInArrays();
+                customAdapterExercise.notifyDataSetChanged();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_workoutpage);
+        setContentView(R.layout.activity_exercisepage);
 
         layout = findViewById(R.id.constraintLayout);
         recyclerView = findViewById(R.id.recycleViewWorkout);
@@ -70,7 +144,7 @@ public class WorkoutPage extends AppCompatActivity {
         addbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(WorkoutPage.this, AddWorkoutPage.class);
+                Intent intent = new Intent(ExercisePage.this, AddExercisePage.class);
                 startActivity(intent);
                 return;
             }
@@ -80,13 +154,21 @@ public class WorkoutPage extends AppCompatActivity {
     }
 
     public void storeDataInArrays(){
-        Cursor cursor = db.readAllDataWorkout();
+        Cursor cursor = null;
+        if (filter.equals("all")) {
+            cursor = db.readAllDataExercise();
+            //Toast.makeText(ExercisePage.this,"FILTER_ALL",Toast.LENGTH_SHORT).show();
+        }
+        else {
+            cursor = db.readFilteredExercise(filter);
+            //Toast.makeText(ExercisePage.this,filter,Toast.LENGTH_SHORT).show();
+        }
         workout_name_list.clear();
         workout_category_list.clear();
         workout_reps_list.clear();
         workout_series_list.clear();
         if ((cursor != null) && (cursor.getCount() == 0)){
-            Toast.makeText(WorkoutPage.this,"No Data",Toast.LENGTH_SHORT).show();
+            Toast.makeText(ExercisePage.this,"No Data",Toast.LENGTH_SHORT).show();
         }else {
             while ((cursor != null) && (cursor.moveToNext())){
                 workout_name_list.add(cursor.getString(0).toLowerCase());
@@ -104,11 +186,11 @@ public class WorkoutPage extends AppCompatActivity {
         workout_reps_list = new ArrayList<String>();
         workout_series_list = new ArrayList<String>();
 
-        customAdapterWorkout = new CustomAdapterWorkout(WorkoutPage.this,workout_name_list, workout_category_list, workout_reps_list, workout_series_list);
-        recyclerView.setAdapter(customAdapterWorkout);
-        recyclerView.setLayoutManager(new LinearLayoutManager(WorkoutPage.this));
+        customAdapterExercise = new CustomAdapterExercise(ExercisePage.this,workout_name_list, workout_category_list, workout_reps_list, workout_series_list);
+        recyclerView.setAdapter(customAdapterExercise);
+        recyclerView.setLayoutManager(new LinearLayoutManager(ExercisePage.this));
 
-        customAdapterWorkout.setOnItemClickListener(new CustomAdapterWorkout.OnItemClickListener() {
+        customAdapterExercise.setOnItemClickListener(new CustomAdapterExercise.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 String index = String.valueOf(position);
@@ -121,24 +203,24 @@ public class WorkoutPage extends AppCompatActivity {
                 //Toast.makeText(FoodPage.this,food_name_list.get(position).toString(),Toast.LENGTH_SHORT).show();
                 Boolean result = db.deleteWorkout(workout_name_list.get(position).toLowerCase());
                 storeDataInArrays();
-                customAdapterWorkout.notifyDataSetChanged();
+                customAdapterExercise.notifyDataSetChanged();
             }
 
             @Override
             public void onUpdateClick(int position) {
-                Toast.makeText(WorkoutPage.this,"Update",Toast.LENGTH_SHORT).show();
+                Toast.makeText(ExercisePage.this,"Update",Toast.LENGTH_SHORT).show();
                 String name = workout_name_list.get(position).toLowerCase();
                 String category = workout_category_list.get(position).toLowerCase();
                 String reps = workout_reps_list.get(position).toLowerCase();
                 String series = workout_series_list.get(position).toLowerCase();
                 passFoodData(name,category,reps,series);
-                Intent intent = new Intent(WorkoutPage.this, UpdateWorkoutPage.class);
+                Intent intent = new Intent(ExercisePage.this, UpdateExercisePage.class);
                 startActivity(intent);
                 return;
             }
         });
 
-        customAdapterWorkout.notifyDataSetChanged();
+        customAdapterExercise.notifyDataSetChanged();
     }
 
 

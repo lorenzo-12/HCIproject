@@ -86,11 +86,11 @@ public class UpdateFoodPage extends AppCompatActivity implements AdapterView.OnI
         if (update_fat != null) update_fat.setText(original_fat);
         if (update_category_string != null) {
             update_category_string = original_category;
-            if (update_category_string.equals("Fruit and Vegetable")) update_spinner_category.setSelection(1);
-            else if (update_category_string.equals("Cereal")) update_spinner_category.setSelection(2);
-            else if (update_category_string.equals("Dairy")) update_spinner_category.setSelection(3);
-            else if (update_category_string.equals("Meat Fish and eggs")) update_spinner_category.setSelection(4);
-            else if (update_category_string.equals("Sweet")) update_spinner_category.setSelection(5);
+            if (update_category_string.equals("fruitvegetable")) update_spinner_category.setSelection(1);
+            else if (update_category_string.equals("cereal")) update_spinner_category.setSelection(2);
+            else if (update_category_string.equals("dairy")) update_spinner_category.setSelection(3);
+            else if (update_category_string.equals("meatfisheggs")) update_spinner_category.setSelection(4);
+            else if (update_category_string.equals("sweet")) update_spinner_category.setSelection(5);
             else update_spinner_category.setSelection(6);
         }
 

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/FoodFilter_item"
+        app:showAsAction="always"
+        android:title="FILTER">
+
+        <menu>
+            <item
+                android:id="@+id/AllFood_filter"
+                android:title="All"/>
+            <item
+                android:id="@+id/FruitVegetable_filter"
+                android:title="Fruit and Vegetable"/>
+            <item
+                android:id="@+id/Cereal_filter"
+                android:title="Cereal"/>
+            <item
+                android:id="@+id/Dairy_filter"
+                android:title="Dairy"/>
+            <item
+                android:id="@+id/MeatFishEgg_filter"
+                android:title="Meat Fish and eggs"/>
+            <item
+                android:id="@+id/Sweet_filter"
+                android:title="Sweet"/>
+            <item
+                android:id="@+id/OtherFood_filter"
+                android:title="Other"/>
+        </menu>
+    </item>
+</menu>

@@ -23,15 +23,15 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CPROT = "prot";
     public static final String CFAT = "fat";
 
-    public static final String WORKOUT_TABLE = "workout";
-    public static final String CNAME_WORKOUT = "workout_name";
-    public static final String CCATEGORY_WORKOUT = "workout_category";
-    public static final String CREPS_WORKOUT = "workout_reps";
-    public static final String CSERIES_WORKOUT = "workout_series";
+    public static final String EXERCISE_TABLE = "exercise";
+    public static final String CNAME_EXERCISE = "exercise_name";
+    public static final String CCATEGORY_EXERCISE = "exercise_category";
+    public static final String CREPS_EXERCISE = "exercise_reps";
+    public static final String CSERIES_EXERCISE = "exercise_series";
 
     public static final String CREATE_USER_TABLE = "CREATE TABLE "+USER_TABLE+" ("+CUSERNAME+" TEXT PRIMARY KEY, "+CPASSWORD+" TEXT NOT NULL);";
     public static final String CREATE_FOOD_TABLE = "CREATE TABLE "+FOOD_TABLE+" ("+CNAME_FOOD+" TEXT PRIMARY KEY, "+CCATEGORY_FOOD+" TEXT, "+CCARB+" INTEGER, "+CPROT+" INTEGER, "+CFAT+" INTEGER );";
-    public static final String CREATE_WORKOUT_TABLE = "CREATE TABLE "+WORKOUT_TABLE+" ("+CNAME_WORKOUT+" TEXT PRIMARY KEY, "+CCATEGORY_WORKOUT+" TEXT, "+CREPS_WORKOUT+" INTEGER, "+CSERIES_WORKOUT+" INTEGER);";
+    public static final String CREATE_WORKOUT_TABLE = "CREATE TABLE "+ EXERCISE_TABLE +" ("+ CNAME_EXERCISE +" TEXT PRIMARY KEY, "+ CCATEGORY_EXERCISE +" TEXT, "+ CREPS_EXERCISE +" INTEGER, "+ CSERIES_EXERCISE +" INTEGER);";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -49,19 +49,19 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("DROP TABLE IF EXISTS "+ USER_TABLE);
         db.execSQL("DROP TABLE IF EXISTS "+ FOOD_TABLE);
-        db.execSQL("DROP TABLE IF EXISTS "+ WORKOUT_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS "+ EXERCISE_TABLE);
     }
 
     public Boolean addWorkout(String name,String category,int reps, int series){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put(CNAME_WORKOUT,name);
-        cv.put(CCATEGORY_WORKOUT,category);
-        cv.put(CREPS_WORKOUT,reps);
-        cv.put(CSERIES_WORKOUT,series);
+        cv.put(CNAME_EXERCISE,name);
+        cv.put(CCATEGORY_EXERCISE,category);
+        cv.put(CREPS_EXERCISE,reps);
+        cv.put(CSERIES_EXERCISE,series);
 
-        long result = db.insert(WORKOUT_TABLE,null,cv);
+        long result = db.insert(EXERCISE_TABLE,null,cv);
         if (result == -1) return false;
         return true;
     }
@@ -69,12 +69,12 @@ public class DBHelper extends SQLiteOpenHelper {
     public Boolean updateWorkout(String name,String category,int reps,int series){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(CCATEGORY_WORKOUT,category);
-        cv.put(CREPS_WORKOUT,reps);
-        cv.put(CSERIES_WORKOUT,series);
-        Cursor cursor = db.rawQuery("SELECT * FROM " + WORKOUT_TABLE + " WHERE workout_name = ? ", new String[]{name});
+        cv.put(CCATEGORY_EXERCISE,category);
+        cv.put(CREPS_EXERCISE,reps);
+        cv.put(CSERIES_EXERCISE,series);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + EXERCISE_TABLE + " WHERE exercise_name = ? ", new String[]{name});
         if (cursor.getCount() > 0) {
-            long result = db.update(WORKOUT_TABLE, cv, "workout_name=?", new String[]{name});
+            long result = db.update(EXERCISE_TABLE, cv, "exercise_name=?", new String[]{name});
             if (result == -1) return false;
             return true;
         }
@@ -85,9 +85,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Boolean deleteWorkout(String name){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + WORKOUT_TABLE + " WHERE workout_name = ? ", new String[]{name});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + EXERCISE_TABLE + " WHERE exercise_name = ? ", new String[]{name});
         if (cursor.getCount() > 0) {
-            long result = db.delete(WORKOUT_TABLE,"workout_name=?", new String[]{name});
+            long result = db.delete(EXERCISE_TABLE,"exercise_name=?", new String[]{name});
             if (result == -1) return false;
             return true;
         }
@@ -96,8 +96,8 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor readAllDataWorkout(){
-        String  query = "SELECT * FROM "+ WORKOUT_TABLE;
+    public Cursor readAllDataExercise(){
+        String  query = "SELECT * FROM "+ EXERCISE_TABLE;
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
@@ -107,8 +107,18 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public Cursor readFilteredExercise(String filter){
+        String query = "SELECT * FROM "+ EXERCISE_TABLE +" WHERE exercise_category=?";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        if (db != null){
+            cursor = db.rawQuery(query,new String[]{filter});
+        }
+        return cursor;
+    }
+
     public Boolean findWorkout(String name){
-        String query = "SELECT * FROM "+WORKOUT_TABLE+" WHERE workout_name=?";
+        String query = "SELECT * FROM "+ EXERCISE_TABLE +" WHERE exercise_name=?";
         SQLiteDatabase db = this.getReadableDatabase();
         if (db == null) return false;
         Cursor cursor = db.rawQuery(query, new String[]{name});
@@ -117,7 +127,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public String viewWorkouts(){
-        Cursor cursor = readAllDataWorkout();
+        Cursor cursor = readAllDataExercise();
         if(cursor.getCount() == 0) return "No Data";
         String res = "";
         while (cursor.moveToNext()){
@@ -175,10 +185,19 @@ public class DBHelper extends SQLiteOpenHelper {
     public Cursor readAllDataFood(){
         String  query = "SELECT * FROM "+ FOOD_TABLE;
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursor = null;
         if (db != null){
             cursor = db.rawQuery(query,null);
+        }
+        return cursor;
+    }
+
+    public Cursor readFilteredFood(String filter){
+        String query = "SELECT * FROM "+ FOOD_TABLE+" WHERE food_category=?";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        if (db != null){
+            cursor = db.rawQuery(query,new String[]{filter});
         }
         return cursor;
     }

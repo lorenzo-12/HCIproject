@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class CustomAdapterWorkout extends RecyclerView.Adapter<CustomAdapterWorkout.MyViewHolder>{
+public class CustomAdapterExercise extends RecyclerView.Adapter<CustomAdapterExercise.MyViewHolder>{
 
     public static final String CNAME_WORKOUT = "workout_name";
-    public CustomAdapterWorkout.OnItemClickListener mlistener;
+    public CustomAdapterExercise.OnItemClickListener mlistener;
     Context context;
     ArrayList<String> workout_name_list, workout_category_list, workout_reps_list, workout_series_list;
 
@@ -25,7 +25,7 @@ public class CustomAdapterWorkout extends RecyclerView.Adapter<CustomAdapterWork
         void onUpdateClick(int position);
     }
 
-    public void setOnItemClickListener(CustomAdapterWorkout.OnItemClickListener listener){
+    public void setOnItemClickListener(CustomAdapterExercise.OnItemClickListener listener){
         this.mlistener = listener;
     }
 
@@ -87,8 +87,8 @@ public class CustomAdapterWorkout extends RecyclerView.Adapter<CustomAdapterWork
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.my_row_workout,parent,false);
-        return new CustomAdapterWorkout.MyViewHolder(view);
+        View view = inflater.inflate(R.layout.my_row_exercise,parent,false);
+        return new CustomAdapterExercise.MyViewHolder(view);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class CustomAdapterWorkout extends RecyclerView.Adapter<CustomAdapterWork
         return workout_name_list.size();
     }
 
-    CustomAdapterWorkout(Context context, ArrayList list_name, ArrayList list_category, ArrayList list_reps, ArrayList list_series){
+    CustomAdapterExercise(Context context, ArrayList list_name, ArrayList list_category, ArrayList list_reps, ArrayList list_series){
         this.context = context;
         this.workout_name_list = list_name;
         this.workout_category_list = list_category;

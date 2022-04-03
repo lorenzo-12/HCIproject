@@ -14,7 +14,7 @@ import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class UpdateWorkoutPage extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class UpdateExercisePage extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     public static final String USER_TABLE = "users";
     public static final String CNAME_WORKOUT = "workout_name";
@@ -43,7 +43,7 @@ public class UpdateWorkoutPage extends AppCompatActivity implements AdapterView.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_updateworkoutpage);
+        setContentView(R.layout.activity_updateexercisepage);
 
         db = new DBHelper(this);
         update_name = findViewById(R.id.workout_name_text_update);
@@ -52,7 +52,7 @@ public class UpdateWorkoutPage extends AppCompatActivity implements AdapterView.
         update_series = findViewById(R.id.workout_series_text_update);
         updateWorkoutbtn = findViewById(R.id.updateWorkoutbtn);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(UpdateWorkoutPage.this,R.array.workout_category_possible, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(UpdateExercisePage.this,R.array.workout_category_possible, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         update_spinner_category.setAdapter(adapter);
 
@@ -81,12 +81,12 @@ public class UpdateWorkoutPage extends AppCompatActivity implements AdapterView.
         if (update_series != null) update_series.setText(original_series);
         if (update_category_string != null) {
             update_category_string = original_category;
-            if (update_category_string.equals("Chest")) update_spinner_category.setSelection(1);
-            else if (update_category_string.equals("Legs")) update_spinner_category.setSelection(2);
-            else if (update_category_string.equals("Shoulders")) update_spinner_category.setSelection(3);
-            else if (update_category_string.equals("Abs")) update_spinner_category.setSelection(4);
-            else if (update_category_string.equals("Arms")) update_spinner_category.setSelection(5);
-            else if (update_category_string.equals("Beck")) update_spinner_category.setSelection(6);
+            if (update_category_string.equals("chest")) update_spinner_category.setSelection(1);
+            else if (update_category_string.equals("legs")) update_spinner_category.setSelection(2);
+            else if (update_category_string.equals("shoulders")) update_spinner_category.setSelection(3);
+            else if (update_category_string.equals("abs")) update_spinner_category.setSelection(4);
+            else if (update_category_string.equals("arms")) update_spinner_category.setSelection(5);
+            else if (update_category_string.equals("beck")) update_spinner_category.setSelection(6);
             else update_spinner_category.setSelection(7);
         }
     }

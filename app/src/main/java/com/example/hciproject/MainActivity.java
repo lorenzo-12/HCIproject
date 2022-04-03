@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         //associo a ogni variabile il corrispettivo bottone/testo ecc...
         layout = findViewById(R.id.constraintLayout);
         //layout.setBackgroundColor(Color.WHITE);
-        workoutActivitybtn = findViewById(R.id.WorkoutButton);
+        workoutActivitybtn = findViewById(R.id.ExerciseButton);
         diaryActivitybtn = findViewById(R.id.DiaryButton);
         FoodActivitybtn = findViewById(R.id.FoodButton);
         timerbtn = findViewById(R.id.TimerButton);
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         loadData();
-        debug.setText("---"+user_logged+"---");
+        debug.setText("User: "+user_logged);
 
 
     }
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void openactivityworkout(){
         saveData();
-        Intent intentWorkout = new Intent(this, WorkoutPage.class);
+        Intent intentWorkout = new Intent(this, ExercisePage.class);
         startActivity(intentWorkout);
     }
 

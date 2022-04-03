@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">HCIproject</string>
     <string-array name="food_category_possible">
-        <item>Fruit and Vegetable</item>
+        <item>FruitVegetable</item>
         <item>Cereal</item>
         <item>Dairy</item>
-        <item>Meat Fish and eggs</item>
+        <item>MeatFisheggs</item>
         <item>Sweet</item>
         <item>Other</item>
     </string-array>

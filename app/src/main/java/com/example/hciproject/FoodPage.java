@@ -6,9 +6,12 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,6 +33,8 @@ public class FoodPage extends AppCompatActivity {
     public static final String CCARB = "carb";
     public static final String CPROT = "prot";
     public static final String CFAT = "fat";
+    public Menu menu_bar;
+    public String filter = "all";
 
     FloatingActionButton addbtn;
     DBHelper db;
@@ -60,6 +65,69 @@ public class FoodPage extends AppCompatActivity {
     }
 
     @Override
+    public void invalidateOptionsMenu() {
+        super.invalidateOptionsMenu();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.foodmenu, menu);
+        menu_bar = menu;
+
+        MenuItem filter_all = menu.findItem(R.id.AllFood_filter);
+        MenuItem filter_fruit = menu.findItem(R.id.FruitVegetable_filter);
+        MenuItem filter_cereal = menu.findItem(R.id.Cereal_filter);
+        MenuItem filter_dairy = menu.findItem(R.id.Dairy_filter);
+        MenuItem filter_meat = menu.findItem(R.id.MeatFishEgg_filter);
+        MenuItem filter_sweet = menu.findItem(R.id.Sweet_filter);
+        MenuItem filter_other = menu.findItem(R.id.OtherFood_filter);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.AllFood_filter:
+                filter = "all";
+                storeDataInArrays();
+                customAdapterFood.notifyDataSetChanged();
+                return true;
+            case R.id.FruitVegetable_filter:
+                filter = "fruitvegetable";
+                storeDataInArrays();
+                customAdapterFood.notifyDataSetChanged();
+                return true;
+            case R.id.Cereal_filter:
+                filter = "cereal";
+                storeDataInArrays();
+                customAdapterFood.notifyDataSetChanged();
+                return true;
+            case R.id.Dairy_filter:
+                filter = "dairy";
+                storeDataInArrays();
+                customAdapterFood.notifyDataSetChanged();
+                return true;
+            case R.id.MeatFishEgg_filter:
+                filter = "meatfisheggs";
+                storeDataInArrays();
+                customAdapterFood.notifyDataSetChanged();
+                return true;
+            case R.id.Sweet_filter:
+                filter = "sweet";
+                storeDataInArrays();
+                customAdapterFood.notifyDataSetChanged();
+                return true;
+            case R.id.OtherFood_filter:
+                filter = "other";
+                storeDataInArrays();
+                customAdapterFood.notifyDataSetChanged();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_foodpage);
@@ -82,15 +150,25 @@ public class FoodPage extends AppCompatActivity {
 
 
     public void storeDataInArrays(){
-        Cursor cursor = db.readAllDataFood();
+        Cursor cursor = null;
+        if (filter.equals("all")) {
+            cursor = db.readAllDataFood();
+            //Toast.makeText(FoodPage.this,"FILTER_ALL",Toast.LENGTH_SHORT).show();
+        }
+        else {
+            cursor = db.readFilteredFood(filter);
+            Toast.makeText(FoodPage.this,filter,Toast.LENGTH_SHORT).show();
+        }
         food_name_list.clear();
         food_category_list.clear();
         food_carb_list.clear();
         food_prot_list.clear();
         food_fat_list.clear();
         if ((cursor != null) && (cursor.getCount() == 0)){
-            Toast.makeText(FoodPage.this,"No Data",Toast.LENGTH_SHORT).show();
+            Toast.makeText(FoodPage.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
+            //Toast.makeText(FoodPage.this,"No Data",Toast.LENGTH_SHORT).show();
         }else {
+            Toast.makeText(FoodPage.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
             while ((cursor != null) && (cursor.moveToNext())){
                 food_name_list.add(cursor.getString(0).toLowerCase());
                 food_category_list.add(cursor.getString(1).toLowerCase());
@@ -132,7 +210,7 @@ public class FoodPage extends AppCompatActivity {
 
             @Override
             public void onUpdateClick(int position) {
-                Toast.makeText(FoodPage.this,"Update",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(FoodPage.this,"Update",Toast.LENGTH_SHORT).show();
                 String name = food_name_list.get(position).toLowerCase();
                 String category = food_category_list.get(position).toLowerCase();
                 String carb = food_carb_list.get(position).toLowerCase();

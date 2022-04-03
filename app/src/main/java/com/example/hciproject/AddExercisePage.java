@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class AddWorkoutPage extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class AddExercisePage extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     public static final String USER_TABLE = "users";
     public static final String WORKOUT_TABLE = "workout";
@@ -28,7 +28,7 @@ public class AddWorkoutPage extends AppCompatActivity implements AdapterView.OnI
     @Override
     public void onBackPressed() {
         Intent i = new Intent();
-        Log.d("AddFoodPage","onBackPressed");
+        Log.d("AddExercisePage","onBackPressed");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -41,7 +41,7 @@ public class AddWorkoutPage extends AppCompatActivity implements AdapterView.OnI
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_addworkoutpage);
+        setContentView(R.layout.activity_addexercisepage);
 
         db = new DBHelper(this);
         input_name = findViewById(R.id.workout_name_text);
@@ -50,7 +50,7 @@ public class AddWorkoutPage extends AppCompatActivity implements AdapterView.OnI
         input_series = findViewById(R.id.workout_series_text);
         addWorkoutbtn = findViewById(R.id.addWorkoutbtn);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(AddWorkoutPage.this,R.array.workout_category_possible, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(AddExercisePage.this,R.array.workout_category_possible, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         input_category_spinner.setAdapter(adapter);
 
@@ -60,7 +60,7 @@ public class AddWorkoutPage extends AppCompatActivity implements AdapterView.OnI
             @Override
             public void onClick(View view) {
                 Boolean result = addWorkout();
-                Toast.makeText(AddWorkoutPage.this,result.toString(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddExercisePage.this,result.toString(),Toast.LENGTH_SHORT).show();
                 onBackPressed();
             }
         });
@@ -72,11 +72,11 @@ public class AddWorkoutPage extends AppCompatActivity implements AdapterView.OnI
 
         String error = "";
         if (name.isEmpty()) {
-            Toast.makeText(AddWorkoutPage.this,"Please insert a name for the workout",Toast.LENGTH_SHORT).show();
+            Toast.makeText(AddExercisePage.this,"Please insert a name for the exercise",Toast.LENGTH_SHORT).show();
             return false;
         }
         if (input_category.isEmpty()){
-            Toast.makeText(AddWorkoutPage.this,"Please insert a category for the workout",Toast.LENGTH_SHORT).show();
+            Toast.makeText(AddExercisePage.this,"Please insert a category for the exercise",Toast.LENGTH_SHORT).show();
             return false;
         }
         addWorkoutbtn.setEnabled(true);
@@ -98,7 +98,7 @@ public class AddWorkoutPage extends AppCompatActivity implements AdapterView.OnI
         Boolean check = db.findWorkout(name);
         Boolean result = false;
         if (check){
-            Toast.makeText(AddWorkoutPage.this, "Workout already exist",Toast.LENGTH_SHORT).show();
+            Toast.makeText(AddExercisePage.this, "exercise already exist",Toast.LENGTH_SHORT).show();
             return false;
         } else {
             result = db.addWorkout(name,input_category,reps,series);

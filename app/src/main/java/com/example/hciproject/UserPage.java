@@ -143,6 +143,8 @@ public class UserPage extends AppCompatActivity {
 
         debug = findViewById(R.id.debugtxt);
         debug2 = findViewById(R.id.debugtxt2);
+        debug.setVisibility(View.INVISIBLE);
+        debug2.setVisibility(View.INVISIBLE);
 
         username.addTextChangedListener(resetTextWatcher);
         password.addTextChangedListener(resetTextWatcher);
