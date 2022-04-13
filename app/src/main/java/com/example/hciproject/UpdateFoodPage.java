@@ -3,7 +3,6 @@ package com.example.hciproject;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,6 +24,7 @@ public class UpdateFoodPage extends AppCompatActivity implements AdapterView.OnI
     Spinner update_spinner_category;
     Button updateFoodbtn;
     String update_category_string;
+    Boolean changes = false;
 
     String original_name,original_category,original_carb,original_prot,original_fat;
 
@@ -31,13 +32,16 @@ public class UpdateFoodPage extends AppCompatActivity implements AdapterView.OnI
     public void onBackPressed() {
         Intent i = new Intent();
         Log.d("UpdateFoodPage","onBackPressed");
+        /*
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 finish();
             }
-        }, 500);
-
+        }, 0);
+         */
+        changes = false;
+        Toast.makeText(UpdateFoodPage.this,"Loading",Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -64,21 +68,24 @@ public class UpdateFoodPage extends AppCompatActivity implements AdapterView.OnI
             public void onClick(View view) {
                 Boolean result = updateFood();
                 //Toast.makeText(UpdateFoodPage.this,result.toString(),Toast.LENGTH_SHORT).show();
+                changes = true;
+                passFoodData();
                 onBackPressed();
             }
         });
 
-        loadData();
+        loadFoodData();
 
     }
 
-    public void loadData(){
+    public void loadFoodData(){
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
         original_name = sharedPreferences.getString("food_name","");
         original_category = sharedPreferences.getString("food_category","other");
         original_carb = sharedPreferences.getString("food_carb","0");
         original_prot = sharedPreferences.getString("food_prot","0");
         original_fat = sharedPreferences.getString("food_fat","0");
+        changes = sharedPreferences.getBoolean("food_changes",false);
 
         if (update_name != null) update_name.setText(original_name);
         if (update_carb != null) update_carb.setText(original_carb);
@@ -94,6 +101,13 @@ public class UpdateFoodPage extends AppCompatActivity implements AdapterView.OnI
             else update_spinner_category.setSelection(6);
         }
 
+    }
+
+    public void passFoodData(){
+        SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("food_changes",changes);
+        editor.apply();
     }
 
     public Boolean updateFood(){
@@ -134,4 +148,5 @@ public class UpdateFoodPage extends AppCompatActivity implements AdapterView.OnI
     public void onNothingSelected(AdapterView<?> adapterView) {
         update_category_string = "other";
     }
+
 }

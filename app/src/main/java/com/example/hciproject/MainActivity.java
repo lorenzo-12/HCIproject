@@ -2,10 +2,13 @@ package com.example.hciproject;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -14,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String USER_LOGGED = "user_logged";
     public String user_logged;
+    Boolean insertFood = false;
 
 
     //variabili globali usate dalla Main page
@@ -21,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     ImageButton userbtn;
     ConstraintLayout layout;
     Button debug;
+    DBHelper db;
 
     @Override
     public void onResume() {
@@ -85,7 +90,25 @@ public class MainActivity extends AppCompatActivity {
         loadData();
         debug.setText("User: "+user_logged);
 
-
+        db = new DBHelper(this);
+        if (!user_logged.equals("none")){
+            Cursor cursor = db.readAllDataUser();
+            if (cursor!=null && cursor.getCount()>0){
+                while (cursor.moveToNext()){
+                    if (cursor.getString(0).equals(user_logged)){
+                        byte[] img_bytes = cursor.getBlob(2);
+                        Bitmap img_b = db.getImage(img_bytes);
+                        userbtn.setImageBitmap(img_b);
+                    }
+                }
+            }
+        }
+        loadData();
+        if (insertFood == false) {
+            db.addExistingFood();
+            insertFood = true;
+            saveData();
+        }
     }
 
     //relative funzioni che vengono chiamete quando premiamo un bottone
@@ -97,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void openactivityFood(){
         saveData();
+        Toast.makeText(MainActivity.this,"Loading",Toast.LENGTH_LONG).show();
         Intent intentDiet = new Intent(this, FoodPage.class);
         startActivity(intentDiet);
     }
@@ -128,11 +152,13 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(USER_LOGGED,user_logged);
+        editor.putBoolean("base_food_insert",insertFood);
         editor.apply();
     }
 
     public void loadData(){
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
         user_logged = sharedPreferences.getString(USER_LOGGED, "none");
+        insertFood = sharedPreferences.getBoolean("base_food_insert",false);
     }
 }

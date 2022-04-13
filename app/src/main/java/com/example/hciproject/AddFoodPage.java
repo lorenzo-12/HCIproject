@@ -1,8 +1,8 @@
 package com.example.hciproject;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,18 +24,22 @@ public class AddFoodPage extends AppCompatActivity implements AdapterView.OnItem
     Spinner input_category_spinner;
     Button addFoodbtn;
     String input_category;
+    Boolean changes = false;
 
     @Override
     public void onBackPressed() {
         Intent i = new Intent();
         Log.d("AddFoodPage","onBackPressed");
+        /*
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 finish();
             }
-        }, 500);
-
+        }, 0);
+         */
+        passFoodData();
+        changes = false;
     }
 
 
@@ -63,6 +67,7 @@ public class AddFoodPage extends AppCompatActivity implements AdapterView.OnItem
             public void onClick(View view) {
                 Boolean result = addFood();
                 Toast.makeText(AddFoodPage.this,result.toString(),Toast.LENGTH_SHORT).show();
+                changes = true;
                 onBackPressed();
             }
         });
@@ -127,5 +132,17 @@ public class AddFoodPage extends AppCompatActivity implements AdapterView.OnItem
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
         input_category = "other";
+    }
+
+    public void loadFoodData(){
+        SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
+        changes = sharedPreferences.getBoolean("food_changes",false);
+    }
+
+    public void passFoodData(){
+        SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("food_changes",changes);
+        editor.apply();
     }
 }

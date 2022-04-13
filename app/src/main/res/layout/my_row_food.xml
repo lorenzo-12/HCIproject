@@ -22,46 +22,34 @@
                 android:id="@+id/food_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:text="category"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/number_txt_food"
+                app:layout_constraintStart_toEndOf="@+id/food_img"
                 app:layout_constraintTop_toBottomOf="@+id/food_name" />
 
             <TextView
                 android:id="@+id/food_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="4dp"
                 android:text="food"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/number_txt_food"
+                app:layout_constraintStart_toEndOf="@+id/food_img"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/number_txt_food"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="1"
-                android:textColor="@color/black"
-                android:textSize="40sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.481" />
 
             <TextView
                 android:id="@+id/food_carb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="80dp"
                 android:text="carb"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/testo_fisso_carb"
@@ -71,6 +59,8 @@
                 android:id="@+id/food_fat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="80dp"
                 android:text="fat"
                 app:layout_constraintStart_toEndOf="@+id/tsto_fisso_fat"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -79,6 +69,8 @@
                 android:id="@+id/food_prot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="80dp"
                 android:text="prot"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/testo_fisso_prot"
@@ -88,8 +80,8 @@
                 android:id="@+id/delete_food_img"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
                 app:layout_constraintStart_toEndOf="@+id/modify_food_img"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_delete_24" />
@@ -98,8 +90,8 @@
                 android:id="@+id/modify_food_img"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginStart="270dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginStart="272dp"
+                android:layout_marginTop="4dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_create_24" />
@@ -108,16 +100,18 @@
                 android:id="@+id/testo_fisso_carb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="100dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="80dp"
                 android:text="carb:"
-                app:layout_constraintStart_toEndOf="@+id/food_name"
+                app:layout_constraintStart_toEndOf="@+id/food_img"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/testo_fisso_prot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="80dp"
                 android:text="prot:"
                 app:layout_constraintStart_toEndOf="@+id/food_carb"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -126,10 +120,21 @@
                 android:id="@+id/tsto_fisso_fat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="80dp"
                 android:text="fat:"
                 app:layout_constraintStart_toEndOf="@+id/food_prot"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/food_img"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_fastfood_24" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

@@ -3,12 +3,14 @@ package com.example.hciproject;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,13 +37,18 @@ public class FoodPage extends AppCompatActivity {
     public static final String CFAT = "fat";
     public Menu menu_bar;
     public String filter = "all";
+    public Boolean changes = false;
 
     FloatingActionButton addbtn;
     DBHelper db;
     ArrayList<String> food_name_list, food_category_list, food_carb_list, food_prot_list, food_fat_list;
+    ArrayList<Bitmap> food_img_list;
+    ArrayList<String> f1,f2,f3,f4,f5;
+    ArrayList<Bitmap> f6;
     ConstraintLayout layout;
     RecyclerView recyclerView;
     CustomAdapterFood customAdapterFood;
+    ImageView food_img;
 
     @Override
     public void onBackPressed() {
@@ -60,8 +67,13 @@ public class FoodPage extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         //Toast.makeText(FoodPage.this,"resumed",Toast.LENGTH_SHORT).show();
-        storeDataInArrays();
-        customAdapterFood.notifyDataSetChanged();
+        loadFoodData();
+        if (changes==false) return;
+        else {
+            storeDataInArrays();
+            customAdapterFood.notifyDataSetChanged();
+        }
+        changes = false;
     }
 
     @Override
@@ -93,32 +105,32 @@ public class FoodPage extends AppCompatActivity {
                 customAdapterFood.notifyDataSetChanged();
                 return true;
             case R.id.FruitVegetable_filter:
-                filter = "fruitvegetable";
+                filter = "FruitVegetable";
                 storeDataInArrays();
                 customAdapterFood.notifyDataSetChanged();
                 return true;
             case R.id.Cereal_filter:
-                filter = "cereal";
+                filter = "Cereal";
                 storeDataInArrays();
                 customAdapterFood.notifyDataSetChanged();
                 return true;
             case R.id.Dairy_filter:
-                filter = "dairy";
+                filter = "Dairy";
                 storeDataInArrays();
                 customAdapterFood.notifyDataSetChanged();
                 return true;
             case R.id.MeatFishEgg_filter:
-                filter = "meatfisheggs";
+                filter = "MeatFisheggs";
                 storeDataInArrays();
                 customAdapterFood.notifyDataSetChanged();
                 return true;
             case R.id.Sweet_filter:
-                filter = "sweet";
+                filter = "Sweet";
                 storeDataInArrays();
                 customAdapterFood.notifyDataSetChanged();
                 return true;
             case R.id.OtherFood_filter:
-                filter = "other";
+                filter = "Other";
                 storeDataInArrays();
                 customAdapterFood.notifyDataSetChanged();
                 return true;
@@ -164,6 +176,7 @@ public class FoodPage extends AppCompatActivity {
         food_carb_list.clear();
         food_prot_list.clear();
         food_fat_list.clear();
+        food_img_list.clear();
         if ((cursor != null) && (cursor.getCount() == 0)){
             Toast.makeText(FoodPage.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
             //Toast.makeText(FoodPage.this,"No Data",Toast.LENGTH_SHORT).show();
@@ -175,6 +188,9 @@ public class FoodPage extends AppCompatActivity {
                 food_carb_list.add(cursor.getString(2).toLowerCase());
                 food_prot_list.add(cursor.getString(3).toLowerCase());
                 food_fat_list.add(cursor.getString(4).toLowerCase());
+                byte[] img_bytes = cursor.getBlob(5);
+                Bitmap img_bitmap = db.getImage(img_bytes);
+                food_img_list.add(img_bitmap);
             }
         }
 
@@ -187,8 +203,9 @@ public class FoodPage extends AppCompatActivity {
         food_carb_list = new ArrayList<String>();
         food_prot_list = new ArrayList<String>();
         food_fat_list = new ArrayList<String>();
+        food_img_list = new ArrayList<Bitmap>();
 
-        customAdapterFood = new CustomAdapterFood(FoodPage.this,food_name_list, food_category_list, food_carb_list, food_prot_list, food_fat_list);
+        customAdapterFood = new CustomAdapterFood(FoodPage.this,food_name_list, food_category_list, food_carb_list, food_prot_list, food_fat_list, food_img_list);
         recyclerView.setAdapter(customAdapterFood);
         recyclerView.setLayoutManager(new LinearLayoutManager(FoodPage.this));
 
@@ -234,7 +251,13 @@ public class FoodPage extends AppCompatActivity {
         editor.putString("food_carb",carb);
         editor.putString("food_prot",prot);
         editor.putString("food_fat",fat);
+        editor.putBoolean("food_changes",changes);
         editor.apply();
+    }
+
+    public void loadFoodData(){
+        SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
+        changes = sharedPreferences.getBoolean("food_changes",true);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.hciproject;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ public class CustomAdapterFood extends RecyclerView.Adapter<CustomAdapterFood.My
     public OnItemClickListener mlistener;
     Context context;
     ArrayList<String> food_name_list, food_category_list, food_carb_list, food_prot_list, food_fat_list;
+    ArrayList<Bitmap> food_img_list;
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -31,8 +33,8 @@ public class CustomAdapterFood extends RecyclerView.Adapter<CustomAdapterFood.My
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView name_txt,category_txt,carb_txt,prot_txt,fat_txt,number_txt;
-        public ImageView mdeletebtn,mupdatebtn;
+        public TextView name_txt,category_txt,carb_txt,prot_txt,fat_txt;
+        public ImageView mdeletebtn,mupdatebtn,food_img;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -44,7 +46,7 @@ public class CustomAdapterFood extends RecyclerView.Adapter<CustomAdapterFood.My
             fat_txt = itemView.findViewById(R.id.food_fat);
             mdeletebtn = itemView.findViewById(R.id.delete_food_img);
             mupdatebtn = itemView.findViewById(R.id.modify_food_img);
-            number_txt = itemView.findViewById(R.id.number_txt_food);
+            food_img = itemView.findViewById(R.id.food_img);
 
             mupdatebtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -100,7 +102,7 @@ public class CustomAdapterFood extends RecyclerView.Adapter<CustomAdapterFood.My
         holder.carb_txt.setText(String.valueOf(food_carb_list.get(position)));
         holder.prot_txt.setText(String.valueOf(food_prot_list.get(position)));
         holder.fat_txt.setText(String.valueOf(food_fat_list.get(position)));
-        holder.number_txt.setText(String.valueOf(position));
+        holder.food_img.setImageBitmap(food_img_list.get(position));
 
     }
 
@@ -109,13 +111,14 @@ public class CustomAdapterFood extends RecyclerView.Adapter<CustomAdapterFood.My
         return food_name_list.size();
     }
 
-    CustomAdapterFood(Context context, ArrayList list_name, ArrayList list_category, ArrayList list_carb, ArrayList list_prot, ArrayList list_fat ){
+    CustomAdapterFood(Context context, ArrayList list_name, ArrayList list_category, ArrayList list_carb, ArrayList list_prot, ArrayList list_fat, ArrayList list_img ){
         this.context = context;
         this.food_name_list = list_name;
         this.food_category_list = list_category;
         this.food_carb_list = list_carb;
         this.food_prot_list = list_prot;
         this.food_fat_list = list_fat;
+        this.food_img_list = list_img;
     }
 
 }
