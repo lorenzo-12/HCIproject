@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,12 +42,9 @@ public class FoodPage extends AppCompatActivity {
     DBHelper db;
     ArrayList<String> food_name_list, food_category_list, food_carb_list, food_prot_list, food_fat_list;
     ArrayList<Bitmap> food_img_list;
-    ArrayList<String> f1,f2,f3,f4,f5;
-    ArrayList<Bitmap> f6;
     ConstraintLayout layout;
     RecyclerView recyclerView;
     CustomAdapterFood customAdapterFood;
-    ImageView food_img;
 
     @Override
     public void onBackPressed() {
@@ -67,7 +63,7 @@ public class FoodPage extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         //Toast.makeText(FoodPage.this,"resumed",Toast.LENGTH_SHORT).show();
-        loadFoodData();
+        loadData();
         if (changes==false) return;
         else {
             storeDataInArrays();
@@ -233,7 +229,7 @@ public class FoodPage extends AppCompatActivity {
                 String carb = food_carb_list.get(position).toLowerCase();
                 String prot = food_prot_list.get(position).toLowerCase();
                 String fat = food_fat_list.get(position).toLowerCase();
-                passFoodData(name,category,carb,prot,fat);
+                passData(name,category,carb,prot,fat);
                 Intent intent = new Intent(FoodPage.this, UpdateFoodPage.class);
                 startActivity(intent);
                 return;
@@ -243,7 +239,7 @@ public class FoodPage extends AppCompatActivity {
         customAdapterFood.notifyDataSetChanged();
     }
 
-    public void passFoodData(String name,String category,String carb, String prot,String fat){
+    public void passData(String name, String category, String carb, String prot, String fat){
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("food_name",name);
@@ -255,7 +251,7 @@ public class FoodPage extends AppCompatActivity {
         editor.apply();
     }
 
-    public void loadFoodData(){
+    public void loadData(){
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
         changes = sharedPreferences.getBoolean("food_changes",true);
     }

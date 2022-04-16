@@ -1,6 +1,7 @@
 package com.example.hciproject;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,8 @@ public class CustomAdapterExercise extends RecyclerView.Adapter<CustomAdapterExe
     public static final String CNAME_WORKOUT = "workout_name";
     public CustomAdapterExercise.OnItemClickListener mlistener;
     Context context;
-    ArrayList<String> workout_name_list, workout_category_list, workout_reps_list, workout_series_list;
+    ArrayList<String> exercise_name_list, exercise_category_list, exercise_reps_list, exercise_series_list;
+    ArrayList<Bitmap> exercise_img_list;
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -32,18 +34,18 @@ public class CustomAdapterExercise extends RecyclerView.Adapter<CustomAdapterExe
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView name_txt,category_txt,reps_txt,series_txt,number_txt;
-        public ImageView mdeletebtn,mupdatebtn;
+        public ImageView mdeletebtn,mupdatebtn,exercise_img;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            name_txt = itemView.findViewById(R.id.workout_name);
-            category_txt = itemView.findViewById(R.id.workout_category);
-            reps_txt = itemView.findViewById(R.id.workout_reps);
-            series_txt = itemView.findViewById(R.id.workout_series);
+            name_txt = itemView.findViewById(R.id.exercise_name);
+            category_txt = itemView.findViewById(R.id.exercise_category);
+            reps_txt = itemView.findViewById(R.id.exercise_reps);
+            series_txt = itemView.findViewById(R.id.exercise_series);
             mdeletebtn = itemView.findViewById(R.id.delete_workout_img);
             mupdatebtn = itemView.findViewById(R.id.modify_workout_img);
-            number_txt = itemView.findViewById(R.id.number_txt_workout);
+            exercise_img = itemView.findViewById(R.id.exercise_img);
 
             mupdatebtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -93,25 +95,26 @@ public class CustomAdapterExercise extends RecyclerView.Adapter<CustomAdapterExe
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.name_txt.setText(String.valueOf(workout_name_list.get(position)));
-        holder.category_txt.setText(String.valueOf(workout_category_list.get(position)));
-        holder.reps_txt.setText(String.valueOf(workout_reps_list.get(position)));
-        holder.series_txt.setText(String.valueOf(workout_series_list.get(position)));
-        holder.number_txt.setText(String.valueOf(position));
+        holder.name_txt.setText(String.valueOf(exercise_name_list.get(position)));
+        holder.category_txt.setText(String.valueOf(exercise_category_list.get(position)));
+        holder.reps_txt.setText(String.valueOf(exercise_reps_list.get(position)));
+        holder.series_txt.setText(String.valueOf(exercise_series_list.get(position)));
+        holder.exercise_img.setImageBitmap(exercise_img_list.get(position));
     }
 
 
     @Override
     public int getItemCount() {
-        return workout_name_list.size();
+        return exercise_name_list.size();
     }
 
-    CustomAdapterExercise(Context context, ArrayList list_name, ArrayList list_category, ArrayList list_reps, ArrayList list_series){
+    CustomAdapterExercise(Context context, ArrayList list_name, ArrayList list_category, ArrayList list_reps, ArrayList list_series, ArrayList list_img){
         this.context = context;
-        this.workout_name_list = list_name;
-        this.workout_category_list = list_category;
-        this.workout_reps_list = list_reps;
-        this.workout_series_list = list_series;
+        this.exercise_name_list = list_name;
+        this.exercise_category_list = list_category;
+        this.exercise_reps_list = list_reps;
+        this.exercise_series_list = list_series;
+        this.exercise_img_list = list_img;
     }
 
 }

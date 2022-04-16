@@ -3,6 +3,7 @@ package com.example.hciproject;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -34,10 +35,12 @@ public class ExercisePage extends AppCompatActivity {
     public static final String CSERIES_WORKOUT = "workout_series";
     public Menu menu_bar;
     public String filter = "all";
+    public Boolean changes = false;
 
     FloatingActionButton addbtn;
     DBHelper db;
-    ArrayList<String> workout_name_list, workout_category_list, workout_reps_list, workout_series_list;
+    ArrayList<String> exercise_name_list, exercise_category_list, exercise_reps_list, exercise_series_list;
+    ArrayList<Bitmap> exercise_img_list;
     ConstraintLayout layout;
     RecyclerView recyclerView;
     CustomAdapterExercise customAdapterExercise;
@@ -59,8 +62,13 @@ public class ExercisePage extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         //Toast.makeText(FoodPage.this,"resumed",Toast.LENGTH_SHORT).show();
-        storeDataInArrays();
-        customAdapterExercise.notifyDataSetChanged();
+        loadData();
+        if (changes==false) return;
+        else {
+            storeDataInArrays();
+            customAdapterExercise.notifyDataSetChanged();
+        }
+        changes = false;
     }
 
     @Override
@@ -163,30 +171,36 @@ public class ExercisePage extends AppCompatActivity {
             cursor = db.readFilteredExercise(filter);
             //Toast.makeText(ExercisePage.this,filter,Toast.LENGTH_SHORT).show();
         }
-        workout_name_list.clear();
-        workout_category_list.clear();
-        workout_reps_list.clear();
-        workout_series_list.clear();
+        exercise_name_list.clear();
+        exercise_category_list.clear();
+        exercise_reps_list.clear();
+        exercise_series_list.clear();
+        exercise_img_list.clear();
         if ((cursor != null) && (cursor.getCount() == 0)){
             Toast.makeText(ExercisePage.this,"No Data",Toast.LENGTH_SHORT).show();
         }else {
             while ((cursor != null) && (cursor.moveToNext())){
-                workout_name_list.add(cursor.getString(0).toLowerCase());
-                workout_category_list.add(cursor.getString(1).toLowerCase());
-                workout_reps_list.add(cursor.getString(2).toLowerCase());
-                workout_series_list.add(cursor.getString(3).toLowerCase());
+                exercise_name_list.add(cursor.getString(0).toLowerCase());
+                exercise_category_list.add(cursor.getString(1).toLowerCase());
+                exercise_reps_list.add(cursor.getString(2).toLowerCase());
+                exercise_series_list.add(cursor.getString(3).toLowerCase());
+                byte[] img_bytes = cursor.getBlob(4);
+                Bitmap img_bitmap = db.getImage(img_bytes);
+                exercise_img_list.add(img_bitmap);
+
             }
         }
     }
 
     public void buildRecyclerView(){
         db = new DBHelper(this);
-        workout_name_list = new ArrayList<String>();
-        workout_category_list = new ArrayList<String>();
-        workout_reps_list = new ArrayList<String>();
-        workout_series_list = new ArrayList<String>();
+        exercise_name_list = new ArrayList<String>();
+        exercise_category_list = new ArrayList<String>();
+        exercise_reps_list = new ArrayList<String>();
+        exercise_series_list = new ArrayList<String>();
+        exercise_img_list = new ArrayList<Bitmap>();
 
-        customAdapterExercise = new CustomAdapterExercise(ExercisePage.this,workout_name_list, workout_category_list, workout_reps_list, workout_series_list);
+        customAdapterExercise = new CustomAdapterExercise(ExercisePage.this, exercise_name_list, exercise_category_list, exercise_reps_list, exercise_series_list, exercise_img_list);
         recyclerView.setAdapter(customAdapterExercise);
         recyclerView.setLayoutManager(new LinearLayoutManager(ExercisePage.this));
 
@@ -201,7 +215,7 @@ public class ExercisePage extends AppCompatActivity {
             public void onDeleteClick(int position) {
                 String index = String.valueOf(position);
                 //Toast.makeText(FoodPage.this,food_name_list.get(position).toString(),Toast.LENGTH_SHORT).show();
-                Boolean result = db.deleteWorkout(workout_name_list.get(position).toLowerCase());
+                Boolean result = db.deleteExercise(exercise_name_list.get(position).toLowerCase());
                 storeDataInArrays();
                 customAdapterExercise.notifyDataSetChanged();
             }
@@ -209,11 +223,11 @@ public class ExercisePage extends AppCompatActivity {
             @Override
             public void onUpdateClick(int position) {
                 Toast.makeText(ExercisePage.this,"Update",Toast.LENGTH_SHORT).show();
-                String name = workout_name_list.get(position).toLowerCase();
-                String category = workout_category_list.get(position).toLowerCase();
-                String reps = workout_reps_list.get(position).toLowerCase();
-                String series = workout_series_list.get(position).toLowerCase();
-                passFoodData(name,category,reps,series);
+                String name = exercise_name_list.get(position).toLowerCase();
+                String category = exercise_category_list.get(position).toLowerCase();
+                String reps = exercise_reps_list.get(position).toLowerCase();
+                String series = exercise_series_list.get(position).toLowerCase();
+                passData(name,category,reps,series);
                 Intent intent = new Intent(ExercisePage.this, UpdateExercisePage.class);
                 startActivity(intent);
                 return;
@@ -224,14 +238,20 @@ public class ExercisePage extends AppCompatActivity {
     }
 
 
-    public void passFoodData(String name,String category,String reps, String series){
+    public void passData(String name, String category, String reps, String series){
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("workout_name",name);
         editor.putString("workout_category",category);
         editor.putString("workout_reps",reps);
         editor.putString("workout_series",series);
+        editor.putBoolean("exercise_changes",changes);
         editor.apply();
+    }
+
+    public void loadData(){
+        SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
+        changes = sharedPreferences.getBoolean("exercise_changes",true);
     }
 
 }

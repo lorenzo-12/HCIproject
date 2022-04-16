@@ -3,7 +3,6 @@ package com.example.hciproject;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,20 +24,25 @@ public class UpdateExercisePage extends AppCompatActivity implements AdapterView
     Spinner update_spinner_category;
     Button updateWorkoutbtn;
     String update_category_string;
+    Boolean changes = false;
 
     String original_name,original_category,original_reps,original_series;
+
 
     @Override
     public void onBackPressed() {
         Intent i = new Intent();
         Log.d("UpdateFoodPage","onBackPressed");
+        /*
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 finish();
             }
         }, 500);
-
+         */
+        changes = false;
+        Toast.makeText(UpdateExercisePage.this,"Loading",Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -63,6 +68,8 @@ public class UpdateExercisePage extends AppCompatActivity implements AdapterView
             public void onClick(View view) {
                 Boolean result = updateWorkout();
                 //Toast.makeText(UpdateFoodPage.this,result.toString(),Toast.LENGTH_SHORT).show();
+                changes = true;
+                passData();
                 onBackPressed();
             }
         });
@@ -75,6 +82,7 @@ public class UpdateExercisePage extends AppCompatActivity implements AdapterView
         original_category = sharedPreferences.getString("worout_category","other");
         original_reps = sharedPreferences.getString("workout_reps","0");
         original_series = sharedPreferences.getString("workout_series","0");
+        changes = sharedPreferences.getBoolean("exercise_changes",false);
 
         if (update_name != null) update_name.setText(original_name);
         if (update_reps != null) update_reps.setText(original_reps);
@@ -89,6 +97,13 @@ public class UpdateExercisePage extends AppCompatActivity implements AdapterView
             else if (update_category_string.equals("beck")) update_spinner_category.setSelection(6);
             else update_spinner_category.setSelection(7);
         }
+    }
+
+    public void passData(){
+        SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("exercise_changes",changes);
+        editor.apply();
     }
 
     public Boolean updateWorkout(){
@@ -108,9 +123,9 @@ public class UpdateExercisePage extends AppCompatActivity implements AdapterView
         } catch (Exception e1){
             series = 0;
         }
-        Boolean check_delete = db.deleteWorkout(old_name);
+        Boolean check_delete = db.deleteExercise(old_name);
         if (!check_delete) return false;
-        Boolean check_insert = db.addWorkout(new_name,category,reps,series);
+        Boolean check_insert = db.addExercise(new_name,category,reps,series);
         return check_insert;
     }
 

@@ -20,87 +20,77 @@
         android:padding="12dp">
 
         <TextView
-            android:id="@+id/number_txt_workout"
+            android:id="@+id/exercise_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="1"
-            android:textColor="@color/black"
-            android:textSize="40sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.481" />
-
-        <TextView
-            android:id="@+id/workout_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:text="category"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/number_txt_workout"
-            app:layout_constraintTop_toBottomOf="@+id/workout_name" />
+            app:layout_constraintStart_toEndOf="@+id/exercise_img"
+            app:layout_constraintTop_toBottomOf="@+id/exercise_name" />
 
         <TextView
-            android:id="@+id/workout_name"
+            android:id="@+id/exercise_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
             android:text="food"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/number_txt_workout"
+            app:layout_constraintStart_toEndOf="@+id/exercise_img"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/testo_fisso_reps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="120dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:text="reps:"
-            app:layout_constraintStart_toEndOf="@+id/workout_name"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/exercise_img"
+            app:layout_constraintTop_toBottomOf="@+id/exercise_category" />
 
         <TextView
-            android:id="@+id/workout_reps"
+            android:id="@+id/exercise_reps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
             android:text="0"
             app:layout_constraintStart_toEndOf="@+id/testo_fisso_reps"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/exercise_category" />
 
         <TextView
             android:id="@+id/testo_fisso_series"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:text="series:"
-            app:layout_constraintStart_toEndOf="@+id/workout_reps"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/exercise_reps"
+            app:layout_constraintTop_toBottomOf="@+id/exercise_category" />
 
         <TextView
-            android:id="@+id/workout_series"
+            android:id="@+id/exercise_series"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
             android:text="0"
             app:layout_constraintStart_toEndOf="@+id/testo_fisso_series"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/exercise_category" />
 
         <ImageView
             android:id="@+id/delete_workout_img"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
             app:layout_constraintStart_toEndOf="@+id/modify_workout_img"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_baseline_delete_24" />
@@ -109,11 +99,20 @@
             android:id="@+id/modify_workout_img"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginStart="270dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginStart="272dp"
+            android:layout_marginTop="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_baseline_create_24" />
+
+        <ImageView
+            android:id="@+id/exercise_img"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/no_image2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

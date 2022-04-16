@@ -69,16 +69,16 @@ public class UpdateFoodPage extends AppCompatActivity implements AdapterView.OnI
                 Boolean result = updateFood();
                 //Toast.makeText(UpdateFoodPage.this,result.toString(),Toast.LENGTH_SHORT).show();
                 changes = true;
-                passFoodData();
+                passData();
                 onBackPressed();
             }
         });
 
-        loadFoodData();
+        loadData();
 
     }
 
-    public void loadFoodData(){
+    public void loadData(){
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
         original_name = sharedPreferences.getString("food_name","");
         original_category = sharedPreferences.getString("food_category","other");
@@ -103,7 +103,7 @@ public class UpdateFoodPage extends AppCompatActivity implements AdapterView.OnI
 
     }
 
-    public void passFoodData(){
+    public void passData(){
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("food_changes",changes);

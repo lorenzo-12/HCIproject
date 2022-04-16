@@ -1,8 +1,8 @@
 package com.example.hciproject;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,20 +22,24 @@ public class AddExercisePage extends AppCompatActivity implements AdapterView.On
     DBHelper db;
     EditText input_name,input_reps,input_series;
     Spinner input_category_spinner;
-    Button addWorkoutbtn;
+    Button addExercisebtn;
     String input_category;
+    Boolean changes = false;
 
     @Override
     public void onBackPressed() {
         Intent i = new Intent();
         Log.d("AddExercisePage","onBackPressed");
+        /*
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 finish();
             }
         }, 500);
-
+        */
+        passData();
+        changes = false;
     }
 
     @Override
@@ -48,7 +52,7 @@ public class AddExercisePage extends AppCompatActivity implements AdapterView.On
         input_category_spinner = findViewById(R.id.workout_category_spinner);
         input_reps = findViewById(R.id.workout_reps_text);
         input_series = findViewById(R.id.workout_series_text);
-        addWorkoutbtn = findViewById(R.id.addWorkoutbtn);
+        addExercisebtn = findViewById(R.id.addWorkoutbtn);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(AddExercisePage.this,R.array.workout_category_possible, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -56,19 +60,20 @@ public class AddExercisePage extends AppCompatActivity implements AdapterView.On
 
         input_category_spinner.setOnItemSelectedListener(this);
 
-        addWorkoutbtn.setOnClickListener(new View.OnClickListener() {
+        addExercisebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean result = addWorkout();
+                Boolean result = addExercise();
                 Toast.makeText(AddExercisePage.this,result.toString(),Toast.LENGTH_SHORT).show();
+                changes = true;
                 onBackPressed();
             }
         });
     }
 
-    public Boolean addWorkout(){
+    public Boolean addExercise(){
         String name = input_name.getText().toString().toLowerCase();
-        addWorkoutbtn.setEnabled(false);
+        addExercisebtn.setEnabled(false);
 
         String error = "";
         if (name.isEmpty()) {
@@ -79,7 +84,7 @@ public class AddExercisePage extends AppCompatActivity implements AdapterView.On
             Toast.makeText(AddExercisePage.this,"Please insert a category for the exercise",Toast.LENGTH_SHORT).show();
             return false;
         }
-        addWorkoutbtn.setEnabled(true);
+        addExercisebtn.setEnabled(true);
 
         int reps,series;
         try {
@@ -95,13 +100,13 @@ public class AddExercisePage extends AppCompatActivity implements AdapterView.On
             series = 0;
         }
 
-        Boolean check = db.findWorkout(name);
+        Boolean check = db.findExercise(name);
         Boolean result = false;
         if (check){
             Toast.makeText(AddExercisePage.this, "exercise already exist",Toast.LENGTH_SHORT).show();
             return false;
         } else {
-            result = db.addWorkout(name,input_category,reps,series);
+            result = db.addExercise(name,input_category,reps,series);
             return result;
         }
 
@@ -115,6 +120,17 @@ public class AddExercisePage extends AppCompatActivity implements AdapterView.On
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
         input_category = "other";
+    }
+    public void loadData(){
+        SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
+        changes = sharedPreferences.getBoolean("exercise_changes",false);
+    }
+
+    public void passData(){
+        SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("exercise_changes",changes);
+        editor.apply();
     }
 }
 

@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         loadData();
         if (insertFood == false) {
             db.addExistingFood();
+            db.addExistingExercise();
             insertFood = true;
             saveData();
         }

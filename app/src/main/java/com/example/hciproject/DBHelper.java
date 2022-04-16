@@ -36,10 +36,11 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CCATEGORY_EXERCISE = "exercise_category";
     public static final String CREPS_EXERCISE = "exercise_reps";
     public static final String CSERIES_EXERCISE = "exercise_series";
+    public static final String CIMG_EXERCISE = "exercise_img";
 
     public static final String CREATE_USER_TABLE = "CREATE TABLE "+USER_TABLE+" ("+CUSERNAME+" TEXT PRIMARY KEY, "+CPASSWORD+" TEXT NOT NULL, "+CIMG_USER+" BLOB );";
     public static final String CREATE_FOOD_TABLE = "CREATE TABLE "+FOOD_TABLE+" ("+CNAME_FOOD+" TEXT PRIMARY KEY, "+CCATEGORY_FOOD+" TEXT, "+CCARB+" INTEGER, "+CPROT+" INTEGER, "+CFAT+" INTEGER, "+CIMG_FOOD+" BLOB );";
-    public static final String CREATE_WORKOUT_TABLE = "CREATE TABLE "+ EXERCISE_TABLE +" ("+ CNAME_EXERCISE +" TEXT PRIMARY KEY, "+ CCATEGORY_EXERCISE +" TEXT, "+ CREPS_EXERCISE +" INTEGER, "+ CSERIES_EXERCISE +" INTEGER);";
+    public static final String CREATE_EXERCISE_TABLE = "CREATE TABLE "+ EXERCISE_TABLE +" ("+ CNAME_EXERCISE +" TEXT PRIMARY KEY, "+ CCATEGORY_EXERCISE +" TEXT, "+ CREPS_EXERCISE +" INTEGER, "+ CSERIES_EXERCISE +" INTEGER, "+CIMG_EXERCISE+" BLOB );";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -62,7 +63,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_USER_TABLE);
         db.execSQL(CREATE_FOOD_TABLE);
-        db.execSQL(CREATE_WORKOUT_TABLE);
+        db.execSQL(CREATE_EXERCISE_TABLE);
     }
 
     @Override
@@ -72,21 +73,44 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+ EXERCISE_TABLE);
     }
 
-    public Boolean addWorkout(String name,String category,int reps, int series){
+    public Boolean addExercise(String name, String category, int reps, int series){
+        boolean exist = findFood(name);
+        if (exist == true) return false;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put(CNAME_EXERCISE,name);
+        Bitmap img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.no_image2);
+        byte[] img_bytes = getBytes(img_bitmap);
+
+        cv.put(CNAME_EXERCISE,name.toLowerCase());
         cv.put(CCATEGORY_EXERCISE,category);
         cv.put(CREPS_EXERCISE,reps);
         cv.put(CSERIES_EXERCISE,series);
+        cv.put(CIMG_EXERCISE,img_bytes);
 
         long result = db.insert(EXERCISE_TABLE,null,cv);
         if (result == -1) return false;
         return true;
     }
 
-    public Boolean updateWorkout(String name,String category,int reps,int series){
+    public Boolean addExercise(String name, String category, int reps, int series, byte[] img){
+        boolean exist = findFood(name);
+        if (exist == true) return false;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(CNAME_EXERCISE,name.toLowerCase());
+        cv.put(CCATEGORY_EXERCISE,category);
+        cv.put(CREPS_EXERCISE,reps);
+        cv.put(CSERIES_EXERCISE,series);
+        cv.put(CIMG_EXERCISE,img);
+
+        long result = db.insert(EXERCISE_TABLE,null,cv);
+        if (result == -1) return false;
+        return true;
+    }
+
+    public Boolean updateExercise(String name, String category, int reps, int series){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(CCATEGORY_EXERCISE,category);
@@ -103,7 +127,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Boolean deleteWorkout(String name){
+    public Boolean deleteExercise(String name){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + EXERCISE_TABLE + " WHERE exercise_name = ? ", new String[]{name});
         if (cursor.getCount() > 0) {
@@ -117,7 +141,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public Cursor readAllDataExercise(){
-        String  query = "SELECT * FROM "+ EXERCISE_TABLE;
+        String  query = "SELECT * FROM "+ EXERCISE_TABLE + " ORDER BY "+CNAME_EXERCISE;
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
@@ -128,7 +152,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public Cursor readFilteredExercise(String filter){
-        String query = "SELECT * FROM "+ EXERCISE_TABLE +" WHERE exercise_category=?";
+        String query = "SELECT * FROM "+ EXERCISE_TABLE +" WHERE exercise_category=?"+ " ORDER BY "+CNAME_EXERCISE;;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;
         if (db != null){
@@ -137,7 +161,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public Boolean findWorkout(String name){
+    public Boolean findExercise(String name){
         String query = "SELECT * FROM "+ EXERCISE_TABLE +" WHERE exercise_name=?";
         SQLiteDatabase db = this.getReadableDatabase();
         if (db == null) return false;
@@ -162,7 +186,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        Bitmap img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.apples);
+        Bitmap img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.no_image2);
         byte[] img_bytes = getBytes(img_bitmap);
 
         cv.put(CNAME_FOOD,name.toLowerCase());
@@ -268,7 +292,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        Bitmap img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.apples);
+        Bitmap img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.no_image2);
         byte[] img_bytes = getBytes(img_bitmap);
 
         cv.put(CUSERNAME,username);
@@ -347,12 +371,18 @@ public class DBHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    //funzione per inserire i cibi di base.
-    //private poichè deve essere chiamata solamente alla creazione del database
-    public void addExistingFood() {
+    public void addExistingExercise(){
         Bitmap img_bitmap;
         byte[] img_bytes;
 
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.no_image2);
+        img_bytes = getBytes(img_bitmap);
+        addExercise("Test","Chest",3,1,img_bytes);
+    }
+
+    public void addExistingFood() {
+        Bitmap img_bitmap;
+        byte[] img_bytes;
 
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.tomatoes);
         img_bytes = getBytes(img_bitmap);

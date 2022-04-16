@@ -38,7 +38,7 @@ public class AddFoodPage extends AppCompatActivity implements AdapterView.OnItem
             }
         }, 0);
          */
-        passFoodData();
+        passData();
         changes = false;
     }
 
@@ -134,12 +134,12 @@ public class AddFoodPage extends AppCompatActivity implements AdapterView.OnItem
         input_category = "other";
     }
 
-    public void loadFoodData(){
+    public void loadData(){
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
         changes = sharedPreferences.getBoolean("food_changes",false);
     }
 
-    public void passFoodData(){
+    public void passData(){
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("food_changes",changes);
