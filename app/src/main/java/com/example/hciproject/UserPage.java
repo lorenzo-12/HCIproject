@@ -3,6 +3,7 @@ package com.example.hciproject;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 
 public class UserPage extends AppCompatActivity {
@@ -236,9 +238,29 @@ public class UserPage extends AppCompatActivity {
                 debug2.setText(res);
             }
         });
+
         loadData();
         updateButtons();
         debug.setText(user_logged);
+
+        if (!user_logged.equals("none")){
+            Bitmap b = loadImage(user_logged.toLowerCase());
+            image.setImageBitmap(b);
+        }
+    }
+
+    public Bitmap loadImage(String name){
+        name = name + ".jpg";
+        FileInputStream fileInputStream;
+        Bitmap bitmap = null;
+        try{
+            fileInputStream = this.openFileInput(name);
+            bitmap = BitmapFactory.decodeStream(fileInputStream);
+            fileInputStream.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 
     @Override
