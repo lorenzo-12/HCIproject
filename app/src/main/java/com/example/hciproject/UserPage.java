@@ -2,8 +2,11 @@ package com.example.hciproject;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -13,11 +16,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import java.io.IOException;
 
 public class UserPage extends AppCompatActivity {
 
@@ -26,6 +33,7 @@ public class UserPage extends AppCompatActivity {
     public static final String CUSERNAME = "username";
     public static final String CPASSWORD = "password";
     public static final String USER_LOGGED = "user_logged";
+    public static final int PICK_IMAGE = 1;
     public String user_logged;
     public Boolean lightmode;
     public Menu menu_bar;
@@ -33,9 +41,12 @@ public class UserPage extends AppCompatActivity {
 
     ConstraintLayout layout;
     EditText username,password;
-    Button login,signup;
+    Button login,signup,select;
+    ImageView image;
     TextView debug,debug2;
     DBHelper db;
+    Uri imageuri;
+    Bitmap image_bitmap;
 
 
     @Override
@@ -149,6 +160,19 @@ public class UserPage extends AppCompatActivity {
         username.addTextChangedListener(resetTextWatcher);
         password.addTextChangedListener(resetTextWatcher);
 
+        image = findViewById(R.id.userimageview);
+        select = findViewById(R.id.selectimagebtn);
+
+        select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+            }
+        });
+
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -208,7 +232,21 @@ public class UserPage extends AppCompatActivity {
         debug.setText(user_logged);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode==PICK_IMAGE && resultCode==RESULT_OK && data!=null && data.getData()!=null){
+            imageuri = data.getData();
+            try {
+                image_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imageuri);
+                image.setImageBitmap(image_bitmap);
+            } catch (IOException e) {
+                image.setImageDrawable(getDrawable(R.drawable.no_image2));
+            }
+        }
+    }
+    
     @Override
     protected void onResume() {
         super.onResume();
