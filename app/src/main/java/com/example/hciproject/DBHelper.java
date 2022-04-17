@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import com.example.App;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -50,15 +51,29 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void saveImage(Bitmap bitmap, String name){
-        name = name + ".jpg";
+        name = name + ".png";
         FileOutputStream fileOutputStream;
         try {
             fileOutputStream = context.openFileOutput(name, Context.MODE_PRIVATE);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fileOutputStream);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
             fileOutputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public Bitmap loadImage(String name){
+        name = name + ".png";
+        FileInputStream fileInputStream;
+        Bitmap bitmap = null;
+        try{
+            fileInputStream = context.openFileInput(name);
+            bitmap = BitmapFactory.decodeStream(fileInputStream);
+            fileInputStream.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 
     // convert from bitmap to byte array
@@ -202,6 +217,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         Bitmap img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.no_image2);
         byte[] img_bytes = getBytes(img_bitmap);
+        saveImage(img_bitmap,name.toLowerCase());
 
         cv.put(CNAME_FOOD,name.toLowerCase());
         cv.put(CCATEGORY_FOOD,category);
@@ -214,18 +230,39 @@ public class DBHelper extends SQLiteOpenHelper {
         if (result == -1) return false;
         return true;
     }
-    public Boolean addFood(String name, String category, int carb, int prot, int fat, byte[] img){
+
+    public Boolean addFood(String name, String category, int carb, int prot, int fat, Bitmap img){
         boolean exist = findFood(name);
         if (exist == true) return false;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
+        saveImage(img,name.toLowerCase());
 
         cv.put(CNAME_FOOD,name.toLowerCase());
         cv.put(CCATEGORY_FOOD,category);
         cv.put(CCARB,carb);
         cv.put(CPROT,prot);
         cv.put(CFAT,fat);
-        cv.put(CIMG_FOOD,img);
+        //cv.put(CIMG_FOOD,img);
+
+        long result = db.insert(FOOD_TABLE,null,cv);
+        if (result == -1) return false;
+        return true;
+    }
+
+    public Boolean addFood(String name, String category, int carb, int prot, int fat, byte[] img){
+        boolean exist = findFood(name);
+        if (exist == true) return false;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        saveImage(getImage(img),name.toLowerCase());
+
+        cv.put(CNAME_FOOD,name.toLowerCase());
+        cv.put(CCATEGORY_FOOD,category);
+        cv.put(CCARB,carb);
+        cv.put(CPROT,prot);
+        cv.put(CFAT,fat);
+        //cv.put(CIMG_FOOD,img);
 
         long result = db.insert(FOOD_TABLE,null,cv);
         if (result == -1) return false;
@@ -413,194 +450,132 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void addExistingFood() {
         Bitmap img_bitmap;
-        byte[] img_bytes;
-
+        
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.tomatoes);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Tomatoes","FruitVegetable",3,1,0,img_bytes);
+        addFood("Tomatoes","FruitVegetable",3,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.bananas);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Bananas","FruitVegetable",27,1,0,img_bytes);
+        addFood("Bananas","FruitVegetable",27,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.watermelons);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Watermelons","FruitVegetable",11,1,0,img_bytes);
+        addFood("Watermelons","FruitVegetable",11,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.apples);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Apples","FruitVegetable",25,1,0,img_bytes);
+        addFood("Apples","FruitVegetable",25,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.oranges);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Oranges","FruitVegetable",16,1,0,img_bytes);
+        addFood("Oranges","FruitVegetable",16,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.mangoes);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Mangoes","fruitvegetabeles",25,1,1,img_bytes);
+        addFood("Mangoes","fruitvegetabeles",25,1,1,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.pears);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Pears","FruitVegetable",27,1,0,img_bytes);
+        addFood("Pears","FruitVegetable",27,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.avocadoes);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Avocadoes","FruitVegetable",8,2,15,img_bytes);
+        addFood("Avocadoes","FruitVegetable",8,2,15,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.grapes);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Grapes","FruitVegetable",14,1,0,img_bytes);
+        addFood("Grapes","FruitVegetable",14,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.pineapples);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Pineapples","FruitVegetable",13,1,0,img_bytes);
+        addFood("Pineapples","FruitVegetable",13,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.melons);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Melons","FruitVegetable",8,1,0,img_bytes);
+        addFood("Melons","FruitVegetable",8,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.peaches);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Peaches","FruitVegetable",12,1,0,img_bytes);
+        addFood("Peaches","FruitVegetable",12,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.lemons);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Lemons","FruitVegetable",9,1,0,img_bytes);
+        addFood("Lemons","FruitVegetable",9,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.plums);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Plums","FruitVegetable",7,1,0,img_bytes);
+        addFood("Plums","FruitVegetable",7,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.strawberries);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Strawberries","FruitVegetable",8,1,0,img_bytes);
+        addFood("Strawberries","FruitVegetable",8,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.blueberry);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Blueberry","FruitVegetable",14,1,0,img_bytes);
+        addFood("Blueberry","FruitVegetable",14,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.blackberry);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Blackberry","FruitVegetable",14,2,1,img_bytes);
+        addFood("Blackberry","FruitVegetable",14,2,1,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.coconut);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Coconut","FruitVegetable",10,3,27,img_bytes);
+        addFood("Coconut","FruitVegetable",10,3,27,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.kiwi);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Kiwi","FruitVegetable",10,1,0,img_bytes);
+        addFood("Kiwi","FruitVegetable",10,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.pomegranate);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Pomegranate","FruitVegetable",19,2,1,img_bytes);
+        addFood("Pomegranate","FruitVegetable",19,2,1,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.cherry);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Cherry","FruitVegetable",13,1,0,img_bytes);
+        addFood("Cherry","FruitVegetable",13,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.cucumber);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Cucumber","FruitVegetable",4,1,0,img_bytes);
+        addFood("Cucumber","FruitVegetable",4,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.potatoes);
-        img_bytes = getBytes(img_bitmap);
-        addFood("potatoes","FruitVegetable",20,3,0,img_bytes);
+        addFood("potatoes","FruitVegetable",20,3,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.potatoes);
-        img_bytes = getBytes(img_bitmap);
-        addFood("onions","FruitVegetable",9,1,0,img_bytes);
+        addFood("onions","FruitVegetable",9,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.carrots);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Carrots","FruitVegetable",9,1,0,img_bytes);
+        addFood("Carrots","FruitVegetable",9,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.lettuce);
-        img_bytes = getBytes(img_bitmap);
-        addFood("lettuce","FruitVegetable",3,1,0,img_bytes);
+        addFood("lettuce","FruitVegetable",3,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.bellpeppers);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Bellpeppers","FruitVegetable",7,1,0,img_bytes);
+        addFood("Bellpeppers","FruitVegetable",7,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.cherry);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Cherry","FruitVegetable",13,1,0,img_bytes);
+        addFood("Cherry","FruitVegetable",13,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.salad);
-        img_bytes = getBytes(img_bitmap);
-        addFood("salad","FruitVegetable",4,1,0,img_bytes);
+        addFood("salad","FruitVegetable",4,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.mushrooms);
-        img_bytes = getBytes(img_bitmap);
-        addFood("mushrooms","FruitVegetable",6,3,1,img_bytes);
+        addFood("mushrooms","FruitVegetable",6,3,1,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.corn);
-        img_bytes = getBytes(img_bitmap);
-        addFood("corn","FruitVegetable",22,3,2,img_bytes);
+        addFood("corn","FruitVegetable",22,3,2,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.spinach);
-        img_bytes = getBytes(img_bitmap);
-        addFood("spinach","FruitVegetable",4,3,0,img_bytes);
+        addFood("spinach","FruitVegetable",4,3,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.greenbeans);
-        img_bytes = getBytes(img_bitmap);
-        addFood("greenbeans","FruitVegetable",9,2,0,img_bytes);
+        addFood("greenbeans","FruitVegetable",9,2,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.cabbage);
-        img_bytes = getBytes(img_bitmap);
-        addFood("cabbage","FruitVegetable",4,1,0,img_bytes);
+        addFood("cabbage","FruitVegetable",4,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.broccoli);
-        img_bytes = getBytes(img_bitmap);
-        addFood("broccoli","FruitVegetable",6,3,0,img_bytes);
+        addFood("broccoli","FruitVegetable",6,3,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.pork);
-        img_bytes = getBytes(img_bitmap);
-        addFood("pork","MeatFisheggs",0,29,16,img_bytes);
+        addFood("pork","MeatFisheggs",0,29,16,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.beef);
-        img_bytes = getBytes(img_bitmap);
-        addFood("beef","MeatFisheggs",0,29,18,img_bytes);
+        addFood("beef","MeatFisheggs",0,29,18,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.lamb);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Lamb","MeatFisheggs",0,28,24,img_bytes);
+        addFood("Lamb","MeatFisheggs",0,28,24,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.chicken);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Chicken","MeatFisheggs",0,26,14,img_bytes);
+        addFood("Chicken","MeatFisheggs",0,26,14,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.turkey);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Turkey","MeatFisheggs",0,32,8,img_bytes);
+        addFood("Turkey","MeatFisheggs",0,32,8,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.duck);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Duck","MeatFisheggs",0,19,28,img_bytes);
+        addFood("Duck","MeatFisheggs",0,19,28,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.sausage);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Sausage","MeatFisheggs",1,12,28,img_bytes);
+        addFood("Sausage","MeatFisheggs",1,12,28,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.wrustel);
-        img_bytes = getBytes(img_bitmap);
-        addFood("wrustel","MeatFisheggs",0,11,28,img_bytes);
+        addFood("wrustel","MeatFisheggs",0,11,28,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.butter);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Butter","Dairy",0,1,84,img_bytes);
+        addFood("Butter","Dairy",0,1,84,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.chees);
-        img_bytes = getBytes(img_bitmap);
-        addFood("cheese","Dairy",3,25,37,img_bytes);
+        addFood("cheese","Dairy",3,25,37,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.yogurt);
-        img_bytes = getBytes(img_bitmap);
-        addFood("yogurt","Dairy",6,5,2,img_bytes);
+        addFood("yogurt","Dairy",6,5,2,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.milk);
-        img_bytes = getBytes(img_bitmap);
-        addFood("Milk","Dairy",6,4,2,img_bytes);
+        addFood("Milk","Dairy",6,4,2,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.bluecheese);
-        img_bytes = getBytes(img_bitmap);
-        addFood("bluecheese","Dairy",2,24,32,img_bytes);
+        addFood("bluecheese","Dairy",2,24,32,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.cheddar);
-        img_bytes = getBytes(img_bitmap);
-        addFood("cheddar","Dairy",3,26,37,img_bytes);
+        addFood("cheddar","Dairy",3,26,37,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.mozzarella);
-        img_bytes = getBytes(img_bitmap);
-        addFood("mozzarella","Dairy",2,25,25,img_bytes);
+        addFood("mozzarella","Dairy",2,25,25,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.parmesan);
-        img_bytes = getBytes(img_bitmap);
-        addFood("parmesan","Dairy",14,28,28,img_bytes);
+        addFood("parmesan","Dairy",14,28,28,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.bread);
-        img_bytes = getBytes(img_bitmap);
-        addFood("bread","Cereal",48,13,2,img_bytes);
+        addFood("bread","Cereal",48,13,2,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.kellogs);
-        img_bytes = getBytes(img_bitmap);
-        addFood("cornflakes","Cereal",73,19,2,img_bytes);
+        addFood("cornflakes","Cereal",73,19,2,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.pasta);
-        img_bytes = getBytes(img_bitmap);
-        addFood("pasta","Cereal",80,7,2,img_bytes);
+        addFood("pasta","Cereal",80,7,2,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.spaghetti);
-        img_bytes = getBytes(img_bitmap);
-        addFood("spaghetti","Cereal",74,13,1,img_bytes);
+        addFood("spaghetti","Cereal",74,13,1,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.rice);
-        img_bytes = getBytes(img_bitmap);
-        addFood("rice","Cereal",28,2,0,img_bytes);
+        addFood("rice","Cereal",28,2,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.ricecake);
-        img_bytes = getBytes(img_bitmap);
-        addFood("ricecake","Cereal",81,8,3,img_bytes);
+        addFood("ricecake","Cereal",81,8,3,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.corn);
-        img_bytes = getBytes(img_bitmap);
-        addFood("corn","Cereal",74,10,5,img_bytes);
+        addFood("corn","Cereal",74,10,5,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.rusk);
-        img_bytes = getBytes(img_bitmap);
-        addFood("rusk","Cereal",72,13,7,img_bytes);
+        addFood("rusk","Cereal",72,13,7,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.biscuits1);
-        img_bytes = getBytes(img_bitmap);
-        addFood("biscuit1","Cereal",70,7,10,img_bytes);
+        addFood("biscuit1","Cereal",70,7,10,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.biscuits2);
-        img_bytes = getBytes(img_bitmap);
-        addFood("cookie","Cereal",60,5,27,img_bytes);
+        addFood("cookie","Cereal",60,5,27,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.oreo);
-        img_bytes = getBytes(img_bitmap);
-        addFood("oreo","Cereal",68,5,19,img_bytes);
+        addFood("oreo","Cereal",68,5,19,img_bitmap);
+
     }
 
 }

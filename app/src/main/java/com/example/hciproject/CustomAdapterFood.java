@@ -20,6 +20,7 @@ public class CustomAdapterFood extends RecyclerView.Adapter<CustomAdapterFood.My
     Context context;
     ArrayList<String> food_name_list, food_category_list, food_carb_list, food_prot_list, food_fat_list;
     ArrayList<Bitmap> food_img_list;
+    DBHelper db;
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -47,6 +48,7 @@ public class CustomAdapterFood extends RecyclerView.Adapter<CustomAdapterFood.My
             mdeletebtn = itemView.findViewById(R.id.delete_food_img);
             mupdatebtn = itemView.findViewById(R.id.modify_food_img);
             food_img = itemView.findViewById(R.id.food_img);
+            db = new DBHelper(context);
 
             mupdatebtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -102,7 +104,10 @@ public class CustomAdapterFood extends RecyclerView.Adapter<CustomAdapterFood.My
         holder.carb_txt.setText(String.valueOf(food_carb_list.get(position)));
         holder.prot_txt.setText(String.valueOf(food_prot_list.get(position)));
         holder.fat_txt.setText(String.valueOf(food_fat_list.get(position)));
-        holder.food_img.setImageBitmap(food_img_list.get(position));
+        //holder.food_img.setImageResource(context.getResources().getIdentifier(String.valueOf(food_name_list.get(position)), "drawable", context.getPackageName()));
+        Bitmap b = db.loadImage(String.valueOf(food_name_list.get(position)));
+        holder.food_img.setImageBitmap(b);
+        //holder.food_img.setImageBitmap(food_img_list.get(position));
 
     }
 

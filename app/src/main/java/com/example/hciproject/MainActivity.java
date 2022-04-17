@@ -3,7 +3,6 @@ package com.example.hciproject;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,8 +11,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-
-import java.io.FileInputStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -93,32 +90,21 @@ public class MainActivity extends AppCompatActivity {
         loadData();
         debug.setText("User: "+user_logged);
 
+        userView.setImageResource(R.drawable.no_image2);
         db = new DBHelper(this);
-        if (!user_logged.equals("none")){
-            Bitmap b = loadImage(user_logged.toLowerCase());
+        if (!user_logged.equals("none") || true){
+            Bitmap b = db.loadImage(user_logged.toLowerCase());
             userView.setImageBitmap(b);
         }
         loadData();
         if (insertFood == false) {
+            debug.setText("food_inserted = false");
             db.addExistingFood();
             db.addExistingExercise();
             insertFood = true;
             saveData();
         }
-    }
-
-    public Bitmap loadImage(String name){
-        name = name + ".jpg";
-        FileInputStream fileInputStream;
-        Bitmap bitmap = null;
-        try{
-            fileInputStream = this.openFileInput(name);
-            bitmap = BitmapFactory.decodeStream(fileInputStream);
-            fileInputStream.close();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-        return bitmap;
+        else debug.setText("food_inserted = true");
     }
 
     //relative funzioni che vengono chiamete quando premiamo un bottone
