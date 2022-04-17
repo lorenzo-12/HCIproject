@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import com.example.App;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -22,6 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CUSERNAME = "username";
     public static final String CPASSWORD = "password";
     public static final String CIMG_USER = "user_img";
+    public static final String CUSER_PATH = "img_path";
 
     public static final String FOOD_TABLE = "food";
     public static final String CNAME_FOOD = "food_name";
@@ -38,13 +40,25 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CSERIES_EXERCISE = "exercise_series";
     public static final String CIMG_EXERCISE = "exercise_img";
 
-    public static final String CREATE_USER_TABLE = "CREATE TABLE "+USER_TABLE+" ("+CUSERNAME+" TEXT PRIMARY KEY, "+CPASSWORD+" TEXT NOT NULL, "+CIMG_USER+" BLOB );";
+    public static final String CREATE_USER_TABLE = "CREATE TABLE "+USER_TABLE+" ("+CUSERNAME+" TEXT PRIMARY KEY, "+CPASSWORD+" TEXT NOT NULL, "+CIMG_USER+" BLOB, "+CUSER_PATH+" TEXT );";
     public static final String CREATE_FOOD_TABLE = "CREATE TABLE "+FOOD_TABLE+" ("+CNAME_FOOD+" TEXT PRIMARY KEY, "+CCATEGORY_FOOD+" TEXT, "+CCARB+" INTEGER, "+CPROT+" INTEGER, "+CFAT+" INTEGER, "+CIMG_FOOD+" BLOB );";
     public static final String CREATE_EXERCISE_TABLE = "CREATE TABLE "+ EXERCISE_TABLE +" ("+ CNAME_EXERCISE +" TEXT PRIMARY KEY, "+ CCATEGORY_EXERCISE +" TEXT, "+ CREPS_EXERCISE +" INTEGER, "+ CSERIES_EXERCISE +" INTEGER, "+CIMG_EXERCISE+" BLOB );";
 
-    public DBHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public DBHelper(Context ctx) {
+        super(ctx, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = ctx;
+    }
 
+    public void saveImage(Bitmap bitmap, String name){
+        name = name + ".jpg";
+        FileOutputStream fileOutputStream;
+        try {
+            fileOutputStream = context.openFileOutput(name, Context.MODE_PRIVATE);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fileOutputStream);
+            fileOutputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // convert from bitmap to byte array
@@ -298,6 +312,23 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(CUSERNAME,username);
         cv.put(CPASSWORD,password);
         cv.put(CIMG_USER, img_bytes);
+
+        long result = db.insert(USER_TABLE,null,cv);
+        if (result == -1) return false;
+        return true;
+    }
+
+    public Boolean addUser(String username,String password,Bitmap img){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        byte[] img_bytes = getBytes(img);
+        saveImage(img,username);
+
+        cv.put(CUSERNAME,username);
+        cv.put(CPASSWORD,password);
+        cv.put(CIMG_USER, img_bytes);
+        //cv.put(CUSER_PATH,path);
 
         long result = db.insert(USER_TABLE,null,cv);
         if (result == -1) return false;

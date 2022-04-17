@@ -3,6 +3,7 @@ package com.example.hciproject;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -185,7 +186,15 @@ public class UserPage extends AppCompatActivity {
                     return;
                 }
 
-                Boolean check = db.addUser(usr,psw);
+                Boolean check;
+                try {
+                    BitmapDrawable bd = (BitmapDrawable) image.getDrawable();
+                    image_bitmap = bd.getBitmap();
+                    check = db.addUser(usr,psw,image_bitmap);
+                } catch (Exception e){
+                    check = db.addUser(usr,psw);
+                }
+
                 if (check){
                     Toast.makeText(UserPage.this,"OK",Toast.LENGTH_SHORT).show();
                     user_logged = usr;
@@ -246,7 +255,7 @@ public class UserPage extends AppCompatActivity {
             }
         }
     }
-    
+
     @Override
     protected void onResume() {
         super.onResume();

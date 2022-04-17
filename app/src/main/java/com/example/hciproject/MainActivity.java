@@ -2,27 +2,30 @@ package com.example.hciproject;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import java.io.FileInputStream;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String USER_LOGGED = "user_logged";
     public String user_logged;
+    public String user_img_path;
     Boolean insertFood = false;
 
 
     //variabili globali usate dalla Main page
     Button workoutActivitybtn, diaryActivitybtn, FoodActivitybtn,timerbtn;
-    ImageButton userbtn;
+    ImageView userView;
     ConstraintLayout layout;
     Button debug;
     DBHelper db;
@@ -48,13 +51,13 @@ public class MainActivity extends AppCompatActivity {
         diaryActivitybtn = findViewById(R.id.DiaryButton);
         FoodActivitybtn = findViewById(R.id.FoodButton);
         timerbtn = findViewById(R.id.TimerButton);
-        userbtn = findViewById(R.id.userbutton);
+        userView = findViewById(R.id.userbutton);
         debug = findViewById(R.id.buttondebug);
 
 
         //setto per ogni bottone la rispttiva funzione ONCLICK
 
-        userbtn.setOnClickListener(new View.OnClickListener() {
+        userView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) { openactivityuser();}
         });
@@ -92,16 +95,8 @@ public class MainActivity extends AppCompatActivity {
 
         db = new DBHelper(this);
         if (!user_logged.equals("none")){
-            Cursor cursor = db.readAllDataUser();
-            if (cursor!=null && cursor.getCount()>0){
-                while (cursor.moveToNext()){
-                    if (cursor.getString(0).equals(user_logged)){
-                        byte[] img_bytes = cursor.getBlob(2);
-                        Bitmap img_b = db.getImage(img_bytes);
-                        userbtn.setImageBitmap(img_b);
-                    }
-                }
-            }
+            Bitmap b = loadImage(user_logged.toLowerCase());
+            userView.setImageBitmap(b);
         }
         loadData();
         if (insertFood == false) {
@@ -110,6 +105,20 @@ public class MainActivity extends AppCompatActivity {
             insertFood = true;
             saveData();
         }
+    }
+
+    public Bitmap loadImage(String name){
+        name = name + ".jpg";
+        FileInputStream fileInputStream;
+        Bitmap bitmap = null;
+        try{
+            fileInputStream = this.openFileInput(name);
+            bitmap = BitmapFactory.decodeStream(fileInputStream);
+            fileInputStream.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 
     //relative funzioni che vengono chiamete quando premiamo un bottone

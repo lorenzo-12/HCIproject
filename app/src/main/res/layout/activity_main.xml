@@ -51,20 +51,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.479"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.862" />
-
-    <ImageButton
-        android:id="@+id/userbutton"
-        android:layout_width="87dp"
-        android:layout_height="79dp"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.481"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/user_login_img" />
+        app:layout_constraintTop_toBottomOf="@+id/userbutton"
+        app:layout_constraintVertical_bias="0.719" />
 
     <Button
         android:id="@+id/buttondebug"
@@ -77,5 +65,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.322" />
+
+    <ImageView
+        android:id="@+id/userbutton"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="44dp"
+        android:scaleType="fitXY"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@+id/ExerciseButton"
+        app:layout_constraintStart_toEndOf="@+id/FoodButton"
+        app:layout_constraintTop_toBottomOf="@+id/buttondebug"
+        app:srcCompat="@drawable/no_image2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
