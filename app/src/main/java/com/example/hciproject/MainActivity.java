@@ -2,7 +2,6 @@ package com.example.hciproject;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -90,21 +89,18 @@ public class MainActivity extends AppCompatActivity {
         loadData();
         debug.setText("User: "+user_logged);
 
-        userView.setImageResource(R.drawable.no_image2);
         db = new DBHelper(this);
-        if (!user_logged.equals("none") || true){
-            Bitmap b = db.loadImage(user_logged.toLowerCase());
-            userView.setImageBitmap(b);
+        if (!user_logged.equals("none")) {
+            userView.setImageBitmap(db.loadImage(user_logged));
         }
-        loadData();
+        else userView.setImageResource(R.drawable.no_image2);
+
         if (insertFood == false) {
-            debug.setText("food_inserted = false");
             db.addExistingFood();
             db.addExistingExercise();
             insertFood = true;
             saveData();
         }
-        else debug.setText("food_inserted = true");
     }
 
     //relative funzioni che vengono chiamete quando premiamo un bottone

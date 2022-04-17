@@ -36,11 +36,12 @@ public class UserPage extends AppCompatActivity {
     public static final String CUSERNAME = "username";
     public static final String CPASSWORD = "password";
     public static final String USER_LOGGED = "user_logged";
-    public static final int PICK_IMAGE = 1;
+    public static final int SELECT_IMAGE = 1;
+    public static final int CHANGE_IMAGE = 2;
     public String user_logged;
     public Boolean lightmode;
     public Menu menu_bar;
-
+    public Boolean image_selected = false;
 
     ConstraintLayout layout;
     EditText username,password;
@@ -50,6 +51,7 @@ public class UserPage extends AppCompatActivity {
     DBHelper db;
     Uri imageuri;
     Bitmap image_bitmap;
+
 
 
     @Override
@@ -138,8 +140,6 @@ public class UserPage extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-
-
     }
 
 
@@ -172,7 +172,14 @@ public class UserPage extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+                if (select.getText().toString().equals("select image")){
+                    select.setText("change image");
+                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_IMAGE);
+                }
+                else if (select.getText().toString().equals("change image")){
+                    startActivityForResult(Intent.createChooser(intent,"Change Picture"), CHANGE_IMAGE);
+                }
+
             }
         });
 
@@ -243,9 +250,11 @@ public class UserPage extends AppCompatActivity {
         updateButtons();
         debug.setText(user_logged);
 
+        select.setText("select image");
         if (!user_logged.equals("none")){
             Bitmap b = loadImage(user_logged.toLowerCase());
             image.setImageBitmap(b);
+            select.setText("change image");
         }
     }
 
@@ -267,11 +276,25 @@ public class UserPage extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode==PICK_IMAGE && resultCode==RESULT_OK && data!=null && data.getData()!=null){
+        if (requestCode==SELECT_IMAGE && resultCode==RESULT_OK && data!=null && data.getData()!=null){
             imageuri = data.getData();
             try {
                 image_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imageuri);
                 image.setImageBitmap(image_bitmap);
+                if (user_logged.equals("none")) select.setEnabled(false);
+                image_selected=true;
+            } catch (IOException e) {
+                image.setImageDrawable(getDrawable(R.drawable.no_image2));
+            }
+        }
+
+        else if (requestCode==CHANGE_IMAGE && resultCode==RESULT_OK && data!=null && data.getData()!=null){
+            imageuri = data.getData();
+            try {
+                image_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imageuri);
+                image.setImageBitmap(image_bitmap);
+                db.deleteImage(user_logged);
+                db.saveImage(image_bitmap,user_logged);
             } catch (IOException e) {
                 image.setImageDrawable(getDrawable(R.drawable.no_image2));
             }
@@ -296,6 +319,8 @@ public class UserPage extends AppCompatActivity {
         updateButtons();
         String res = db.viewUsers();
         debug2.setText(res);
+        if (!user_logged.equals("none")) image.setImageBitmap(db.loadImage(user_logged));
+        else if (user_logged.equals("none") && image_selected==false) image.setImageResource(R.drawable.no_image2);
     }
 
     public TextWatcher resetTextWatcher = new TextWatcher() {
@@ -371,6 +396,8 @@ public class UserPage extends AppCompatActivity {
             login.setEnabled(false);
             signup.setEnabled(false);
         }
+
+        if (!user_logged.equals("none")) select.setEnabled(true);
 
     }
 
