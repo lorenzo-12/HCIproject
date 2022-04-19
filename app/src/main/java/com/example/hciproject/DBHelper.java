@@ -404,7 +404,6 @@ public class DBHelper extends SQLiteOpenHelper {
         addFood("Watermelons","FruitVegetable",11,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.apples);
         addFood("Apples","FruitVegetable",25,1,0,img_bitmap);
-        /*
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.oranges);
         addFood("Oranges","FruitVegetable",16,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.mangoes);
@@ -521,8 +520,6 @@ public class DBHelper extends SQLiteOpenHelper {
         addFood("cookie","Cereal",60,5,27,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.oreo);
         addFood("oreo","Cereal",68,5,19,img_bitmap);
-
-         */
 
     }
 
