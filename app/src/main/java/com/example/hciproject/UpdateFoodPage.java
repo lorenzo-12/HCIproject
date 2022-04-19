@@ -23,8 +23,6 @@ import java.io.IOException;
 
 public class UpdateFoodPage extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    public static final String USER_TABLE = "users";
-    public static final String CNAME_FOOD = "food_name";
     public static final int SELECT_IMAGE = 1;
 
     DBHelper db;
@@ -77,7 +75,7 @@ public class UpdateFoodPage extends AppCompatActivity implements AdapterView.OnI
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Update Picture"), SELECT_IMAGE);
+                startActivityForResult(Intent.createChooser(intent, "Update food Picture"), SELECT_IMAGE);
             }
         });
 

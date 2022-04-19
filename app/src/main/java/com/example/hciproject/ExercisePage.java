@@ -24,15 +24,6 @@ import java.util.ArrayList;
 
 public class ExercisePage extends AppCompatActivity {
 
-    public static final String USER_TABLE = "users";
-    public static final String CUSERNAME = "username";
-    public static final String CPASSWORD = "password";
-
-    public static final String WORKOUT_TABLE = "workout";
-    public static final String CNAME_WORKOUT = "workout_name";
-    public static final String CCATEGORY_WORKOUT = "workout_category";
-    public static final String CREPS_WORKOUT = "workout_reps";
-    public static final String CSERIES_WORKOUT = "workout_series";
     public Menu menu_bar;
     public String filter = "all";
     public Boolean changes = false;
@@ -184,10 +175,6 @@ public class ExercisePage extends AppCompatActivity {
                 exercise_category_list.add(cursor.getString(1).toLowerCase());
                 exercise_reps_list.add(cursor.getString(2).toLowerCase());
                 exercise_series_list.add(cursor.getString(3).toLowerCase());
-                byte[] img_bytes = cursor.getBlob(4);
-                Bitmap img_bitmap = db.getImage(img_bytes);
-                exercise_img_list.add(img_bitmap);
-
             }
         }
     }

@@ -78,7 +78,7 @@ public class AddFoodPage extends AppCompatActivity implements AdapterView.OnItem
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Add Picture"), SELECT_IMAGE);
+                startActivityForResult(Intent.createChooser(intent, "Add food Picture"), SELECT_IMAGE);
             }
         });
 
@@ -92,6 +92,7 @@ public class AddFoodPage extends AppCompatActivity implements AdapterView.OnItem
             }
         });
 
+        image.setImageResource(R.drawable.no_image2);
     }
 
     @Override

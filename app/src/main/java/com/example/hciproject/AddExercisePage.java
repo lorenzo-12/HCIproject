@@ -2,22 +2,31 @@ package com.example.hciproject;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.IOException;
 
 public class AddExercisePage extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     public static final String USER_TABLE = "users";
     public static final String WORKOUT_TABLE = "workout";
+    public static final int SELECT_IMAGE = 1;
 
     DBHelper db;
     EditText input_name,input_reps,input_series;
@@ -25,21 +34,21 @@ public class AddExercisePage extends AppCompatActivity implements AdapterView.On
     Button addExercisebtn;
     String input_category;
     Boolean changes = false;
+    ImageView image;
+    Bitmap image_bitmap;
 
     @Override
     public void onBackPressed() {
+        passData();
+        changes = false;
         Intent i = new Intent();
         Log.d("AddExercisePage","onBackPressed");
-        /*
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 finish();
             }
-        }, 500);
-        */
-        passData();
-        changes = false;
+        }, 0);
     }
 
     @Override
@@ -53,12 +62,23 @@ public class AddExercisePage extends AppCompatActivity implements AdapterView.On
         input_reps = findViewById(R.id.workout_reps_text);
         input_series = findViewById(R.id.workout_series_text);
         addExercisebtn = findViewById(R.id.addWorkoutbtn);
+        image = findViewById(R.id.exercisedimageview_add);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(AddExercisePage.this,R.array.workout_category_possible, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         input_category_spinner.setAdapter(adapter);
 
         input_category_spinner.setOnItemSelectedListener(this);
+
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Add exercise Picture"), SELECT_IMAGE);
+            }
+        });
 
         addExercisebtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +89,22 @@ public class AddExercisePage extends AppCompatActivity implements AdapterView.On
                 onBackPressed();
             }
         });
+        image.setImageResource(R.drawable.no_image2);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == SELECT_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri imageuri = data.getData();
+            try {
+                image_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageuri);
+                image.setImageBitmap(image_bitmap);
+            } catch (IOException e) {
+                image.setImageDrawable(getDrawable(R.drawable.no_image2));
+            }
+        }
     }
 
     public Boolean addExercise(){
@@ -106,7 +142,7 @@ public class AddExercisePage extends AppCompatActivity implements AdapterView.On
             Toast.makeText(AddExercisePage.this, "exercise already exist",Toast.LENGTH_SHORT).show();
             return false;
         } else {
-            result = db.addExercise(name,input_category,reps,series);
+            result = db.addExercise(name,input_category,reps,series,image_bitmap);
             return result;
         }
 

@@ -15,11 +15,11 @@ import java.util.ArrayList;
 
 public class CustomAdapterExercise extends RecyclerView.Adapter<CustomAdapterExercise.MyViewHolder>{
 
-    public static final String CNAME_WORKOUT = "workout_name";
-    public CustomAdapterExercise.OnItemClickListener mlistener;
+    public OnItemClickListener mlistener;
     Context context;
     ArrayList<String> exercise_name_list, exercise_category_list, exercise_reps_list, exercise_series_list;
     ArrayList<Bitmap> exercise_img_list;
+    DBHelper db;
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -46,6 +46,7 @@ public class CustomAdapterExercise extends RecyclerView.Adapter<CustomAdapterExe
             mdeletebtn = itemView.findViewById(R.id.delete_workout_img);
             mupdatebtn = itemView.findViewById(R.id.modify_workout_img);
             exercise_img = itemView.findViewById(R.id.exercise_img);
+            db = new DBHelper(context);
 
             mupdatebtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -99,7 +100,8 @@ public class CustomAdapterExercise extends RecyclerView.Adapter<CustomAdapterExe
         holder.category_txt.setText(String.valueOf(exercise_category_list.get(position)));
         holder.reps_txt.setText(String.valueOf(exercise_reps_list.get(position)));
         holder.series_txt.setText(String.valueOf(exercise_series_list.get(position)));
-        holder.exercise_img.setImageBitmap(exercise_img_list.get(position));
+        Bitmap b = db.loadImage(String.valueOf(exercise_name_list.get(position)));
+        holder.exercise_img.setImageBitmap(b);
     }
 
 

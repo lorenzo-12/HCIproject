@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 public class CustomAdapterFood extends RecyclerView.Adapter<CustomAdapterFood.MyViewHolder> {
 
-    public static final String CNAME_FOOD = "food_name";
     public OnItemClickListener mlistener;
     Context context;
     ArrayList<String> food_name_list, food_category_list, food_carb_list, food_prot_list, food_fat_list;

@@ -37,11 +37,10 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CCATEGORY_EXERCISE = "exercise_category";
     public static final String CREPS_EXERCISE = "exercise_reps";
     public static final String CSERIES_EXERCISE = "exercise_series";
-    public static final String CIMG_EXERCISE = "exercise_img";
 
     public static final String CREATE_USER_TABLE = "CREATE TABLE "+USER_TABLE+" ("+CUSERNAME+" TEXT PRIMARY KEY, "+CPASSWORD+" TEXT NOT NULL );";
     public static final String CREATE_FOOD_TABLE = "CREATE TABLE "+FOOD_TABLE+" ("+CNAME_FOOD+" TEXT PRIMARY KEY, "+CCATEGORY_FOOD+" TEXT, "+CCARB+" INTEGER, "+CPROT+" INTEGER, "+CFAT+" INTEGER );";
-    public static final String CREATE_EXERCISE_TABLE = "CREATE TABLE "+ EXERCISE_TABLE +" ("+ CNAME_EXERCISE +" TEXT PRIMARY KEY, "+ CCATEGORY_EXERCISE +" TEXT, "+ CREPS_EXERCISE +" INTEGER, "+ CSERIES_EXERCISE +" INTEGER, "+CIMG_EXERCISE+" BLOB );";
+    public static final String CREATE_EXERCISE_TABLE = "CREATE TABLE "+ EXERCISE_TABLE +" ("+ CNAME_EXERCISE +" TEXT PRIMARY KEY, "+ CCATEGORY_EXERCISE +" TEXT, "+ CREPS_EXERCISE +" INTEGER, "+ CSERIES_EXERCISE +" INTEGER );";
 
     public DBHelper(Context ctx) {
         super(ctx, DATABASE_NAME, null, DATABASE_VERSION);
@@ -117,51 +116,34 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
 
         Bitmap img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.no_image2);
-        byte[] img_bytes = getBytes(img_bitmap);
+        saveImage(img_bitmap,name.toLowerCase());
 
         cv.put(CNAME_EXERCISE,name.toLowerCase());
         cv.put(CCATEGORY_EXERCISE,category);
         cv.put(CREPS_EXERCISE,reps);
         cv.put(CSERIES_EXERCISE,series);
-        cv.put(CIMG_EXERCISE,img_bytes);
 
         long result = db.insert(EXERCISE_TABLE,null,cv);
         if (result == -1) return false;
         return true;
     }
 
-    public Boolean addExercise(String name, String category, int reps, int series, byte[] img){
+    public Boolean addExercise(String name, String category, int reps, int series,Bitmap img){
         boolean exist = findFood(name);
         if (exist == true) return false;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
+        saveImage(img,name.toLowerCase());
+
         cv.put(CNAME_EXERCISE,name.toLowerCase());
         cv.put(CCATEGORY_EXERCISE,category);
         cv.put(CREPS_EXERCISE,reps);
         cv.put(CSERIES_EXERCISE,series);
-        cv.put(CIMG_EXERCISE,img);
 
         long result = db.insert(EXERCISE_TABLE,null,cv);
         if (result == -1) return false;
         return true;
-    }
-
-    public Boolean updateExercise(String name, String category, int reps, int series){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(CCATEGORY_EXERCISE,category);
-        cv.put(CREPS_EXERCISE,reps);
-        cv.put(CSERIES_EXERCISE,series);
-        Cursor cursor = db.rawQuery("SELECT * FROM " + EXERCISE_TABLE + " WHERE exercise_name = ? ", new String[]{name});
-        if (cursor.getCount() > 0) {
-            long result = db.update(EXERCISE_TABLE, cv, "exercise_name=?", new String[]{name});
-            if (result == -1) return false;
-            return true;
-        }
-        else {
-            return false;
-        }
     }
 
     public Boolean deleteExercise(String name){
@@ -253,24 +235,6 @@ public class DBHelper extends SQLiteOpenHelper {
         long result = db.insert(FOOD_TABLE,null,cv);
         if (result == -1) return false;
         return true;
-    }
-
-    public Boolean updateFood(String name,String category,int carb,int prot,int fat){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(CCATEGORY_FOOD,category);
-        cv.put(CCARB,carb);
-        cv.put(CPROT,prot);
-        cv.put(CFAT,fat);
-        Cursor cursor = db.rawQuery("SELECT * FROM " + FOOD_TABLE + " WHERE name = ? ", new String[]{name});
-        if (cursor.getCount() > 0) {
-            long result = db.update(FOOD_TABLE, cv, "food_name=?", new String[]{name});
-            if (result == -1) return false;
-            return true;
-        }
-        else {
-            return false;
-        }
     }
 
     public Boolean deleteFood(String name){
@@ -426,8 +390,7 @@ public class DBHelper extends SQLiteOpenHelper {
         byte[] img_bytes;
 
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.no_image2);
-        img_bytes = getBytes(img_bitmap);
-        addExercise("Test","Chest",3,1,img_bytes);
+        addExercise("Test","Chest",3,1,img_bitmap);
     }
 
     public void addExistingFood() {

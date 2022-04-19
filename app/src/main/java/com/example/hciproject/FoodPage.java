@@ -24,16 +24,6 @@ import java.util.ArrayList;
 
 public class FoodPage extends AppCompatActivity {
 
-    public static final String USER_TABLE = "users";
-    public static final String CUSERNAME = "username";
-    public static final String CPASSWORD = "password";
-
-    public static final String FOOD_TABLE = "food";
-    public static final String CNAME_FOOD = "food_name";
-    public static final String CCATEGORY_FOOD = "food_category";
-    public static final String CCARB = "carb";
-    public static final String CPROT = "prot";
-    public static final String CFAT = "fat";
     public Menu menu_bar;
     public String filter = "all";
     public Boolean changes = false;

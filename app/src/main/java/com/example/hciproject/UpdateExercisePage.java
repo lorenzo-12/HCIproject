@@ -2,22 +2,28 @@ package com.example.hciproject;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.IOException;
 
 public class UpdateExercisePage extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    public static final String USER_TABLE = "users";
-    public static final String CNAME_WORKOUT = "workout_name";
+    public static final int SELECT_IMAGE = 1;
 
     DBHelper db;
     EditText update_name, update_reps, update_series;
@@ -25,24 +31,23 @@ public class UpdateExercisePage extends AppCompatActivity implements AdapterView
     Button updateWorkoutbtn;
     String update_category_string;
     Boolean changes = false;
+    ImageView image;
+    Bitmap image_bitmap;
 
     String original_name,original_category,original_reps,original_series;
 
 
     @Override
     public void onBackPressed() {
+        changes = false;
         Intent i = new Intent();
         Log.d("UpdateFoodPage","onBackPressed");
-        /*
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 finish();
             }
-        }, 500);
-         */
-        changes = false;
-        Toast.makeText(UpdateExercisePage.this,"Loading",Toast.LENGTH_LONG).show();
+        }, 0);
     }
 
     @Override
@@ -56,12 +61,23 @@ public class UpdateExercisePage extends AppCompatActivity implements AdapterView
         update_reps = findViewById(R.id.workout_reps_text_update);
         update_series = findViewById(R.id.workout_series_text_update);
         updateWorkoutbtn = findViewById(R.id.updateWorkoutbtn);
+        image = findViewById(R.id.exercisedimageview_update);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(UpdateExercisePage.this,R.array.workout_category_possible, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         update_spinner_category.setAdapter(adapter);
 
         update_spinner_category.setOnItemSelectedListener(this);
+
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Update exercise Picture"), SELECT_IMAGE);
+            }
+        });
 
         updateWorkoutbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +90,22 @@ public class UpdateExercisePage extends AppCompatActivity implements AdapterView
             }
         });
         loadData();
+        image.setImageBitmap(db.loadImage(original_name));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == SELECT_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri imageuri = data.getData();
+            try {
+                image_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageuri);
+                image.setImageBitmap(image_bitmap);
+            } catch (IOException e) {
+                image.setImageDrawable(getDrawable(R.drawable.no_image2));
+            }
+        }
     }
 
     public void loadData(){
@@ -125,7 +157,7 @@ public class UpdateExercisePage extends AppCompatActivity implements AdapterView
         }
         Boolean check_delete = db.deleteExercise(old_name);
         if (!check_delete) return false;
-        Boolean check_insert = db.addExercise(new_name,category,reps,series);
+        Boolean check_insert = db.addExercise(new_name,category,reps,series,image_bitmap);
         return check_insert;
     }
 
