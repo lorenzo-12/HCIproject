@@ -183,9 +183,6 @@ public class FoodPage extends AppCompatActivity {
                 food_carb_list.add(cursor.getString(2).toLowerCase());
                 food_prot_list.add(cursor.getString(3).toLowerCase());
                 food_fat_list.add(cursor.getString(4).toLowerCase());
-                //byte[] img_bytes = cursor.getBlob(5);
-                //Bitmap img_bitmap = db.getImage(img_bytes);
-                //food_img_list.add(img_bitmap);
             }
         }
 

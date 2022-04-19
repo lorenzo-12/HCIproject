@@ -2,22 +2,31 @@ package com.example.hciproject;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.IOException;
 
 public class AddFoodPage extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     public static final String USER_TABLE = "users";
     public static final String CNAME_FOOD = "food_name";
+    public static final int SELECT_IMAGE = 1;
 
     DBHelper db;
     EditText input_name,input_carb,input_prot,input_fat;
@@ -25,21 +34,21 @@ public class AddFoodPage extends AppCompatActivity implements AdapterView.OnItem
     Button addFoodbtn;
     String input_category;
     Boolean changes = false;
+    ImageView image;
+    Bitmap image_bitmap;
 
     @Override
     public void onBackPressed() {
+        passData();
+        changes = false;
         Intent i = new Intent();
         Log.d("AddFoodPage","onBackPressed");
-        /*
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 finish();
             }
-        }, 0);
-         */
-        passData();
-        changes = false;
+        }, 500);
     }
 
 
@@ -55,12 +64,23 @@ public class AddFoodPage extends AppCompatActivity implements AdapterView.OnItem
         input_prot = findViewById(R.id.food_prot_text);
         input_fat = findViewById(R.id.food_fat_text);
         addFoodbtn = findViewById(R.id.addFoodbtn);
+        image = findViewById(R.id.foodimageview_add);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(AddFoodPage.this,R.array.food_category_possible, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         input_category_spinner.setAdapter(adapter);
 
         input_category_spinner.setOnItemSelectedListener(this);
+
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Add Picture"), SELECT_IMAGE);
+            }
+        });
 
         addFoodbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +92,21 @@ public class AddFoodPage extends AppCompatActivity implements AdapterView.OnItem
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == SELECT_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri imageuri = data.getData();
+            try {
+                image_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageuri);
+                image.setImageBitmap(image_bitmap);
+            } catch (IOException e) {
+                image.setImageDrawable(getDrawable(R.drawable.no_image2));
+            }
+        }
     }
 
     public Boolean addFood(){
@@ -118,7 +153,7 @@ public class AddFoodPage extends AppCompatActivity implements AdapterView.OnItem
             Toast.makeText(AddFoodPage.this, "Food already exist",Toast.LENGTH_SHORT).show();
             return false;
         } else {
-            result = db.addFood(name,input_category,carb,prot,fat);
+            result = db.addFood(name,input_category,carb,prot,fat,image_bitmap);
             return result;
         }
 

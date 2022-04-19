@@ -49,17 +49,18 @@
         android:id="@+id/addFoodbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="8dp"
         android:text="add"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/food_fat_text" />
+        app:layout_constraintTop_toBottomOf="@+id/foodimageview_add" />
 
     <EditText
         android:id="@+id/food_name_text"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="45dp"
         android:ems="10"
         android:hint="name"
         android:inputType="textPersonName"
@@ -76,5 +77,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/food_name_text" />
+
+    <ImageView
+        android:id="@+id/foodimageview_add"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/food_fat_text"
+        app:srcCompat="@drawable/no_image2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,8 +24,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String USER_TABLE = "users";
     public static final String CUSERNAME = "username";
     public static final String CPASSWORD = "password";
-    public static final String CIMG_USER = "user_img";
-    public static final String CUSER_PATH = "img_path";
 
     public static final String FOOD_TABLE = "food";
     public static final String CNAME_FOOD = "food_name";
@@ -33,7 +31,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CCARB = "carb";
     public static final String CPROT = "prot";
     public static final String CFAT = "fat";
-    public static final String CIMG_FOOD = "food_img";
 
     public static final String EXERCISE_TABLE = "exercise";
     public static final String CNAME_EXERCISE = "exercise_name";
@@ -42,8 +39,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CSERIES_EXERCISE = "exercise_series";
     public static final String CIMG_EXERCISE = "exercise_img";
 
-    public static final String CREATE_USER_TABLE = "CREATE TABLE "+USER_TABLE+" ("+CUSERNAME+" TEXT PRIMARY KEY, "+CPASSWORD+" TEXT NOT NULL, "+CIMG_USER+" BLOB, "+CUSER_PATH+" TEXT );";
-    public static final String CREATE_FOOD_TABLE = "CREATE TABLE "+FOOD_TABLE+" ("+CNAME_FOOD+" TEXT PRIMARY KEY, "+CCATEGORY_FOOD+" TEXT, "+CCARB+" INTEGER, "+CPROT+" INTEGER, "+CFAT+" INTEGER, "+CIMG_FOOD+" BLOB );";
+    public static final String CREATE_USER_TABLE = "CREATE TABLE "+USER_TABLE+" ("+CUSERNAME+" TEXT PRIMARY KEY, "+CPASSWORD+" TEXT NOT NULL );";
+    public static final String CREATE_FOOD_TABLE = "CREATE TABLE "+FOOD_TABLE+" ("+CNAME_FOOD+" TEXT PRIMARY KEY, "+CCATEGORY_FOOD+" TEXT, "+CCARB+" INTEGER, "+CPROT+" INTEGER, "+CFAT+" INTEGER );";
     public static final String CREATE_EXERCISE_TABLE = "CREATE TABLE "+ EXERCISE_TABLE +" ("+ CNAME_EXERCISE +" TEXT PRIMARY KEY, "+ CCATEGORY_EXERCISE +" TEXT, "+ CREPS_EXERCISE +" INTEGER, "+ CSERIES_EXERCISE +" INTEGER, "+CIMG_EXERCISE+" BLOB );";
 
     public DBHelper(Context ctx) {
@@ -227,7 +224,6 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
 
         Bitmap img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.no_image2);
-        byte[] img_bytes = getBytes(img_bitmap);
         saveImage(img_bitmap,name.toLowerCase());
 
         cv.put(CNAME_FOOD,name.toLowerCase());
@@ -235,7 +231,6 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(CCARB,carb);
         cv.put(CPROT,prot);
         cv.put(CFAT,fat);
-        cv.put(CIMG_FOOD,img_bytes);
 
         long result = db.insert(FOOD_TABLE,null,cv);
         if (result == -1) return false;
@@ -254,26 +249,6 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(CCARB,carb);
         cv.put(CPROT,prot);
         cv.put(CFAT,fat);
-        //cv.put(CIMG_FOOD,img);
-
-        long result = db.insert(FOOD_TABLE,null,cv);
-        if (result == -1) return false;
-        return true;
-    }
-
-    public Boolean addFood(String name, String category, int carb, int prot, int fat, byte[] img){
-        boolean exist = findFood(name);
-        if (exist == true) return false;
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        saveImage(getImage(img),name.toLowerCase());
-
-        cv.put(CNAME_FOOD,name.toLowerCase());
-        cv.put(CCATEGORY_FOOD,category);
-        cv.put(CCARB,carb);
-        cv.put(CPROT,prot);
-        cv.put(CFAT,fat);
-        //cv.put(CIMG_FOOD,img);
 
         long result = db.insert(FOOD_TABLE,null,cv);
         if (result == -1) return false;
@@ -355,11 +330,9 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
 
         Bitmap img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.no_image2);
-        byte[] img_bytes = getBytes(img_bitmap);
 
         cv.put(CUSERNAME,username);
         cv.put(CPASSWORD,password);
-        cv.put(CIMG_USER, img_bytes);
 
         long result = db.insert(USER_TABLE,null,cv);
         if (result == -1) return false;
@@ -370,13 +343,10 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        byte[] img_bytes = getBytes(img);
         saveImage(img,username);
 
         cv.put(CUSERNAME,username);
         cv.put(CPASSWORD,password);
-        cv.put(CIMG_USER, img_bytes);
-        //cv.put(CUSER_PATH,path);
 
         long result = db.insert(USER_TABLE,null,cv);
         if (result == -1) return false;

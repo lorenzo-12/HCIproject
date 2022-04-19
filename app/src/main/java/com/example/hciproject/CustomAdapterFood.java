@@ -104,10 +104,8 @@ public class CustomAdapterFood extends RecyclerView.Adapter<CustomAdapterFood.My
         holder.carb_txt.setText(String.valueOf(food_carb_list.get(position)));
         holder.prot_txt.setText(String.valueOf(food_prot_list.get(position)));
         holder.fat_txt.setText(String.valueOf(food_fat_list.get(position)));
-        //holder.food_img.setImageResource(context.getResources().getIdentifier(String.valueOf(food_name_list.get(position)), "drawable", context.getPackageName()));
         Bitmap b = db.loadImage(String.valueOf(food_name_list.get(position)));
         holder.food_img.setImageBitmap(b);
-        //holder.food_img.setImageBitmap(food_img_list.get(position));
 
     }
 
