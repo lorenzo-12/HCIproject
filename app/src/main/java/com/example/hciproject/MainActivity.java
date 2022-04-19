@@ -32,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         //Refresh your stuff here
         loadData();
+        if (user_logged.equals("none")) userView.setImageResource(R.drawable.no_image2);
+        else {
+            debug.setText("USER: "+user_logged);
+            userView.setImageBitmap(db.loadImage(user_logged));
+        }
     }
 
 

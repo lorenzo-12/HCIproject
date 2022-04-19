@@ -216,6 +216,7 @@ public class UserPage extends AppCompatActivity {
                 updateButtons();
                 debug.setText(user_logged);
                 debug2.setText(res);
+                onBackPressed();
             }
 
 
@@ -243,6 +244,7 @@ public class UserPage extends AppCompatActivity {
                 updateButtons();
                 debug.setText(user_logged);
                 debug2.setText(res);
+                onBackPressed();
             }
         });
 
