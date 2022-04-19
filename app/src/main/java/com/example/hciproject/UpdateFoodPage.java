@@ -2,22 +2,30 @@ package com.example.hciproject;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.IOException;
 
 public class UpdateFoodPage extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     public static final String USER_TABLE = "users";
     public static final String CNAME_FOOD = "food_name";
+    public static final int SELECT_IMAGE = 1;
 
     DBHelper db;
     EditText update_name, update_carb, update_prot, update_fat;
@@ -25,23 +33,22 @@ public class UpdateFoodPage extends AppCompatActivity implements AdapterView.OnI
     Button updateFoodbtn;
     String update_category_string;
     Boolean changes = false;
+    ImageView image;
+    Bitmap image_bitmap;
 
     String original_name,original_category,original_carb,original_prot,original_fat;
 
     @Override
     public void onBackPressed() {
+        changes = false;
         Intent i = new Intent();
         Log.d("UpdateFoodPage","onBackPressed");
-        /*
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 finish();
             }
         }, 0);
-         */
-        changes = false;
-        Toast.makeText(UpdateFoodPage.this,"Loading",Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -56,12 +63,23 @@ public class UpdateFoodPage extends AppCompatActivity implements AdapterView.OnI
         update_prot = findViewById(R.id.food_prot_text_update);
         update_fat = findViewById(R.id.food_fat_text_update);
         updateFoodbtn = findViewById(R.id.updateFoodbtn);
+        image = findViewById(R.id.foodimageview_update);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(UpdateFoodPage.this,R.array.food_category_possible, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         update_spinner_category.setAdapter(adapter);
 
         update_spinner_category.setOnItemSelectedListener(this);
+
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Update Picture"), SELECT_IMAGE);
+            }
+        });
 
         updateFoodbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +93,23 @@ public class UpdateFoodPage extends AppCompatActivity implements AdapterView.OnI
         });
 
         loadData();
+        image.setImageBitmap(db.loadImage(original_name));
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == SELECT_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri imageuri = data.getData();
+            try {
+                image_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageuri);
+                image.setImageBitmap(image_bitmap);
+            } catch (IOException e) {
+                image.setImageDrawable(getDrawable(R.drawable.no_image2));
+            }
+        }
     }
 
     public void loadData(){
@@ -135,7 +169,7 @@ public class UpdateFoodPage extends AppCompatActivity implements AdapterView.OnI
         }
         Boolean check_delete = db.deleteFood(old_name);
         if (!check_delete) return false;
-        Boolean check_insert = db.addFood(new_name,category,carb,prot,fat);
+        Boolean check_insert = db.addFood(new_name,category,carb,prot,fat,image_bitmap);
         return check_insert;
     }
 

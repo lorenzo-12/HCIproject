@@ -279,6 +279,7 @@ public class DBHelper extends SQLiteOpenHelper {
         if (cursor.getCount() > 0) {
             long result = db.delete(FOOD_TABLE,"food_name=?", new String[]{name});
             if (result == -1) return false;
+            deleteImage(name);
             return true;
         }
         else {

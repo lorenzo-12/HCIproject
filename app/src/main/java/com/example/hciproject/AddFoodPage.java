@@ -48,7 +48,7 @@ public class AddFoodPage extends AppCompatActivity implements AdapterView.OnItem
             public void run() {
                 finish();
             }
-        }, 500);
+        }, 0);
     }
 
 
