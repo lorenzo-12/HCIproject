@@ -1,80 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
-
-    <Button
-        android:id="@+id/DiaryButton"
-        android:layout_width="wrap_content"
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomappbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Diary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.479"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.158" />
+        android:layout_gravity="bottom"
+        app:layout_anchor="@+id/constraintLayout2"
+        app:layout_anchorGravity="bottom|center"
+        app:contentInsetEnd="0dp"
+        app:contentInsetStart="0dp">
 
-    <Button
-        android:id="@+id/ExerciseButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:text="Exercise"
-        app:layout_constraintBaseline_toBaselineOf="@+id/FoodButton"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomnavigatorview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/green"
+            app:menu="@menu/bottom_nav"
 
-    <Button
-        android:id="@+id/FoodButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Food"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.095"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+            app:itemTextColor="@color/nav_color"
+            app:itemIconTint="@color/nav_color"/>
 
-    <Button
-        android:id="@+id/TimerButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Timer"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.479"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userbutton" />
+    </com.google.android.material.bottomappbar.BottomAppBar>
 
-    <Button
-        android:id="@+id/buttondebug"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="******"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.322" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="674dp">
 
-    <ImageView
-        android:id="@+id/userbutton"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="44dp"
-        android:scaleType="fitXY"
-        android:visibility="visible"
-        app:layout_constraintEnd_toStartOf="@+id/ExerciseButton"
-        app:layout_constraintStart_toEndOf="@+id/FoodButton"
-        app:layout_constraintTop_toBottomOf="@+id/buttondebug"
-        app:srcCompat="@drawable/no_image2" />
+        <Button
+            android:id="@+id/DiaryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="88dp"
+            android:text="Diary"
+            android:background="@color/purple_500"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.455"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/ExerciseButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="92dp"
+            android:layout_marginEnd="16dp"
+            android:text="Exercise"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttondebug" />
+
+        <Button
+            android:id="@+id/FoodButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="92dp"
+            android:text="Food"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttondebug" />
+
+        <Button
+            android:id="@+id/TimerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="76dp"
+            android:text="Timer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.455"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/userbutton" />
+
+        <Button
+            android:id="@+id/buttondebug"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64dp"
+            android:text="******"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.455"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/DiaryButton" />
+
+        <ImageView
+            android:id="@+id/userbutton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="56dp"
+            android:scaleType="fitXY"
+            android:visibility="visible"
+            app:layout_anchorGravity="center"
+            app:layout_constraintEnd_toStartOf="@+id/ExerciseButton"
+            app:layout_constraintStart_toEndOf="@+id/FoodButton"
+            app:layout_constraintTop_toBottomOf="@+id/buttondebug"
+            app:srcCompat="@drawable/no_image2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

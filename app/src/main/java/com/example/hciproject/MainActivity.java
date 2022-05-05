@@ -3,13 +3,16 @@ package com.example.hciproject;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,9 +25,9 @@ public class MainActivity extends AppCompatActivity {
     //variabili globali usate dalla Main page
     Button workoutActivitybtn, diaryActivitybtn, FoodActivitybtn,timerbtn;
     ImageView userView;
-    ConstraintLayout layout;
     Button debug;
     DBHelper db;
+    BottomNavigationView nav;
 
     @Override
     public void onResume() {
@@ -46,8 +49,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //associo a ogni variabile il corrispettivo bottone/testo ecc...
-        layout = findViewById(R.id.constraintLayout);
+        //layout = findViewById(R.id.constraintLayout);
         //layout.setBackgroundColor(Color.WHITE);
+        nav = findViewById(R.id.bottomnavigatorview);
         workoutActivitybtn = findViewById(R.id.ExerciseButton);
         diaryActivitybtn = findViewById(R.id.DiaryButton);
         FoodActivitybtn = findViewById(R.id.FoodButton);
@@ -55,9 +59,21 @@ public class MainActivity extends AppCompatActivity {
         userView = findViewById(R.id.userbutton);
         debug = findViewById(R.id.buttondebug);
 
+        workoutActivitybtn.setVisibility(View.INVISIBLE);
+        diaryActivitybtn.setVisibility(View.INVISIBLE);
+        FoodActivitybtn.setVisibility(View.INVISIBLE);
+        timerbtn.setVisibility(View.INVISIBLE);
+        //userView.setVisibility(View.INVISIBLE);
+
+        workoutActivitybtn.setClickable(false);
+        diaryActivitybtn.setClickable(false);
+        FoodActivitybtn.setClickable(false);
+        timerbtn.setClickable(false);
+        userView.setClickable(false);
+
 
         //setto per ogni bottone la rispttiva funzione ONCLICK
-
+        /*
         userView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) { openactivityuser();}
@@ -91,6 +107,41 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+         */
+
+        //così quando apro l'app mi da fin  da subito selezionata l'icona del diario
+        nav.setSelectedItemId(R.id.bottom_diary);
+
+        nav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.bottom_diary:
+                        Toast.makeText(MainActivity.this,"diary",Toast.LENGTH_SHORT).show();
+                        //do nothing since we are already in the Diary activity
+                        return true;
+                    case R.id.bottom_exercise:
+                        Toast.makeText(MainActivity.this,"exercise",Toast.LENGTH_SHORT).show();
+                        openactivityexercise();
+                        return true;
+                    case R.id.bottom_food:
+                        Toast.makeText(MainActivity.this,"food",Toast.LENGTH_SHORT).show();
+                        openactivityFood();
+                        return true;
+                    case R.id.bottom_time:
+                        Toast.makeText(MainActivity.this,"timer",Toast.LENGTH_SHORT).show();
+                        openactivitytimer();
+                        return true;
+                    case R.id.bottom_user:
+                        Toast.makeText(MainActivity.this,"user",Toast.LENGTH_SHORT).show();
+                        openactivityuser();
+                        return true;
+                }
+                return true;
+            }
+        });
+
+
         loadData();
         debug.setText("User: "+user_logged);
 
@@ -122,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intentDiet);
     }
 
-    public void openactivityworkout(){
+    public void openactivityexercise(){
         saveData();
         Intent intentWorkout = new Intent(this, ExercisePage.class);
         startActivity(intentWorkout);

@@ -32,8 +32,8 @@
         <activity
             android:name=".TimerPage"
             android:exported="false"
-            android:label="TimerPage"
-            android:parentActivityName=".MainActivity" />
+            android:label="TimerPage" />
+            <!-- android:parentActivityName=".MainActivity" -->
         <activity
             android:name=".ChangeUsernamePage"
             android:exported="false"
@@ -47,8 +47,8 @@
         <activity
             android:name=".UserPage"
             android:exported="false"
-            android:label="UserPage"
-            android:parentActivityName=".MainActivity" />
+            android:label="UserPage" />
+            <!-- android:parentActivityName=".MainActivity" -->
         <activity
             android:name=".AddFoodPage"
             android:exported="false"
@@ -57,18 +57,18 @@
         <activity
             android:name=".ExercisePage"
             android:exported="false"
-            android:label="ExercisePage"
-            android:parentActivityName=".MainActivity" />
+            android:label="ExercisePage" />
+            <!-- android:parentActivityName=".MainActivity" -->
         <activity
             android:name=".FoodPage"
             android:exported="false"
-            android:label="FoodPage"
-            android:parentActivityName=".MainActivity" />
+            android:label="FoodPage" />
+            <!-- android:parentActivityName=".MainActivity" -->
         <activity
             android:name=".DiaryPage"
             android:exported="false"
-            android:label="DiaryPage"
-            android:parentActivityName=".MainActivity" />
+            android:label="DiaryPage" />
+            <!-- android:parentActivityName=".MainActivity" -->
         <activity
             android:name=".MainActivity"
             android:exported="true">

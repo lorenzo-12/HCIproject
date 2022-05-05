@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/bottom_time"
+        android:icon="@drawable/bottom_time"
+        android:title="Time"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/bottom_food"
+        android:icon="@drawable/bottom_food"
+        android:title="Food"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/bottom_diary"
+        android:icon="@drawable/bottom_diary"
+        android:title="Diary"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/bottom_exercise"
+        android:icon="@drawable/bottom_exercise"
+        android:title="exercise"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/bottom_user"
+        android:icon="@drawable/bottom_user"
+        android:title="User"
+        app:showAsAction="always"/>
+
+
+</menu>
