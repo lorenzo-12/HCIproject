@@ -11,7 +11,7 @@
     tools:context=".MainActivity">
 
     <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottomappbar"
+        android:id="@+id/bottomappbarfood"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -21,7 +21,7 @@
         app:contentInsetStart="0dp">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomnavigatorview"
+            android:id="@+id/bottomnavigatorviewfood"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/green"

@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         //associo a ogni variabile il corrispettivo bottone/testo ecc...
         //layout = findViewById(R.id.constraintLayout);
         //layout.setBackgroundColor(Color.WHITE);
-        nav = findViewById(R.id.bottomnavigatorview);
+        nav = findViewById(R.id.bottomnavigatorviewfood);
         workoutActivitybtn = findViewById(R.id.ExerciseButton);
         diaryActivitybtn = findViewById(R.id.DiaryButton);
         FoodActivitybtn = findViewById(R.id.FoodButton);

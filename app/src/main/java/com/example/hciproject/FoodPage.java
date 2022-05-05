@@ -14,10 +14,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -32,9 +32,9 @@ public class FoodPage extends AppCompatActivity {
     DBHelper db;
     ArrayList<String> food_name_list, food_category_list, food_carb_list, food_prot_list, food_fat_list;
     ArrayList<Bitmap> food_img_list;
-    ConstraintLayout layout;
     RecyclerView recyclerView;
     CustomAdapterFood customAdapterFood;
+    BottomNavigationView nav;
 
     @Override
     public void onBackPressed() {
@@ -130,9 +130,9 @@ public class FoodPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_foodpage);
 
-        layout = findViewById(R.id.constraintLayout);
         recyclerView = findViewById(R.id.recycleViewFood);
         addbtn = findViewById(R.id.add_food_btn);
+        nav = findViewById(R.id.bottomnavigatorview);
 
         addbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,6 +142,38 @@ public class FoodPage extends AppCompatActivity {
                 return;
             }
         });
+
+        //così quando apro l'app mi da fin  da subito selezionata l'icona del cibo
+        nav.setSelectedItemId(R.id.bottom_food);
+
+        nav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.bottom_diary:
+                        onBackPressed();
+                        return true;
+                    case R.id.bottom_exercise:
+                        Toast.makeText(FoodPage.this,"exercise",Toast.LENGTH_SHORT).show();
+                        openactivityexercise();
+                        return true;
+                    case R.id.bottom_food:
+                        Toast.makeText(FoodPage.this,"food",Toast.LENGTH_SHORT).show();
+                        //do nothing since we are already in the Diary activity
+                        return true;
+                    case R.id.bottom_time:
+                        Toast.makeText(FoodPage.this,"timer",Toast.LENGTH_SHORT).show();
+                        openactivitytimer();
+                        return true;
+                    case R.id.bottom_user:
+                        Toast.makeText(FoodPage.this,"user",Toast.LENGTH_SHORT).show();
+                        openactivityuser();
+                        return true;
+                }
+                return true;
+            }
+        });
+
         buildRecyclerView();
         storeDataInArrays();
     }
@@ -240,6 +272,28 @@ public class FoodPage extends AppCompatActivity {
     public void loadData(){
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
         changes = sharedPreferences.getBoolean("food_changes",true);
+    }
+
+    //relative funzioni che vengono chiamete quando premiamo un bottone
+
+    public void openactivityexercise(){
+        Intent intentWorkout = new Intent(this, ExercisePage.class);
+        startActivity(intentWorkout);
+    }
+
+    public void openactivitytimer(){
+        Intent intentTimer = new Intent(this, TimerPage.class);
+        startActivity(intentTimer);
+    }
+
+    public void openactivityuser() {
+        Intent intentUser;
+        //creo la nuova pagina (intentUser)
+        intentUser = new Intent(this, UserPage.class);
+        //se non mi interessa ricevere delle informazioni dalla pagina figlia allora posso usare
+        //direttamente STARTACTIVITY
+        startActivity(intentUser);
+
     }
 
 }
