@@ -92,37 +92,37 @@ public class ExercisePage extends AppCompatActivity {
                 customAdapterExercise.notifyDataSetChanged();
                 return true;
             case R.id.Chest_filter:
-                filter = "chest";
+                filter = "Chest";
                 storeDataInArrays();
                 customAdapterExercise.notifyDataSetChanged();
                 return true;
             case R.id.Legs_filter:
-                filter = "legs";
+                filter = "Legs";
                 storeDataInArrays();
                 customAdapterExercise.notifyDataSetChanged();
                 return true;
             case R.id.Shoulders_filter:
-                filter = "shoulders";
+                filter = "Shoulders";
                 storeDataInArrays();
                 customAdapterExercise.notifyDataSetChanged();
                 return true;
             case R.id.Abs_filter:
-                filter = "abs";
+                filter = "Abs";
                 storeDataInArrays();
                 customAdapterExercise.notifyDataSetChanged();
                 return true;
             case R.id.Arms_filter:
-                filter = "arms";
+                filter = "Arms";
                 storeDataInArrays();
                 customAdapterExercise.notifyDataSetChanged();
                 return true;
             case R.id.Beck_filter:
-                filter = "beck";
+                filter = "Beck";
                 storeDataInArrays();
                 customAdapterExercise.notifyDataSetChanged();
                 return true;
             case R.id.OtherExercise_filter:
-                filter = "other";
+                filter = "Other";
                 storeDataInArrays();
                 customAdapterExercise.notifyDataSetChanged();
                 return true;

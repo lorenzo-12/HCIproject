@@ -391,6 +391,59 @@ public class DBHelper extends SQLiteOpenHelper {
 
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.no_image2);
         addExercise("Test","Chest",3,1,img_bitmap);
+
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.bench_press);
+        addExercise("bench_press","Chest",1,1,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.incline_press);
+        addExercise("incline_press","Chest",1,1,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.close_grip_press);
+        addExercise("close_grip_press","Chest",1,1,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.decline_press);
+        addExercise("decline_press","Chest",1,1,img_bitmap);
+
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.front_raise);
+        addExercise("front_raise","Shoulders",1,1,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.shoulder_press);
+        addExercise("shoulder_press","Shoulders",1,1,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.shrug);
+        addExercise("shrug","Shoulders",1,1,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.upright_row);
+        addExercise("upright_row","Shoulders",1,1,img_bitmap);
+
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.curl);
+        addExercise("curl","Arms",1,1,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.reverse_curl);
+        addExercise("reverse_curl","Arms",1,1,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.kickback);
+        addExercise("kickback","Arms",1,1,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.tricep_extension);
+        addExercise("tricep_extension","Arms",1,1,img_bitmap);
+
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.pullover);
+        addExercise("pullover","Beck",1,1,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.row);
+        addExercise("row","Beck",1,1,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.deadlift);
+        addExercise("deadlift","Beck",1,1,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.sumo_deadlift);
+        addExercise("sumo_deadlift","Beck",1,1,img_bitmap);
+
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.squat);
+        addExercise("squat","Legs",1,1,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.front_squat);
+        addExercise("front_squat","Legs",1,1,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.hip_raise);
+        addExercise("hip_raise","Legs",1,1,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.glute_bridge);
+        addExercise("glute_bridge","Legs",1,1,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.lunge);
+        addExercise("lunge","Legs",1,1,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.good_morning);
+        addExercise("good_morning","Legs",1,1,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.step_up);
+        addExercise("step_up","Legs",1,1,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.calf_raise);
+        addExercise("calf_raise","Legs",1,1,img_bitmap);
     }
 
     public void addExistingFood() {
