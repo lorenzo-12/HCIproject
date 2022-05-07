@@ -46,7 +46,7 @@
         android:id="@+id/search_food_text"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/grey"
+        android:background="@color/white"
         android:completionThreshold="1"
         android:drawableEnd="@drawable/ic_baseline_search_24"
         android:hint="search"

@@ -261,7 +261,17 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public Cursor readFilteredFood(String filter){
+    public Cursor readFilteredFoodByName(String name_prefix){
+        String query = "SELECT * FROM "+FOOD_TABLE+" WHERE food_name LIKE '"+name_prefix+"%';";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        if (db != null){
+            cursor = db.rawQuery(query,new String[]{});
+        }
+        return cursor;
+    }
+
+    public Cursor readFilteredFoodByCategory(String filter){
         String query = "SELECT * FROM "+ FOOD_TABLE+" WHERE food_category=?" + " ORDER BY "+CNAME_FOOD;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;

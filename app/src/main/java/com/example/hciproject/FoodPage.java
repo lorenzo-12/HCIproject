@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +30,7 @@ public class FoodPage extends AppCompatActivity {
 
     public Menu menu_bar;
     public String filter = "all";
+    public Integer filter_type = 0;
     public Boolean changes = false;
 
     DBHelper db;
@@ -95,36 +98,43 @@ public class FoodPage extends AppCompatActivity {
                 return true;
             case R.id.AllFood_filter:
                 filter = "all";
+                filter_type = 0;
                 storeDataInArrays();
                 customAdapterFood.notifyDataSetChanged();
                 return true;
             case R.id.FruitVegetable_filter:
                 filter = "FruitVegetable";
+                filter_type = 0;
                 storeDataInArrays();
                 customAdapterFood.notifyDataSetChanged();
                 return true;
             case R.id.Cereal_filter:
                 filter = "Cereal";
+                filter_type = 0;
                 storeDataInArrays();
                 customAdapterFood.notifyDataSetChanged();
                 return true;
             case R.id.Dairy_filter:
                 filter = "Dairy";
+                filter_type = 0;
                 storeDataInArrays();
                 customAdapterFood.notifyDataSetChanged();
                 return true;
             case R.id.MeatFishEgg_filter:
                 filter = "MeatFisheggs";
+                filter_type = 0;
                 storeDataInArrays();
                 customAdapterFood.notifyDataSetChanged();
                 return true;
             case R.id.Sweet_filter:
                 filter = "Sweet";
+                filter_type = 0;
                 storeDataInArrays();
                 customAdapterFood.notifyDataSetChanged();
                 return true;
             case R.id.OtherFood_filter:
                 filter = "Other";
+                filter_type = 0;
                 storeDataInArrays();
                 customAdapterFood.notifyDataSetChanged();
                 return true;
@@ -141,8 +151,9 @@ public class FoodPage extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycleViewFood);
         search = findViewById(R.id.search_food_text);
-        adapter = (ArrayAdapter<String>) new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,food_name_list);
+        adapter = (ArrayAdapter<String>) new ArrayAdapter<String>(this, R.layout.autocomlete_layout,food_name_list);
         search.setAdapter(adapter);
+        //search.setDropDownBackgroundResource(R.color.white);
 
         nav = findViewById(R.id.bottomnavigatorviewFood);
         //così quando apro l'app mi da fin  da subito selezionata l'icona del cibo
@@ -191,6 +202,33 @@ public class FoodPage extends AppCompatActivity {
             }
         });
 
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //non mi serve
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                filter=search.getText().toString().toLowerCase();
+                filter_type=1;
+                if (filter.equals("")) {
+                    filter="all";
+                    filter_type=0;
+                }
+                storeDataInArrays();
+                customAdapterFood.notifyDataSetChanged();
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //non mi serve
+            }
+        });
+
 
 
         buildRecyclerView();
@@ -200,13 +238,16 @@ public class FoodPage extends AppCompatActivity {
 
     public void storeDataInArrays(){
         Cursor cursor = null;
-        if (filter.equals("all")) {
-            cursor = db.readAllDataFood();
-            //Toast.makeText(FoodPage.this,"FILTER_ALL",Toast.LENGTH_SHORT).show();
-        }
-        else {
-            cursor = db.readFilteredFood(filter);
-            Toast.makeText(FoodPage.this,filter,Toast.LENGTH_SHORT).show();
+        if (filter_type==0) {
+            if (filter.equals("all")) {
+                cursor = db.readAllDataFood();
+                //Toast.makeText(FoodPage.this,"FILTER_ALL",Toast.LENGTH_SHORT).show();
+            } else {
+                cursor = db.readFilteredFoodByCategory(filter);
+                Toast.makeText(FoodPage.this, filter, Toast.LENGTH_SHORT).show();
+            }
+        } else if (filter_type==1){
+            cursor = db.readFilteredFoodByName(filter);
         }
         food_name_list.clear();
         food_category_list.clear();
@@ -227,7 +268,7 @@ public class FoodPage extends AppCompatActivity {
                 food_fat_list.add(cursor.getString(4).toLowerCase());
             }
         }
-        adapter = (ArrayAdapter<String>) new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,food_name_list);
+        adapter = (ArrayAdapter<String>) new ArrayAdapter<String>(this, R.layout.autocomlete_layout,food_name_list);
         search.setAdapter(adapter);
 
     }
