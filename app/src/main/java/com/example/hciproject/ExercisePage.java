@@ -9,16 +9,14 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
@@ -28,13 +26,12 @@ public class ExercisePage extends AppCompatActivity {
     public String filter = "all";
     public Boolean changes = false;
 
-    FloatingActionButton addbtn;
     DBHelper db;
     ArrayList<String> exercise_name_list, exercise_category_list, exercise_reps_list, exercise_series_list;
     ArrayList<Bitmap> exercise_img_list;
-    ConstraintLayout layout;
     RecyclerView recyclerView;
     CustomAdapterExercise customAdapterExercise;
+    BottomNavigationView nav;
 
     @Override
     public void onBackPressed() {
@@ -80,12 +77,16 @@ public class ExercisePage extends AppCompatActivity {
         MenuItem filter_arms = menu.findItem(R.id.Arms_filter);
         MenuItem filter_beck = menu.findItem(R.id.Beck_filter);
         MenuItem filter_other = menu.findItem(R.id.OtherExercise_filter);
+        MenuItem addExercise = menu.findItem(R.id.addExerciseitem);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
+            case R.id.addExerciseitem:
+                Intent intent = new Intent(ExercisePage.this, AddExercisePage.class);
+                startActivity(intent);
             case R.id.AllExercise_filter:
                 filter = "all";
                 storeDataInArrays();
@@ -136,18 +137,37 @@ public class ExercisePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercisepage);
 
-        layout = findViewById(R.id.constraintLayout);
         recyclerView = findViewById(R.id.recycleViewWorkout);
-        addbtn = findViewById(R.id.add_workout_btn);
+        nav = findViewById(R.id.bottomnavigatorviewExercise);
 
-        addbtn.setOnClickListener(new View.OnClickListener() {
+        nav.setSelectedItemId(R.id.bottom_exercise);
+        nav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ExercisePage.this, AddExercisePage.class);
-                startActivity(intent);
-                return;
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.bottom_diary:
+                        openactivityDiary();
+                        return true;
+                    case R.id.bottom_exercise:
+                        //alredy in exercise page
+                        return true;
+                    case R.id.bottom_food:
+                        Toast.makeText(ExercisePage.this,"food",Toast.LENGTH_SHORT).show();
+                        openactivityFood();
+                        return true;
+                    case R.id.bottom_time:
+                        Toast.makeText(ExercisePage.this,"timer",Toast.LENGTH_SHORT).show();
+                        openactivitytimer();
+                        return true;
+                    case R.id.bottom_user:
+                        Toast.makeText(ExercisePage.this,"user",Toast.LENGTH_SHORT).show();
+                        openactivityuser();
+                        return true;
+                }
+                return true;
             }
         });
+
         buildRecyclerView();
         storeDataInArrays();
     }
@@ -239,6 +259,31 @@ public class ExercisePage extends AppCompatActivity {
     public void loadData(){
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
         changes = sharedPreferences.getBoolean("exercise_changes",true);
+    }
+
+    public void openactivityDiary(){
+        Intent intentDiary = new Intent(this, MainActivity.class);
+        startActivity(intentDiary);
+    }
+
+    public void openactivityFood(){
+        Intent intentDiet = new Intent(this, FoodPage.class);
+        startActivity(intentDiet);
+    }
+
+    public void openactivitytimer(){
+        Intent intentTimer = new Intent(this, TimerPage.class);
+        startActivity(intentTimer);
+    }
+
+    public void openactivityuser() {
+        Intent intentUser;
+        //creo la nuova pagina (intentUser)
+        intentUser = new Intent(this, UserPage.class);
+        //se non mi interessa ricevere delle informazioni dalla pagina figlia allora posso usare
+        //direttamente STARTACTIVITY
+        startActivity(intentUser);
+
     }
 
 }

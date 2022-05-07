@@ -5,7 +5,9 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserPage">
+    tools:context=".UserPage"
+    android:layout_above="@id/constraintLayout"
+    android:layout_below="@id/constraintLayout2">
 
     <Button
         android:id="@+id/selectimagebtn"
@@ -19,26 +21,26 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/username_TextInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="105dp"
+        android:layout_marginTop="70dp"
         android:layout_marginEnd="32dp"
+        android:hint="username"
+        app:counterEnabled="true"
+        app:counterMaxLength="20"
+        app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:hint="username"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        app:startIconDrawable="@drawable/ic_baseline_person_24"
-        app:counterEnabled="true"
-        app:counterMaxLength="20"
-        app:endIconMode="clear_text">
+        app:startIconDrawable="@drawable/ic_baseline_person_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/usernametxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLength="20"/>
+            android:maxLength="20" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -47,6 +49,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="32dp"
         android:hint="password"
         app:counterEnabled="true"
@@ -56,8 +59,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.329"
+        app:layout_constraintTop_toBottomOf="@+id/username_TextInputLayout"
+        app:layout_constraintVertical_bias="0.016"
         app:startIconDrawable="@drawable/ic_baseline_vpn_key_24">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -71,52 +74,27 @@
         android:id="@+id/loginbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:enabled="true"
         android:text="login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.284"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.445"
-        android:enabled="true"/>
-
-    <TextView
-        android:id="@+id/debugtxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:text="*****"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.074" />
-
-    <TextView
-        android:id="@+id/debugtxt2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="*****"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.977" />
+        app:layout_constraintVertical_bias="0.418" />
 
     <Button
         android:id="@+id/signupbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:enabled="true"
         android:text="signup"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.66"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.535"
-        android:enabled="true" />
+        app:layout_constraintVertical_bias="0.418" />
 
     <ImageView
         android:id="@+id/userimageview"
@@ -128,4 +106,35 @@
         app:layout_constraintTop_toBottomOf="@+id/signupbtn"
         app:srcCompat="@drawable/no_image2" />
 
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:context=".MainActivity">
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottomappbarUser"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_gravity="bottom"
+            app:contentInsetStart="0dp"
+            app:layout_anchorGravity="bottom|center">
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomnavigatorviewUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/green"
+                app:itemIconTint="@color/nav_color"
+                app:itemTextColor="@color/nav_color"
+                app:menu="@menu/bottom_nav" />
+
+        </com.google.android.material.bottomappbar.BottomAppBar>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+

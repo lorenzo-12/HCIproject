@@ -9,13 +9,11 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="2dp">
+        android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:padding="12dp">
 
@@ -52,6 +50,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="reps:"
+            android:visibility="invisible"
             app:layout_constraintStart_toEndOf="@+id/exercise_img"
             app:layout_constraintTop_toBottomOf="@+id/exercise_category" />
 
@@ -62,6 +61,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="16dp"
             android:text="0"
+            android:visibility="invisible"
             app:layout_constraintStart_toEndOf="@+id/testo_fisso_reps"
             app:layout_constraintTop_toBottomOf="@+id/exercise_category" />
 
@@ -72,6 +72,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="series:"
+            android:visibility="invisible"
             app:layout_constraintStart_toEndOf="@+id/exercise_reps"
             app:layout_constraintTop_toBottomOf="@+id/exercise_category" />
 
@@ -82,6 +83,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="16dp"
             android:text="0"
+            android:visibility="invisible"
             app:layout_constraintStart_toEndOf="@+id/testo_fisso_series"
             app:layout_constraintTop_toBottomOf="@+id/exercise_category" />
 
@@ -99,7 +101,7 @@
             android:id="@+id/modify_workout_img"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginStart="272dp"
+            android:layout_marginStart="260dp"
             android:layout_marginTop="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

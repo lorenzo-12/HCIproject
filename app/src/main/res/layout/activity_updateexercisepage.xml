@@ -10,12 +10,12 @@
         android:id="@+id/workout_name_text_update"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="100dp"
         android:ems="10"
         android:hint="name"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,28 +32,30 @@
         android:id="@+id/workout_reps_text_update"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginTop="32dp"
+        android:clickable="false"
         android:ems="10"
         android:hint="Repetition"
         android:inputType="number"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/workout_category_spinner_update" />
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <EditText
         android:id="@+id/workout_series_text_update"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginTop="32dp"
+        android:clickable="false"
         android:ems="10"
         android:hint="Series"
         android:inputType="number"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/workout_reps_text_update" />
-
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/updateWorkoutbtn"
@@ -71,8 +73,9 @@
         android:layout_height="150dp"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/workout_series_text_update"
+        app:layout_constraintTop_toBottomOf="@+id/workout_category_spinner_update"
         app:srcCompat="@drawable/no_image2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

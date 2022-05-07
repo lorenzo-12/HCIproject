@@ -17,25 +17,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="55dp"
+        android:layout_marginTop="50dp">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_food_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="340dp"
-        android:layout_marginTop="600dp"
-        android:layout_marginEnd="14dp"
-        android:layout_marginBottom="71dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_baseline_add_24" />
+    </androidx.recyclerview.widget.RecyclerView>
 
     <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottomappbar"
+        android:id="@+id/bottomappbarFood"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -43,7 +32,7 @@
         app:contentInsetStart="0dp">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomnavigatorview"
+            android:id="@+id/bottomnavigatorviewFood"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/green"
@@ -52,5 +41,20 @@
             app:menu="@menu/bottom_nav" />
 
     </com.google.android.material.bottomappbar.BottomAppBar>
+
+    <EditText
+        android:id="@+id/search_food_text"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:background="@color/grey"
+        android:drawableEnd="@drawable/ic_baseline_search_24"
+        android:drawableTint="@color/black"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="search"
+        android:textColor="@color/black"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"/>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

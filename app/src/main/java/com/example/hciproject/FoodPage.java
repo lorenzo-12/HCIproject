@@ -9,7 +9,9 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,7 +20,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -28,13 +29,13 @@ public class FoodPage extends AppCompatActivity {
     public String filter = "all";
     public Boolean changes = false;
 
-    FloatingActionButton addbtn;
     DBHelper db;
     ArrayList<String> food_name_list, food_category_list, food_carb_list, food_prot_list, food_fat_list;
     ArrayList<Bitmap> food_img_list;
     RecyclerView recyclerView;
     CustomAdapterFood customAdapterFood;
     BottomNavigationView nav;
+    EditText search;
 
     @Override
     public void onBackPressed() {
@@ -79,12 +80,17 @@ public class FoodPage extends AppCompatActivity {
         MenuItem filter_meat = menu.findItem(R.id.MeatFishEgg_filter);
         MenuItem filter_sweet = menu.findItem(R.id.Sweet_filter);
         MenuItem filter_other = menu.findItem(R.id.OtherFood_filter);
+        MenuItem addFood = menu.findItem(R.id.addfooditem);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
+            case R.id.addfooditem:
+                Intent intent = new Intent(FoodPage.this, AddFoodPage.class);
+                startActivity(intent);
+                return true;
             case R.id.AllFood_filter:
                 filter = "all";
                 storeDataInArrays();
@@ -125,24 +131,16 @@ public class FoodPage extends AppCompatActivity {
         }
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_foodpage);
 
         recyclerView = findViewById(R.id.recycleViewFood);
-        addbtn = findViewById(R.id.add_food_btn);
-        nav = findViewById(R.id.bottomnavigatorview);
+        search = findViewById(R.id.search_food_text);
 
-        addbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(FoodPage.this, AddFoodPage.class);
-                startActivity(intent);
-                return;
-            }
-        });
-
+        nav = findViewById(R.id.bottomnavigatorviewFood);
         //così quando apro l'app mi da fin  da subito selezionata l'icona del cibo
         nav.setSelectedItemId(R.id.bottom_food);
 
@@ -151,7 +149,7 @@ public class FoodPage extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.bottom_diary:
-                        onBackPressed();
+                        openactivityDiary();
                         return true;
                     case R.id.bottom_exercise:
                         Toast.makeText(FoodPage.this,"exercise",Toast.LENGTH_SHORT).show();
@@ -174,9 +172,25 @@ public class FoodPage extends AppCompatActivity {
             }
         });
 
+        search.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                final int DRAWABLE_RIGHT = 2;
+                if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if(event.getRawX() >= (search.getRight() - search.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        Toast.makeText(FoodPage.this,"aaa",Toast.LENGTH_SHORT).show();
+
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
         buildRecyclerView();
         storeDataInArrays();
     }
+
 
     public void storeDataInArrays(){
         Cursor cursor = null;
@@ -294,6 +308,10 @@ public class FoodPage extends AppCompatActivity {
         //direttamente STARTACTIVITY
         startActivity(intentUser);
 
+    }
+    public void openactivityDiary(){
+        Intent intentDiary = new Intent(this, MainActivity.class);
+        startActivity(intentDiary);
     }
 
 }

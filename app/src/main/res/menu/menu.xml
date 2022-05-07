@@ -16,9 +16,4 @@
         android:icon="@drawable/ic_baseline_info_24"
         android:title="CHANGE USERNAME"
         app:showAsAction="collapseActionView" />
-    <item
-        android:id="@+id/LightMode_item"
-        android:icon="@drawable/ic_baseline_dark_mode_24"
-        app:showAsAction="ifRoom"
-        android:title="LightMode" />
 </menu>

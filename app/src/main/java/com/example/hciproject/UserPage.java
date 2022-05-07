@@ -19,12 +19,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -47,11 +49,10 @@ public class UserPage extends AppCompatActivity {
     EditText username,password;
     Button login,signup,select;
     ImageView image;
-    TextView debug,debug2;
     DBHelper db;
     Uri imageuri;
     Bitmap image_bitmap;
-
+    BottomNavigationView nav;
 
 
     @Override
@@ -110,7 +111,6 @@ public class UserPage extends AppCompatActivity {
                 user_logged = "none";
                 saveData();
                 updateButtons();
-                debug.setText(user_logged);
                 return true;
             case R.id.Change_password_item:
                 Intent intentpassword = new Intent(this, ChangePasswordPage.class);
@@ -120,23 +120,6 @@ public class UserPage extends AppCompatActivity {
                 //Intent intentUsername = new Intent(this, ChangeUsernamePage.class);
                 //startActivity(intentUsername);
                 return true;
-            case R.id.LightMode_item:
-                /*
-                if (lightmode == true){
-                    Toast.makeText(this,"Pass to DarkMode",Toast.LENGTH_SHORT).show();
-                    lightmode = false;
-                    menu_bar.getItem(3).setIcon(R.drawable.ic_baseline_wb_sunny_24);
-                    layout.setBackgroundColor(Color.BLACK);
-                    saveData();
-                }
-                else {
-                    Toast.makeText(this,"Pass to LightMode",Toast.LENGTH_SHORT).show();
-                    lightmode = true;
-                    menu_bar.getItem(3).setIcon(R.drawable.ic_baseline_dark_mode_24);
-                    layout.setBackgroundColor(Color.GRAY);
-                    saveData();
-                }
-                 */
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -155,16 +138,43 @@ public class UserPage extends AppCompatActivity {
         signup = findViewById(R.id.signupbtn);
         db = new DBHelper(this);
 
-        debug = findViewById(R.id.debugtxt);
-        debug2 = findViewById(R.id.debugtxt2);
-        debug.setVisibility(View.INVISIBLE);
-        debug2.setVisibility(View.INVISIBLE);
-
         username.addTextChangedListener(resetTextWatcher);
         password.addTextChangedListener(resetTextWatcher);
 
         image = findViewById(R.id.userimageview);
         select = findViewById(R.id.selectimagebtn);
+
+        nav = findViewById(R.id.bottomnavigatorviewUser);
+
+        //così quando apro l'app mi da fin  da subito selezionata l'icona del cibo
+        nav.setSelectedItemId(R.id.bottom_user);
+
+        nav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.bottom_diary:
+                        openactivityDiary();
+                        return true;
+                    case R.id.bottom_exercise:
+                        Toast.makeText(UserPage.this,"exercise",Toast.LENGTH_SHORT).show();
+                        openactivityexercise();
+                        return true;
+                    case R.id.bottom_food:
+                        Toast.makeText(UserPage.this,"food",Toast.LENGTH_SHORT).show();
+                        openactivityFood();
+                        return true;
+                    case R.id.bottom_time:
+                        Toast.makeText(UserPage.this,"timer",Toast.LENGTH_SHORT).show();
+                        openactivitytimer();
+                        return true;
+                    case R.id.bottom_user:
+                        //do nothing, im alredy in user activity
+                        return true;
+                }
+                return true;
+            }
+        });
 
         select.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -214,8 +224,6 @@ public class UserPage extends AppCompatActivity {
                 String res = db.viewUsers();
                 saveData();
                 updateButtons();
-                debug.setText(user_logged);
-                debug2.setText(res);
                 onBackPressed();
             }
 
@@ -242,15 +250,12 @@ public class UserPage extends AppCompatActivity {
                 String res = db.viewUsers();
                 saveData();
                 updateButtons();
-                debug.setText(user_logged);
-                debug2.setText(res);
                 onBackPressed();
             }
         });
 
         loadData();
         updateButtons();
-        debug.setText(user_logged);
 
         select.setText("select image");
         if (!user_logged.equals("none")){
@@ -306,21 +311,10 @@ public class UserPage extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        /*
-        layout = findViewById(R.id.constraintLayout);
-        if (lightmode == true) {
-            layout.setBackgroundColor(Color.BLACK);
-            lightmode = false;
-        }
-        else {
-            layout.setBackgroundColor(Color.WHITE);
-            lightmode = true;
-        }
-         */
+
         loadData();
         updateButtons();
         String res = db.viewUsers();
-        debug2.setText(res);
         if (!user_logged.equals("none")) image.setImageBitmap(db.loadImage(user_logged));
         else if (user_logged.equals("none") && image_selected==false) image.setImageResource(R.drawable.no_image2);
     }
@@ -403,7 +397,29 @@ public class UserPage extends AppCompatActivity {
 
     }
 
+    public void openactivityDiary(){
+        saveData();
+        Intent intentDiary = new Intent(this, MainActivity.class);
+        startActivity(intentDiary);
+    }
 
+    public void openactivityFood(){
+        saveData();
+        Intent intentDiet = new Intent(this, FoodPage.class);
+        startActivity(intentDiet);
+    }
+
+    public void openactivityexercise(){
+        saveData();
+        Intent intentExercise = new Intent(this, ExercisePage.class);
+        startActivity(intentExercise);
+    }
+
+    public void openactivitytimer(){
+        saveData();
+        Intent intentTimer = new Intent(this, TimerPage.class);
+        startActivity(intentTimer);
+    }
 
 
 }

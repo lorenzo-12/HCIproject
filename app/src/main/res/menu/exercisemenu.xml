@@ -33,4 +33,8 @@
                 android:title="Other"/>
         </menu>
     </item>
+    <item
+        android:id="@+id/addExerciseitem"
+        android:title="Add Exercise"
+        app:showAsAction="always"/>
 </menu>

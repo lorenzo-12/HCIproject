@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
         //associo a ogni variabile il corrispettivo bottone/testo ecc...
         //layout = findViewById(R.id.constraintLayout);
         //layout.setBackgroundColor(Color.WHITE);
-        nav = findViewById(R.id.bottomnavigatorviewfood);
         workoutActivitybtn = findViewById(R.id.ExerciseButton);
         diaryActivitybtn = findViewById(R.id.DiaryButton);
         FoodActivitybtn = findViewById(R.id.FoodButton);
@@ -71,44 +70,7 @@ public class MainActivity extends AppCompatActivity {
         timerbtn.setClickable(false);
         userView.setClickable(false);
 
-
-        //setto per ogni bottone la rispttiva funzione ONCLICK
-        /*
-        userView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) { openactivityuser();}
-        });
-
-        diaryActivitybtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openactivityDiary();
-            }
-        });
-
-        FoodActivitybtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openactivityFood();
-            }
-        });
-
-        workoutActivitybtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openactivityworkout();
-            }
-        });
-
-        timerbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openactivitytimer();
-            }
-        });
-
-         */
-
+        nav = findViewById(R.id.bottomnavigatorview);
         //così quando apro l'app mi da fin  da subito selezionata l'icona del diario
         nav.setSelectedItemId(R.id.bottom_diary);
 
@@ -162,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
     //relative funzioni che vengono chiamete quando premiamo un bottone
     public void openactivityDiary(){
         saveData();
-        Intent intentDiary = new Intent(this, DiaryPage.class);
+        Intent intentDiary = new Intent(this, MainActivity.class);
         startActivity(intentDiary);
     }
 
@@ -175,8 +137,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void openactivityexercise(){
         saveData();
-        Intent intentWorkout = new Intent(this, ExercisePage.class);
-        startActivity(intentWorkout);
+        Intent intentExercise = new Intent(this, ExercisePage.class);
+        startActivity(intentExercise);
     }
 
     public void openactivitytimer(){
