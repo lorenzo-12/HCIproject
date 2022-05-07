@@ -42,16 +42,16 @@
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/search_food_text"
         android:layout_width="match_parent"
-        android:layout_height="51dp"
+        android:layout_height="50dp"
         android:background="@color/grey"
+        android:completionThreshold="1"
         android:drawableEnd="@drawable/ic_baseline_search_24"
-        android:drawableTint="@color/black"
-        android:ems="10"
-        android:inputType="text"
         android:hint="search"
+        android:drawableTint="@color/black"
+        android:textColorHint="@color/black"
         android:textColor="@color/black"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"/>

@@ -11,7 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,7 +36,8 @@ public class FoodPage extends AppCompatActivity {
     RecyclerView recyclerView;
     CustomAdapterFood customAdapterFood;
     BottomNavigationView nav;
-    EditText search;
+    AutoCompleteTextView search;
+    ArrayAdapter adapter;
 
     @Override
     public void onBackPressed() {
@@ -139,6 +141,8 @@ public class FoodPage extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycleViewFood);
         search = findViewById(R.id.search_food_text);
+        adapter = (ArrayAdapter<String>) new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,food_name_list);
+        search.setAdapter(adapter);
 
         nav = findViewById(R.id.bottomnavigatorviewFood);
         //così quando apro l'app mi da fin  da subito selezionata l'icona del cibo
@@ -187,6 +191,8 @@ public class FoodPage extends AppCompatActivity {
             }
         });
 
+
+
         buildRecyclerView();
         storeDataInArrays();
     }
@@ -221,6 +227,8 @@ public class FoodPage extends AppCompatActivity {
                 food_fat_list.add(cursor.getString(4).toLowerCase());
             }
         }
+        adapter = (ArrayAdapter<String>) new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,food_name_list);
+        search.setAdapter(adapter);
 
     }
 
