@@ -170,7 +170,17 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public Cursor readFilteredExercise(String filter){
+    public Cursor readFilteredExerciseByName(String name_prefix){
+        String query = "SELECT * FROM "+EXERCISE_TABLE+" WHERE exercise_name LIKE '"+name_prefix+"%';";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        if (db != null){
+            cursor = db.rawQuery(query,new String[]{});
+        }
+        return cursor;
+    }
+
+    public Cursor readFilteredExerciseByCategory(String filter){
         String query = "SELECT * FROM "+ EXERCISE_TABLE +" WHERE exercise_category=?"+ " ORDER BY "+CNAME_EXERCISE;;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;

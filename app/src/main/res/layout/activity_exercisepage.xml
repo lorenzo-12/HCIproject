@@ -18,7 +18,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="55dp"/>
+        android:layout_marginBottom="55dp"
+        android:layout_marginTop="50dp"/>
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomappbarExercise"
@@ -38,5 +39,19 @@
             app:menu="@menu/bottom_nav" />
 
     </com.google.android.material.bottomappbar.BottomAppBar>
+
+    <AutoCompleteTextView
+        android:id="@+id/search_exercise_text"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:completionThreshold="1"
+        android:drawableEnd="@drawable/ic_baseline_search_24"
+        android:hint="search"
+        android:drawableTint="@color/black"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -6,9 +6,15 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +30,7 @@ public class ExercisePage extends AppCompatActivity {
 
     public Menu menu_bar;
     public String filter = "all";
+    public Integer filter_type = 0;
     public Boolean changes = false;
 
     DBHelper db;
@@ -32,6 +39,8 @@ public class ExercisePage extends AppCompatActivity {
     RecyclerView recyclerView;
     CustomAdapterExercise customAdapterExercise;
     BottomNavigationView nav;
+    AutoCompleteTextView search;
+    ArrayAdapter adapter;
 
     @Override
     public void onBackPressed() {
@@ -138,6 +147,9 @@ public class ExercisePage extends AppCompatActivity {
         setContentView(R.layout.activity_exercisepage);
 
         recyclerView = findViewById(R.id.recycleViewWorkout);
+        search = findViewById(R.id.search_exercise_text);
+        adapter = (ArrayAdapter<String>) new ArrayAdapter<String>(this, R.layout.autocomlete_layout,exercise_name_list);
+        search.setAdapter(adapter);
         nav = findViewById(R.id.bottomnavigatorviewExercise);
 
         nav.setSelectedItemId(R.id.bottom_exercise);
@@ -168,19 +180,64 @@ public class ExercisePage extends AppCompatActivity {
             }
         });
 
+        search.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                final int DRAWABLE_RIGHT = 2;
+                if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if(event.getRawX() >= (search.getRight() - search.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        Toast.makeText(ExercisePage.this,"aaa",Toast.LENGTH_SHORT).show();
+
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //non mi serve
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                filter=search.getText().toString().toLowerCase();
+                filter_type=1;
+                if (filter.equals("")) {
+                    filter="all";
+                    filter_type=0;
+                }
+                storeDataInArrays();
+                customAdapterExercise.notifyDataSetChanged();
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //non mi serve
+            }
+        });
+
         buildRecyclerView();
         storeDataInArrays();
     }
 
     public void storeDataInArrays(){
         Cursor cursor = null;
-        if (filter.equals("all")) {
-            cursor = db.readAllDataExercise();
-            //Toast.makeText(ExercisePage.this,"FILTER_ALL",Toast.LENGTH_SHORT).show();
-        }
-        else {
-            cursor = db.readFilteredExercise(filter);
-            //Toast.makeText(ExercisePage.this,filter,Toast.LENGTH_SHORT).show();
+        if (filter_type==0) {
+            if (filter.equals("all")) {
+                cursor = db.readAllDataExercise();
+                //Toast.makeText(FoodPage.this,"FILTER_ALL",Toast.LENGTH_SHORT).show();
+            } else {
+                cursor = db.readFilteredExerciseByCategory(filter);
+                Toast.makeText(ExercisePage.this, filter, Toast.LENGTH_SHORT).show();
+            }
+        } else if (filter_type==1){
+            cursor = db.readFilteredExerciseByName(filter);
         }
         exercise_name_list.clear();
         exercise_category_list.clear();
@@ -197,6 +254,8 @@ public class ExercisePage extends AppCompatActivity {
                 exercise_series_list.add(cursor.getString(3).toLowerCase());
             }
         }
+        adapter = (ArrayAdapter<String>) new ArrayAdapter<String>(this, R.layout.autocomlete_layout,exercise_name_list);
+        search.setAdapter(adapter);
     }
 
     public void buildRecyclerView(){
