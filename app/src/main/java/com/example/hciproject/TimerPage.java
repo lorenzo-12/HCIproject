@@ -29,12 +29,13 @@ public class TimerPage extends AppCompatActivity {
 
     public TextView countdown_txt;
     public EditText hours,minutes,seconds;
-    public Button buttonStartPause, buttonReset, buttonSet, test;
+    public Button buttonStartPause, buttonReset, buttonSet;
     public CountDownTimer countDownTimer;
     public long startTimeMilliseconds;
     public long timeLeftMilliseconds;
     public boolean timerRunning;
     public long endTimer;
+    double dec = 0;
     BottomNavigationView nav;
     ProgressBar progressBar;
     int count = 0;
@@ -83,7 +84,6 @@ public class TimerPage extends AppCompatActivity {
         seconds = findViewById(R.id.timer_input_text_seconds);
         hours = findViewById(R.id.timer_input_text_hours);
         buttonSet = findViewById(R.id.timer_input_btn);
-        test = findViewById(R.id.buttonprogressbar);
         progressBar = findViewById(R.id.progressBar);
         progressBar.setMax(100);
         progressBar.setProgress(100);
@@ -117,13 +117,6 @@ public class TimerPage extends AppCompatActivity {
                         return true;
                 }
                 return true;
-            }
-        });
-
-        test.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                progressBar.setProgress(progressBar.getProgress()-10);
             }
         });
 
@@ -208,6 +201,7 @@ public class TimerPage extends AppCompatActivity {
         resetTimer();
         closeKeyboard();
         progressBar.setProgress(100);
+        dec = 100/(startTimeMilliseconds/1000);
     }
 
     public void startTimer(){
@@ -217,13 +211,7 @@ public class TimerPage extends AppCompatActivity {
             public void onTick(long l) {
                 timeLeftMilliseconds = l;
                 updateCountDownText();
-                double start = (double) startTimeMilliseconds;
-                double left = (double) timeLeftMilliseconds;
-                double perc = 0;
-                if (timeLeftMilliseconds!=0) {
-                    perc =  (left / start) * 100;
-                }
-                progressBar.setProgress((int) perc);
+                progressBar.setProgress(progressBar.getProgress()-(int) dec);
             }
 
             @Override
@@ -246,6 +234,7 @@ public class TimerPage extends AppCompatActivity {
     }
 
     public void resetTimer(){
+        progressBar.setProgress(100);
         timeLeftMilliseconds = startTimeMilliseconds;
         updateCountDownText();
         updateTimerInterface();
