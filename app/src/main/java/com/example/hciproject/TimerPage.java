@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,8 +29,7 @@ import java.util.Locale;
 public class TimerPage extends AppCompatActivity {
 
     public TextView countdown_txt;
-    public EditText hours,minutes,seconds;
-    public Button buttonStartPause, buttonReset, buttonSet;
+    public Button buttonStartPause, buttonReset;
     public CountDownTimer countDownTimer;
     public long startTimeMilliseconds;
     public long timeLeftMilliseconds;
@@ -39,6 +39,8 @@ public class TimerPage extends AppCompatActivity {
     BottomNavigationView nav;
     ProgressBar progressBar;
     int count = 0;
+
+    NumberPicker hh,mm,ss;
 
     //codice per fare si che quando un utente clicca fuori da un Edittext si perde il focus
     @Override
@@ -80,13 +82,44 @@ public class TimerPage extends AppCompatActivity {
         countdown_txt = findViewById(R.id.countdown_text);
         buttonStartPause = findViewById(R.id.countdown_btn);
         buttonReset = findViewById(R.id.countdown_reset_btn);
-        minutes = findViewById(R.id.timer_input_text_minutes);
-        seconds = findViewById(R.id.timer_input_text_seconds);
-        hours = findViewById(R.id.timer_input_text_hours);
-        buttonSet = findViewById(R.id.timer_input_btn);
         progressBar = findViewById(R.id.progressBar);
-        progressBar.setMax(100);
-        progressBar.setProgress(100);
+        progressBar.setMax(100000000);
+        progressBar.setProgress(100000000);
+
+        hh = findViewById(R.id.numpicker_hours);
+        mm = findViewById(R.id.numpicker_minutes);
+        ss = findViewById(R.id.numpicker_seconds);
+
+        hh.setMaxValue(23);
+        hh.setMinValue(0);
+        hh.setValue(0);
+        mm.setMaxValue(59);
+        mm.setMinValue(0);
+        mm.setValue(0);
+        ss.setMaxValue(59);
+        ss.setMinValue(0);
+        ss.setValue(0);
+
+        hh.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int oldvalue, int newvalue) {
+                setTimer();
+            }
+        });
+
+        mm.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int oldvalue, int newvalue) {
+                setTimer();
+            }
+        });
+
+        ss.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int oldvalue, int newvalue) {
+                setTimer();
+            }
+        });
 
 
         nav = findViewById(R.id.bottomnavigatorviewTimer);
@@ -120,33 +153,6 @@ public class TimerPage extends AppCompatActivity {
             }
         });
 
-        buttonSet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String input_hours = hours.getText().toString();
-                String input_minutes = minutes.getText().toString();
-                String input_seconds = seconds.getText().toString();
-                input_hours = "1";
-                if (input_minutes.length() == 0 || input_seconds.length()==0 || input_hours.length()==0){
-                    Toast.makeText(TimerPage.this,"Field can't be empty",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                long input_hour = Long.parseLong(input_hours) * 3600000;
-                long input_min = Long.parseLong(input_minutes) * 60000;
-                long input_sec = Long.parseLong(input_seconds) * 1000;
-                long millisInput = input_min+input_sec;
-                if (millisInput < 0){
-                    Toast.makeText(TimerPage.this,"Please enter a positive number",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                setTimer(millisInput);
-                hours.setText("");
-                minutes.setText("");
-                seconds.setText("");
-            }
-        });
-
        buttonStartPause.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
@@ -167,32 +173,6 @@ public class TimerPage extends AppCompatActivity {
 
        updateCountDownText();
 
-       seconds.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-           @Override
-           public void onFocusChange(View view, boolean b) {
-               if (seconds.getText().toString().length()==0) return;
-               long tmp = Long.parseLong(seconds.getText().toString());
-               if (tmp>=60) seconds.setText("59");
-           }
-       });
-
-        minutes.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (minutes.getText().toString().length()==0) return;
-                long tmp = Long.parseLong(minutes.getText().toString());
-                if (tmp>=60) minutes.setText("59");
-            }
-        });
-
-        hours.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (hours.getText().toString().length()==0) return;
-                long tmp = Long.parseLong(hours.getText().toString());
-                if (tmp>=24) hours.setText("23");
-            }
-        });
 
     }
 
@@ -200,11 +180,15 @@ public class TimerPage extends AppCompatActivity {
         startTimeMilliseconds = milliseconds;
         resetTimer();
         closeKeyboard();
-        progressBar.setProgress(100);
-        dec = 100/(startTimeMilliseconds/1000);
+        progressBar.setProgress(100000000);
+        if (startTimeMilliseconds!=0) dec = 100000000/(startTimeMilliseconds/1000);
+        else dec = 0;
     }
 
     public void startTimer(){
+        hh.setEnabled(false);
+        mm.setEnabled(false);
+        ss.setEnabled(false);
         endTimer = System.currentTimeMillis() + timeLeftMilliseconds;
         countDownTimer = new CountDownTimer(timeLeftMilliseconds,1000) {
             @Override
@@ -212,6 +196,8 @@ public class TimerPage extends AppCompatActivity {
                 timeLeftMilliseconds = l;
                 updateCountDownText();
                 progressBar.setProgress(progressBar.getProgress()-(int) dec);
+                if (((timeLeftMilliseconds/1000)%60)<1) progressBar.setProgress(0);
+                //Toast.makeText(TimerPage.this, Double.toString(dec), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -223,46 +209,42 @@ public class TimerPage extends AppCompatActivity {
 
         timerRunning = true;
         updateTimerInterface();
-
-
     }
 
     public void pauseTimer(){
+        hh.setEnabled(true);
+        mm.setEnabled(true);
+        ss.setEnabled(true);
         countDownTimer.cancel();
         timerRunning = false;
         updateTimerInterface();
     }
 
     public void resetTimer(){
-        progressBar.setProgress(100);
+        hh.setEnabled(true);
+        mm.setEnabled(true);
+        ss.setEnabled(true);
+        progressBar.setProgress(100000000);
         timeLeftMilliseconds = startTimeMilliseconds;
         updateCountDownText();
         updateTimerInterface();
     }
 
     public void updateCountDownText() {
-        int hours = (int) ((timeLeftMilliseconds) / 1000) / 36000;
+        int hours = (int) ((timeLeftMilliseconds) / 1000) / 3600;
         int minutes = (int) ((timeLeftMilliseconds / 1000) % 3600) / 60;
         int seconds = (int) (timeLeftMilliseconds / 1000) % 60;
         String format;
-        if (hours >= 0){
-            format = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds);
-        } else {
-            format = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
-        }
+        format = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds);
         countdown_txt.setText(format);
 
     }
 
     public void updateTimerInterface(){
         if (timerRunning){
-            minutes.setEnabled(false);
-            buttonSet.setEnabled(false);
             buttonReset.setEnabled(false);
             buttonStartPause.setText("PAUSE");
         } else {
-            minutes.setEnabled(true);
-            buttonSet.setEnabled(true);
             buttonStartPause.setText("START");
             if (timeLeftMilliseconds < 1000){
                 buttonStartPause.setEnabled(false);
@@ -308,9 +290,18 @@ public class TimerPage extends AppCompatActivity {
 
         updateTimerInterface();
         updateCountDownText();
+
+        hh.setEnabled(true);
+        mm.setEnabled(true);
+        ss.setEnabled(true);
         if(timerRunning) {
             endTimer = prefs.getLong("endtimer", 0);
             timeLeftMilliseconds = endTimer - System.currentTimeMillis();
+            double tmp = 0;
+            if (startTimeMilliseconds!=0) {
+                tmp = ((double) timeLeftMilliseconds / (double) startTimeMilliseconds) * 100000000;
+                progressBar.setProgress((int) tmp);
+            }
             if(timeLeftMilliseconds < 0){
                 timeLeftMilliseconds = 0;
                 timerRunning = false;
@@ -330,6 +321,18 @@ public class TimerPage extends AppCompatActivity {
             InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(),0);
         }
+    }
+
+    public void setTimer(){
+        int hh_hh = hh.getValue();
+        int mm_mm = mm.getValue();
+        int ss_ss = ss.getValue();
+
+        long input_hour = (long) hh_hh * 3600000;
+        long input_min = (long) mm_mm * 60000;
+        long input_sec = (long) ss_ss * 1000;
+        long millisInput = input_hour+input_min+input_sec;
+        setTimer(millisInput);
     }
 
     public void openactivityDiary(){
@@ -356,4 +359,7 @@ public class TimerPage extends AppCompatActivity {
         startActivity(intentUser);
 
     }
+
+
+
 }
