@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChangeGoalsPage"
+    android:background="@color/white">
+
+    <EditText
+        android:id="@+id/change_carb_goal"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginTop="88dp"
+        android:backgroundTint="@color/green"
+        android:ems="10"
+        android:hint="carb goal"
+        android:inputType="number"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.731"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/change_prot_goal"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/green"
+        android:ems="10"
+        android:hint="prot goal"
+        android:inputType="number"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.731"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/change_carb_goal" />
+
+    <EditText
+        android:id="@+id/change_fat_goal"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/green"
+        android:ems="10"
+        android:hint="fat goal"
+        android:inputType="number"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.731"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/change_prot_goal" />
+
+    <EditText
+        android:id="@+id/change_kal_goal"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/green"
+        android:ems="10"
+        android:hint="kal goal"
+        android:inputType="number"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.731"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/change_fat_goal" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/change_goals_button"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="32dp"
+        android:background="@color/green"
+        android:text="aplly changes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/change_kal_goal" />
+
+    <TextView
+        android:id="@+id/text_carb"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="16dp"
+        android:text="CARB:"
+        android:textColor="#000000"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toStartOf="@+id/change_carb_goal"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_prot"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="16dp"
+        android:text="PROT:"
+        android:textColor="#000000"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toStartOf="@+id/change_prot_goal"
+        app:layout_constraintTop_toBottomOf="@+id/text_carb" />
+
+    <TextView
+        android:id="@+id/text_fat"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="36dp"
+        android:text="FAT:"
+        android:textColor="#000000"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toStartOf="@+id/change_fat_goal"
+        app:layout_constraintTop_toBottomOf="@+id/text_prot" />
+
+    <TextView
+        android:id="@+id/text_kal"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="36dp"
+        android:text="KAL:"
+        android:textColor="#000000"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toStartOf="@+id/change_kal_goal"
+        app:layout_constraintTop_toBottomOf="@+id/text_fat" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -25,8 +25,10 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CUSERNAME = "username";
     public static final String CPASSWORD = "password";
     public static final String CSEX = "sex";
+    public static final String CWEIGHT = "weight";
+    public static final String CHEIGHT = "height";
     public static final String CCARB_GOAL = "carbgoal";
-    public static final String CPORT_GOAL = "protgoal";
+    public static final String CPROT_GOAL = "protgoal";
     public static final String CFAT_GOAL = "fatgoal";
     public static final String CKAL_GOAL = "kalgoal";
 
@@ -36,6 +38,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CCARB = "carb";
     public static final String CPROT = "prot";
     public static final String CFAT = "fat";
+    //devo ancora aggiungere
+    public static final String CKAL = "kal";
 
     public static final String EXERCISE_TABLE = "exercise";
     public static final String CNAME_EXERCISE = "exercise_name";
@@ -43,9 +47,26 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CREPS_EXERCISE = "exercise_reps";
     public static final String CSERIES_EXERCISE = "exercise_series";
 
-    public static final String CREATE_USER_TABLE = "CREATE TABLE "+USER_TABLE+" ("+CUSERNAME+" TEXT PRIMARY KEY, "+CPASSWORD+" TEXT NOT NULL );";
-    public static final String CREATE_FOOD_TABLE = "CREATE TABLE "+FOOD_TABLE+" ("+CNAME_FOOD+" TEXT PRIMARY KEY, "+CCATEGORY_FOOD+" TEXT, "+CCARB+" INTEGER, "+CPROT+" INTEGER, "+CFAT+" INTEGER );";
-    public static final String CREATE_EXERCISE_TABLE = "CREATE TABLE "+ EXERCISE_TABLE +" ("+ CNAME_EXERCISE +" TEXT PRIMARY KEY, "+ CCATEGORY_EXERCISE +" TEXT, "+ CREPS_EXERCISE +" INTEGER, "+ CSERIES_EXERCISE +" INTEGER );";
+    public static final String CREATE_USER_TABLE = "CREATE TABLE "+USER_TABLE+" (  "+CUSERNAME+" TEXT PRIMARY KEY, "
+                                                                                    +CPASSWORD+" TEXT NOT NULL, "
+                                                                                    +CSEX+" INTEGER, "
+                                                                                    +CWEIGHT+" INTEGER, "
+                                                                                    +CHEIGHT+" INTEGER, "
+                                                                                    +CCARB_GOAL+" INTEGER, "
+                                                                                    +CPROT_GOAL+" INTEGER, "
+                                                                                    +CFAT_GOAL+" INTEGER, "
+                                                                                    +CKAL_GOAL+" INTEGER );";
+
+    public static final String CREATE_FOOD_TABLE = "CREATE TABLE "+FOOD_TABLE+" (  "+CNAME_FOOD+" TEXT PRIMARY KEY, "
+                                                                                    +CCATEGORY_FOOD+" TEXT, "
+                                                                                    +CCARB+" INTEGER, "
+                                                                                    +CPROT+" INTEGER, "
+                                                                                    +CFAT+" INTEGER );";
+
+    public static final String CREATE_EXERCISE_TABLE = "CREATE TABLE "+ EXERCISE_TABLE +" ("+ CNAME_EXERCISE +" TEXT PRIMARY KEY, "
+                                                                                            + CCATEGORY_EXERCISE +" TEXT, "
+                                                                                            + CREPS_EXERCISE +" INTEGER, "
+                                                                                            + CSERIES_EXERCISE +" INTEGER );";
 
     public DBHelper(Context ctx) {
         super(ctx, DATABASE_NAME, null, DATABASE_VERSION);
@@ -315,7 +336,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    public Boolean addUser(String username,String password){
+    public Boolean addUser(String username,String password, int weight, int height, int sex, int carb_goal, int prot_goal, int fat_goal, int kal_goal){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -323,13 +344,20 @@ public class DBHelper extends SQLiteOpenHelper {
 
         cv.put(CUSERNAME,username);
         cv.put(CPASSWORD,password);
+        cv.put(CWEIGHT,weight);
+        cv.put(CHEIGHT,height);
+        cv.put(CSEX,sex);
+        cv.put(CCARB_GOAL,carb_goal);
+        cv.put(CPROT_GOAL,prot_goal);
+        cv.put(CFAT_GOAL,fat_goal);
+        cv.put(CKAL_GOAL,kal_goal);
 
         long result = db.insert(USER_TABLE,null,cv);
         if (result == -1) return false;
         return true;
     }
 
-    public Boolean addUser(String username,String password,Bitmap img){
+    public Boolean addUser(String username,String password,Bitmap img, int weight, int height, int sex, int carb_goal, int prot_goal, int fat_goal, int kal_goal){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -337,6 +365,13 @@ public class DBHelper extends SQLiteOpenHelper {
 
         cv.put(CUSERNAME,username);
         cv.put(CPASSWORD,password);
+        cv.put(CWEIGHT,weight);
+        cv.put(CHEIGHT,height);
+        cv.put(CSEX,sex);
+        cv.put(CCARB_GOAL,carb_goal);
+        cv.put(CPROT_GOAL,prot_goal);
+        cv.put(CFAT_GOAL,fat_goal);
+        cv.put(CKAL_GOAL,kal_goal);
 
         long result = db.insert(USER_TABLE,null,cv);
         if (result == -1) return false;
@@ -353,9 +388,23 @@ public class DBHelper extends SQLiteOpenHelper {
             if (result == -1) return false;
             return true;
         }
-        else {
-            return false;
+        else return false;
+    }
+
+    public Boolean updateUserGoals(String username,int carb, int prot, int fat, int kal){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(CCARB_GOAL,carb);
+        cv.put(CPROT_GOAL,prot);
+        cv.put(CFAT_GOAL,fat);
+        cv.put(CKAL_GOAL,kal);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE username = ? ", new String[]{username});
+        if (cursor.getCount() > 0) {
+            long result = db.update(USER_TABLE, cv, "username=?", new String[]{username});
+            if (result == -1) return false;
+            return true;
         }
+        else return false;
     }
 
     public Boolean deleteUser(String username){
@@ -391,6 +440,14 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public Cursor getUserInfo(String username){
+        String query = "SELECT * FROM "+USER_TABLE+" WHERE username=?";
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (db == null) return null;
+        Cursor cursor = db.rawQuery(query, new String[]{username});
+        return cursor;
+    }
+
     public Boolean checkUser(String username,String password){
         String query = "SELECT * FROM "+USER_TABLE+" WHERE username = ? AND password = ?";
         SQLiteDatabase db = this.getReadableDatabase();
@@ -405,7 +462,14 @@ public class DBHelper extends SQLiteOpenHelper {
         if(cursor.getCount() == 0) return "No Data";
         String res = "";
         while (cursor.moveToNext()){
-            res += cursor.getString(0)+" "+cursor.getString(1)+"\n";
+            res += cursor.getString(0)+" "+cursor.getString(1)+" "
+                                            +cursor.getString(2)+" "
+                                            +cursor.getString(3)+" "
+                                            +cursor.getString(4)+" "
+                                            +cursor.getString(5)+" "
+                                            +cursor.getString(6)+" "
+                                            +cursor.getString(7)+" "
+                                            +cursor.getString(8)+"\n";
         }
         return res;
     }

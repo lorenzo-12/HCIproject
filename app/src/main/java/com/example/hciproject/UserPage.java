@@ -33,6 +33,14 @@ import java.io.IOException;
 
 public class UserPage extends AppCompatActivity {
 
+    public static final String WEIGHT_S = "SIGNUP_WEIGHT";
+    public static final String HEIGHT_S = "SINGUP_HEIGHT";
+    public static final String CARB_S = "SINGUP_CARB";
+    public static final String PROT_S = "SINGUP_PROT";
+    public static final String FAT_S = "SINGUP_FAT";
+    public static final String KAL_S = "SINGUP_KAL";
+    public static final String SEX_S = "SIGNUP_SEX";
+
     public static final String LIGHTMODE = "lightmode";
     public static final String USER_TABLE = "users";
     public static final String CUSERNAME = "username";
@@ -44,6 +52,9 @@ public class UserPage extends AppCompatActivity {
     public Boolean lightmode;
     public Menu menu_bar;
     public Boolean image_selected = false;
+
+    Integer sex = 0; //0: not selected, 1: male, 2: female
+    Integer weight_value,height_value,carb_value,prot_value,fat_value,kal_value;
 
     ConstraintLayout layout;
     EditText username,password;
@@ -92,7 +103,7 @@ public class UserPage extends AppCompatActivity {
 
         MenuItem item_logout = menu.findItem(R.id.Logout_item);
         MenuItem item_psw_change = menu.findItem(R.id.Change_password_item);
-        MenuItem item_usr_change = menu.findItem(R.id.Change_username_item);
+        MenuItem item_goals_change = menu.findItem(R.id.Change_username_item);
         updateButtons();
         return true;
     }
@@ -103,7 +114,7 @@ public class UserPage extends AppCompatActivity {
         loadData();
         MenuItem item_logout = menu_bar.findItem(R.id.Logout_item);
         MenuItem item_psw_change = menu_bar.findItem(R.id.Change_password_item);
-        MenuItem item_usr_change = menu_bar.findItem(R.id.Change_username_item);
+        MenuItem item_goals_change = menu_bar.findItem(R.id.Change_username_item);
 
         //azioni da eseguire quando si preme uno dei possibili item del menu a tendina
         switch (item.getItemId()){
@@ -118,8 +129,8 @@ public class UserPage extends AppCompatActivity {
                 startActivity(intentpassword);
                 return true;
             case R.id.Change_username_item:
-                //Intent intentUsername = new Intent(this, ChangeUsernamePage.class);
-                //startActivity(intentUsername);
+                Intent intentGoals = new Intent(this, ChangeGoalsPage.class);
+                startActivity(intentGoals);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -210,9 +221,9 @@ public class UserPage extends AppCompatActivity {
                 try {
                     BitmapDrawable bd = (BitmapDrawable) image.getDrawable();
                     image_bitmap = bd.getBitmap();
-                    check = db.addUser(usr,psw,image_bitmap);
+                    check = db.addUser(usr,psw,image_bitmap,weight_value,height_value,sex,carb_value,prot_value,fat_value,kal_value);
                 } catch (Exception e){
-                    check = db.addUser(usr,psw);
+                    check = db.addUser(usr,psw,weight_value,height_value,sex,carb_value,prot_value,fat_value,kal_value);
                 }
 
                 if (check){
@@ -222,7 +233,6 @@ public class UserPage extends AppCompatActivity {
                 }else {
                     Toast.makeText(UserPage.this,"FAIL",Toast.LENGTH_SHORT).show();
                 }
-                String res = db.viewUsers();
                 saveData();
                 updateButtons();
                 onBackPressed();
@@ -257,6 +267,9 @@ public class UserPage extends AppCompatActivity {
 
         loadData();
         updateButtons();
+
+        //String res = db.viewUsers();
+        //username.setText(res);
 
         select.setText("select image");
         if (!user_logged.equals("none")){
@@ -350,6 +363,13 @@ public class UserPage extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
         lightmode = sharedPreferences.getBoolean(LIGHTMODE,true);
         user_logged = sharedPreferences.getString(USER_LOGGED, "none");
+        sex = sharedPreferences.getInt(SEX_S,0);
+        weight_value = sharedPreferences.getInt(WEIGHT_S,0);
+        height_value = sharedPreferences.getInt(HEIGHT_S,0);
+        carb_value = sharedPreferences.getInt(CARB_S,0);
+        prot_value = sharedPreferences.getInt(PROT_S,0);
+        fat_value = sharedPreferences.getInt(FAT_S,0);
+        kal_value = sharedPreferences.getInt(KAL_S,0);
         updateButtons();
     }
 

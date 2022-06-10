@@ -14,6 +14,6 @@
     <item
         android:id="@+id/Change_username_item"
         android:icon="@drawable/ic_baseline_info_24"
-        android:title="CHANGE USERNAME"
+        android:title="CHANGE GOALS"
         app:showAsAction="collapseActionView" />
 </menu>

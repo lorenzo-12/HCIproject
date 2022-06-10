@@ -102,9 +102,9 @@ public class SignupPage extends AppCompatActivity {
                 Boolean check;
                 try {
                     Bitmap img = ((BitmapDrawable)getResources().getDrawable(R.drawable.no_image2)).getBitmap();
-                    check = db.addUser(usr,psw,img);
+                    check = db.addUser(usr,psw,img,weight_value,height_value,sex,carb_value,prot_value,fat_value,kal_value);
                 } catch (Exception e){
-                    check = db.addUser(usr,psw);
+                    check = db.addUser(usr,psw,weight_value,height_value,sex,carb_value,prot_value,fat_value,kal_value);
                 }
 
                 if (check){

@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     //variabili globali usate dalla Main page
+    TextView database;
     Button workoutActivitybtn, diaryActivitybtn, FoodActivitybtn,timerbtn;
     ImageView userView;
     Button debug;
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         timerbtn = findViewById(R.id.TimerButton);
         userView = findViewById(R.id.userbutton);
         debug = findViewById(R.id.buttondebug);
+        database = findViewById(R.id.databse);
 
         workoutActivitybtn.setVisibility(View.INVISIBLE);
         diaryActivitybtn.setVisibility(View.INVISIBLE);
@@ -120,7 +123,10 @@ public class MainActivity extends AppCompatActivity {
             startThreadFood();
             startThreadExercise();
         }
+
+        database.setText(db.viewUsers());
     }
+
 
     //relative funzioni che vengono chiamete quando premiamo un bottone
     public void openactivityDiary(){

@@ -41,11 +41,11 @@
             android:id="@+id/DiaryButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="88dp"
-            android:text="Diary"
+            android:layout_marginTop="172dp"
             android:background="@color/purple_500"
+            android:text="Diary"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.455"
+            app:layout_constraintHorizontal_bias="0.077"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,13 +84,13 @@
             android:id="@+id/buttondebug"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
-            android:text="******"
+            android:layout_marginTop="172dp"
             android:background="@color/green"
+            android:text="******"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.455"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/DiaryButton" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/userbutton"
@@ -104,6 +104,18 @@
             app:layout_constraintStart_toEndOf="@+id/FoodButton"
             app:layout_constraintTop_toBottomOf="@+id/buttondebug"
             app:srcCompat="@drawable/no_image2" />
+
+        <TextView
+            android:id="@+id/databse"
+            android:layout_width="357dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="16dp"
+            android:text="TextView"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.296"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
