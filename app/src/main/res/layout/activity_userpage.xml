@@ -7,7 +7,9 @@
     android:layout_height="match_parent"
     tools:context=".UserPage"
     android:layout_above="@id/constraintLayout"
-    android:layout_below="@id/constraintLayout2">
+    android:layout_below="@id/constraintLayout2"
+    android:background="@color/white"
+    android:theme="@style/Theme.MaterialComponents">
 
     <Button
         android:id="@+id/selectimagebtn"
@@ -34,13 +36,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:startIconDrawable="@drawable/ic_baseline_person_24">
+        app:startIconDrawable="@drawable/ic_baseline_person_24"
+        app:boxStrokeColor="@color/green"
+        android:textColorHint="@color/black"
+        app:hintTextColor="@color/black">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/usernametxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLength="20" />
+            android:maxLength="20"
+            android:textColor="@color/black"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -61,13 +67,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username_TextInputLayout"
         app:layout_constraintVertical_bias="0.016"
-        app:startIconDrawable="@drawable/ic_baseline_vpn_key_24">
+        app:startIconDrawable="@drawable/ic_baseline_vpn_key_24"
+        app:boxStrokeColor="@color/green"
+        android:textColorHint="@color/black"
+        app:hintTextColor="@color/black">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/passwordtxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLength="20" />
+            android:maxLength="20"
+            android:textColor="@color/black"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button

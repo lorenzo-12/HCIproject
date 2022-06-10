@@ -61,6 +61,12 @@ public class TimerPage extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        updateCountDownText();
+    }
+
+    @Override
     public void onBackPressed() {
         Intent i = new Intent();
         Log.d("TimerPage","onBackPressed");
@@ -170,8 +176,8 @@ public class TimerPage extends AppCompatActivity {
                 resetTimer();
            }
        });
-
        updateCountDownText();
+
 
 
     }
@@ -181,8 +187,6 @@ public class TimerPage extends AppCompatActivity {
         resetTimer();
         closeKeyboard();
         progressBar.setProgress(100000000);
-        if (startTimeMilliseconds!=0) dec = 100000000/(startTimeMilliseconds/1000);
-        else dec = 0;
     }
 
     public void startTimer(){
@@ -195,9 +199,6 @@ public class TimerPage extends AppCompatActivity {
             public void onTick(long l) {
                 timeLeftMilliseconds = l;
                 updateCountDownText();
-                progressBar.setProgress(progressBar.getProgress()-(int) dec);
-                if (((timeLeftMilliseconds/1000)%60)<1) progressBar.setProgress(0);
-                //Toast.makeText(TimerPage.this, Double.toString(dec), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -218,6 +219,7 @@ public class TimerPage extends AppCompatActivity {
         countDownTimer.cancel();
         timerRunning = false;
         updateTimerInterface();
+        updateCountDownText();
     }
 
     public void resetTimer(){
@@ -226,8 +228,14 @@ public class TimerPage extends AppCompatActivity {
         ss.setEnabled(true);
         progressBar.setProgress(100000000);
         timeLeftMilliseconds = startTimeMilliseconds;
-        updateCountDownText();
         updateTimerInterface();
+
+        int hours = (int) ((timeLeftMilliseconds) / 1000) / 3600;
+        int minutes = (int) ((timeLeftMilliseconds / 1000) % 3600) / 60;
+        int seconds = (int) (timeLeftMilliseconds / 1000) % 60;
+        String format;
+        format = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds);
+        countdown_txt.setText(format);
     }
 
     public void updateCountDownText() {
@@ -237,6 +245,11 @@ public class TimerPage extends AppCompatActivity {
         String format;
         format = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds);
         countdown_txt.setText(format);
+        if (startTimeMilliseconds!=0) dec = 100000000/(startTimeMilliseconds/1000);
+        else dec = 0;
+        progressBar.setProgress(progressBar.getProgress()-(int) dec);
+        if (((timeLeftMilliseconds/1000)%60)<1) progressBar.setProgress(0);
+        //Toast.makeText(TimerPage.this, Double.toString(dec), Toast.LENGTH_SHORT).show();
 
     }
 

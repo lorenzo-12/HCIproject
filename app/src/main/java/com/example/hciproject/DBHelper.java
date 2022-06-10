@@ -24,6 +24,11 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String USER_TABLE = "users";
     public static final String CUSERNAME = "username";
     public static final String CPASSWORD = "password";
+    public static final String CSEX = "sex";
+    public static final String CCARB_GOAL = "carbgoal";
+    public static final String CPORT_GOAL = "protgoal";
+    public static final String CFAT_GOAL = "fatgoal";
+    public static final String CKAL_GOAL = "kalgoal";
 
     public static final String FOOD_TABLE = "food";
     public static final String CNAME_FOOD = "food_name";

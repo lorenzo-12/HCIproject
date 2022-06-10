@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String USER_LOGGED = "user_logged";
     public String user_logged;
     public String user_img_path;
-    Boolean insertFood = false;
+    Boolean FirstAccess = false;
 
 
     //variabili globali usate dalla Main page
@@ -111,13 +111,14 @@ public class MainActivity extends AppCompatActivity {
         if (!user_logged.equals("none")) {
             userView.setImageBitmap(db.loadImage(user_logged));
         }
-        else userView.setImageResource(R.drawable.no_image2);
+        else {
+            openactivityFitlife();
+            userView.setImageResource(R.drawable.no_image2);
+        }
 
-        if (insertFood == false) {
-            db.addExistingFood();
-            db.addExistingExercise();
-            insertFood = true;
-            saveData();
+        if (FirstAccess == false) {
+            startThreadFood();
+            startThreadExercise();
         }
     }
 
@@ -126,6 +127,12 @@ public class MainActivity extends AppCompatActivity {
         saveData();
         Intent intentDiary = new Intent(this, MainActivity.class);
         startActivity(intentDiary);
+    }
+
+    public void openactivityFitlife(){
+        saveData();
+        Intent intentFitlife = new Intent(this, FitlifePage.class);
+        startActivity(intentFitlife);
     }
 
     public void openactivityFood(){
@@ -162,13 +169,45 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(USER_LOGGED,user_logged);
-        editor.putBoolean("base_food_insert",insertFood);
+        editor.putBoolean("FirstAccess", FirstAccess);
         editor.apply();
     }
 
     public void loadData(){
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
         user_logged = sharedPreferences.getString(USER_LOGGED, "none");
-        insertFood = sharedPreferences.getBoolean("base_food_insert",false);
+        FirstAccess = sharedPreferences.getBoolean("FirstAccess",false);
+    }
+
+
+
+    public void startThreadFood(){
+        FoodThread t = new FoodThread();
+        t.start();
+    }
+
+    public void startThreadExercise(){
+        ExerciseThread t = new ExerciseThread();
+        t.start();
+    }
+
+    class FoodThread extends Thread{
+
+        @Override
+        public void run() {
+            db.addExistingFood();
+            FirstAccess = true;
+            saveData();
+        }
+    }
+
+    class ExerciseThread extends Thread{
+
+        @Override
+        public void run() {
+            db.addExistingExercise();
+            FirstAccess = true;
+            saveData();
+        }
     }
 }

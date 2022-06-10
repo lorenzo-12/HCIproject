@@ -111,6 +111,7 @@ public class UserPage extends AppCompatActivity {
                 user_logged = "none";
                 saveData();
                 updateButtons();
+                openactivityFitlife();
                 return true;
             case R.id.Change_password_item:
                 Intent intentpassword = new Intent(this, ChangePasswordPage.class);
@@ -421,5 +422,10 @@ public class UserPage extends AppCompatActivity {
         startActivity(intentTimer);
     }
 
+    public void openactivityFitlife(){
+        saveData();
+        Intent intentFitlife = new Intent(this, FitlifePage.class);
+        startActivity(intentFitlife);
+    }
 
 }

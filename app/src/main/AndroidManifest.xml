@@ -2,9 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.hciproject">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name="com.example.App"
@@ -15,10 +16,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HCIproject">
         <activity
+            android:name=".SignupPage"
+            android:exported="false" />
+        <activity
+            android:name=".SignupInfoPage"
+            android:exported="false" />
+        <activity
+            android:name=".LoginPage"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".UpdateExercisePage"
             android:exported="false"
             android:label="UpdateExercisePage"
-            android:parentActivityName=".ExercisePage"/>
+            android:parentActivityName=".ExercisePage" />
         <activity
             android:name=".AddExercisePage"
             android:exported="false"
@@ -32,8 +45,7 @@
         <activity
             android:name=".TimerPage"
             android:exported="false"
-            android:label="TimerPage" />
-            <!-- android:parentActivityName=".MainActivity" -->
+            android:label="TimerPage" /> <!-- android:parentActivityName=".MainActivity" -->
         <activity
             android:name=".ChangeUsernamePage"
             android:exported="false"
@@ -47,8 +59,7 @@
         <activity
             android:name=".UserPage"
             android:exported="false"
-            android:label="UserPage" />
-            <!-- android:parentActivityName=".MainActivity" -->
+            android:label="UserPage" /> <!-- android:parentActivityName=".MainActivity" -->
         <activity
             android:name=".AddFoodPage"
             android:exported="false"
@@ -57,20 +68,17 @@
         <activity
             android:name=".ExercisePage"
             android:exported="false"
-            android:label="ExercisePage" />
-            <!-- android:parentActivityName=".MainActivity" -->
+            android:label="ExercisePage" /> <!-- android:parentActivityName=".MainActivity" -->
         <activity
             android:name=".FoodPage"
             android:exported="false"
-            android:label="FoodPage" />
-            <!-- android:parentActivityName=".MainActivity" -->
+            android:label="FoodPage" /> <!-- android:parentActivityName=".MainActivity" -->
         <activity
             android:name=".DiaryPage"
             android:exported="false"
-            android:label="DiaryPage" />
-            <!-- android:parentActivityName=".MainActivity" -->
+            android:label="DiaryPage" /> <!-- android:parentActivityName=".MainActivity" -->
         <activity
-            android:name=".MainActivity"
+            android:name=".FitlifePage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
