@@ -38,7 +38,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CCARB = "carb";
     public static final String CPROT = "prot";
     public static final String CFAT = "fat";
-    //devo ancora aggiungere
     public static final String CKAL = "kal";
 
     public static final String EXERCISE_TABLE = "exercise";
@@ -46,6 +45,84 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CCATEGORY_EXERCISE = "exercise_category";
     public static final String CREPS_EXERCISE = "exercise_reps";
     public static final String CSERIES_EXERCISE = "exercise_series";
+
+    /*
+    1)  stringa per creare tabella
+
+    " create table "+ NOME-TABELLA +" ( "+NOME-COLONNA TIPO OPTION, "+NOME-COLONNA-2+" TIPO OPTION, "+......+NOME-COLONNA-X+" TIPO OPTION );";
+
+    2) vai sulla funzione onCreate e aggiungi la tua riga
+
+    3) occhio alla differenza tra this.getWritableDatabase(); e this.getReadableDatabase();
+
+
+    SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        TI AGGIUNGI DENTRO CV TUTTE LE VARIABILI CHE VUOI AGGIUNGERE/MODIFICARE
+        CON IL PATTERN cv.put(NOME-COLONNA, VARIABILE)
+
+        ESEGUI LA QUERY
+        - CURSOR c = db.insert/delete/update(NOME-TABELLA, CONDIZIONE, cv)
+        - Cursor c = db.rawQuery(QUERY, VARIABILI)
+
+        PER SCANDIRE LA TABELLA CON IL RISULTATO
+
+
+
+
+    public Boolean addFood(String name, String category, int carb, int prot, int fat,int kal){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(CNAME_FOOD,name.toLowerCase());
+        cv.put(CCATEGORY_FOOD,category);
+        cv.put(CCARB,carb);
+        cv.put(CPROT,prot);
+        cv.put(CFAT,fat);
+        cv.put(CKAL,kal);
+
+        long result = db.insert(FOOD_TABLE,null,cv);
+        if (result == -1) return false;
+        return true;
+    }
+
+    public Boolean deleteFood(String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + FOOD_TABLE + " WHERE food_name = ? ", new String[]{name});
+        if (cursor.getCount() > 0) {
+            long result = db.delete(FOOD_TABLE,"food_name=?", new String[]{name});
+            if (result == -1) return false;
+            deleteImage(name);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public Boolean modifyFood(String food_name,String new_name,String category,Bitmap img,int carb, int prot, int fat, int kal){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(CNAME_FOOD,new_name);
+        cv.put(CCATEGORY_FOOD,category);
+        cv.put(CCARB,carb);
+        cv.put(CPROT,prot);
+        cv.put(CFAT,fat);
+        cv.put(CKAL,kal);
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + FOOD_TABLE + " WHERE food_name = ? ", new String[]{food_name});
+        if (cursor.getCount() > 0) {
+            long result = db.update(FOOD_TABLE, cv, "food_name=?", new String[]{food_name});
+            if (result == -1) return false;
+            return true;
+        }
+        else return false;
+    }
+
+     */
+
 
     public static final String CREATE_USER_TABLE = "CREATE TABLE "+USER_TABLE+" (  "+CUSERNAME+" TEXT PRIMARY KEY, "
                                                                                     +CPASSWORD+" TEXT NOT NULL, "
@@ -61,7 +138,8 @@ public class DBHelper extends SQLiteOpenHelper {
                                                                                     +CCATEGORY_FOOD+" TEXT, "
                                                                                     +CCARB+" INTEGER, "
                                                                                     +CPROT+" INTEGER, "
-                                                                                    +CFAT+" INTEGER );";
+                                                                                    +CFAT+" INTEGER,"
+                                                                                    +CKAL+" INTEGER );";
 
     public static final String CREATE_EXERCISE_TABLE = "CREATE TABLE "+ EXERCISE_TABLE +" ("+ CNAME_EXERCISE +" TEXT PRIMARY KEY, "
                                                                                             + CCATEGORY_EXERCISE +" TEXT, "
@@ -235,7 +313,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    public Boolean addFood(String name, String category, int carb, int prot, int fat){
+    public Boolean addFood(String name, String category, int carb, int prot, int fat,int kal){
         boolean exist = findFood(name);
         if (exist == true) return false;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -249,13 +327,14 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(CCARB,carb);
         cv.put(CPROT,prot);
         cv.put(CFAT,fat);
+        cv.put(CKAL,kal);
 
         long result = db.insert(FOOD_TABLE,null,cv);
         if (result == -1) return false;
         return true;
     }
 
-    public Boolean addFood(String name, String category, int carb, int prot, int fat, Bitmap img){
+    public Boolean addFood(String name, String category, int carb, int prot, int fat,int kal, Bitmap img){
         boolean exist = findFood(name);
         if (exist == true) return false;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -267,6 +346,7 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(CCARB,carb);
         cv.put(CPROT,prot);
         cv.put(CFAT,fat);
+        cv.put(CKAL,kal);
 
         long result = db.insert(FOOD_TABLE,null,cv);
         if (result == -1) return false;
@@ -285,6 +365,28 @@ public class DBHelper extends SQLiteOpenHelper {
         else {
             return false;
         }
+    }
+
+    public Boolean modifyFood(String food_name,String new_name,String category,Bitmap img,int carb, int prot, int fat, int kal){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(CNAME_FOOD,new_name);
+        cv.put(CCATEGORY_FOOD,category);
+        cv.put(CCARB,carb);
+        cv.put(CPROT,prot);
+        cv.put(CFAT,fat);
+        cv.put(CKAL,kal);
+
+        deleteImage(food_name);
+        saveImage(img,new_name.toLowerCase());
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + FOOD_TABLE + " WHERE food_name = ? ", new String[]{food_name});
+        if (cursor.getCount() > 0) {
+            long result = db.update(FOOD_TABLE, cv, "food_name=?", new String[]{food_name});
+            if (result == -1) return false;
+            return true;
+        }
+        else return false;
     }
 
     public Cursor readAllDataFood(){
@@ -537,131 +639,130 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void addExistingFood() {
         Bitmap img_bitmap;
-        
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.tomatoes);
-        addFood("Tomatoes","FruitVegetable",3,1,0,img_bitmap);
+        addFood("Tomatoes","FruitVegetable",3,1,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.bananas);
-        addFood("Bananas","FruitVegetable",27,1,0,img_bitmap);
+        addFood("Bananas","FruitVegetable",27,1,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.watermelons);
-        addFood("Watermelons","FruitVegetable",11,1,0,img_bitmap);
+        addFood("Watermelons","FruitVegetable",11,1,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.apples);
-        addFood("Apples","FruitVegetable",25,1,0,img_bitmap);
+        addFood("Apples","FruitVegetable",25,1,0,5,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.oranges);
-        addFood("Oranges","FruitVegetable",16,1,0,img_bitmap);
+        addFood("Oranges","FruitVegetable",16,1,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.mangoes);
-        addFood("Mangoes","fruitvegetabeles",25,1,1,img_bitmap);
+        addFood("Mangoes","fruitvegetabeles",25,1,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.pears);
-        addFood("Pears","FruitVegetable",27,1,0,img_bitmap);
+        addFood("Pears","FruitVegetable",27,1,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.avocadoes);
-        addFood("Avocadoes","FruitVegetable",8,2,15,img_bitmap);
+        addFood("Avocadoes","FruitVegetable",8,2,15,5,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.grapes);
-        addFood("Grapes","FruitVegetable",14,1,0,img_bitmap);
+        addFood("Grapes","FruitVegetable",14,1,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.pineapples);
-        addFood("Pineapples","FruitVegetable",13,1,0,img_bitmap);
+        addFood("Pineapples","FruitVegetable",13,1,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.melons);
-        addFood("Melons","FruitVegetable",8,1,0,img_bitmap);
+        addFood("Melons","FruitVegetable",8,1,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.peaches);
-        addFood("Peaches","FruitVegetable",12,1,0,img_bitmap);
+        addFood("Peaches","FruitVegetable",12,1,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.lemons);
-        addFood("Lemons","FruitVegetable",9,1,0,img_bitmap);
+        addFood("Lemons","FruitVegetable",9,1,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.plums);
-        addFood("Plums","FruitVegetable",7,1,0,img_bitmap);
+        addFood("Plums","FruitVegetable",7,1,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.strawberries);
-        addFood("Strawberries","FruitVegetable",8,1,0,img_bitmap);
+        addFood("Strawberries","FruitVegetable",8,1,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.blueberry);
-        addFood("Blueberry","FruitVegetable",14,1,0,img_bitmap);
+        addFood("Blueberry","FruitVegetable",14,1,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.blackberry);
-        addFood("Blackberry","FruitVegetable",14,2,1,img_bitmap);
+        addFood("Blackberry","FruitVegetable",14,2,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.coconut);
-        addFood("Coconut","FruitVegetable",10,3,27,img_bitmap);
+        addFood("Coconut","FruitVegetable",10,3,27,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.kiwi);
-        addFood("Kiwi","FruitVegetable",10,1,0,img_bitmap);
+        addFood("Kiwi","FruitVegetable",10,1,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.pomegranate);
-        addFood("Pomegranate","FruitVegetable",19,2,1,img_bitmap);
+        addFood("Pomegranate","FruitVegetable",19,2,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.cherry);
-        addFood("Cherry","FruitVegetable",13,1,0,img_bitmap);
+        addFood("Cherry","FruitVegetable",13,1,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.cucumber);
-        addFood("Cucumber","FruitVegetable",4,1,0,img_bitmap);
+        addFood("Cucumber","FruitVegetable",4,1,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.potatoes);
-        addFood("potatoes","FruitVegetable",20,3,0,img_bitmap);
+        addFood("potatoes","FruitVegetable",20,3,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.potatoes);
-        addFood("onions","FruitVegetable",9,1,0,img_bitmap);
+        addFood("onions","FruitVegetable",9,1,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.carrots);
-        addFood("Carrots","FruitVegetable",9,1,0,img_bitmap);
+        addFood("Carrots","FruitVegetable",9,1,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.lettuce);
-        addFood("lettuce","FruitVegetable",3,1,0,img_bitmap);
+        addFood("lettuce","FruitVegetable",3,1,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.bellpeppers);
-        addFood("Bellpeppers","FruitVegetable",7,1,0,img_bitmap);
+        addFood("Bellpeppers","FruitVegetable",7,1,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.cherry);
-        addFood("Cherry","FruitVegetable",13,1,0,img_bitmap);
+        addFood("Cherry","FruitVegetable",13,1,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.salad);
-        addFood("salad","FruitVegetable",4,1,0,img_bitmap);
+        addFood("salad","FruitVegetable",4,1,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.mushrooms);
-        addFood("mushrooms","FruitVegetable",6,3,1,img_bitmap);
+        addFood("mushrooms","FruitVegetable",6,3,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.corn);
-        addFood("corn","FruitVegetable",22,3,2,img_bitmap);
+        addFood("corn","FruitVegetable",22,3,2,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.spinach);
-        addFood("spinach","FruitVegetable",4,3,0,img_bitmap);
+        addFood("spinach","FruitVegetable",4,3,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.greenbeans);
-        addFood("greenbeans","FruitVegetable",9,2,0,img_bitmap);
+        addFood("greenbeans","FruitVegetable",9,2,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.cabbage);
-        addFood("cabbage","FruitVegetable",4,1,0,img_bitmap);
+        addFood("cabbage","FruitVegetable",4,1,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.broccoli);
-        addFood("broccoli","FruitVegetable",6,3,0,img_bitmap);
+        addFood("broccoli","FruitVegetable",6,3,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.pork);
-        addFood("pork","MeatFisheggs",0,29,16,img_bitmap);
+        addFood("pork","MeatFisheggs",0,29,16,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.beef);
-        addFood("beef","MeatFisheggs",0,29,18,img_bitmap);
+        addFood("beef","MeatFisheggs",0,29,18,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.lamb);
-        addFood("Lamb","MeatFisheggs",0,28,24,img_bitmap);
+        addFood("Lamb","MeatFisheggs",0,28,24,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.chicken);
-        addFood("Chicken","MeatFisheggs",0,26,14,img_bitmap);
+        addFood("Chicken","MeatFisheggs",0,26,14,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.turkey);
-        addFood("Turkey","MeatFisheggs",0,32,8,img_bitmap);
+        addFood("Turkey","MeatFisheggs",0,32,8,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.duck);
-        addFood("Duck","MeatFisheggs",0,19,28,img_bitmap);
+        addFood("Duck","MeatFisheggs",0,19,28,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.sausage);
-        addFood("Sausage","MeatFisheggs",1,12,28,img_bitmap);
+        addFood("Sausage","MeatFisheggs",1,12,28,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.wrustel);
-        addFood("wrustel","MeatFisheggs",0,11,28,img_bitmap);
+        addFood("wrustel","MeatFisheggs",0,11,28,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.butter);
-        addFood("Butter","Dairy",0,1,84,img_bitmap);
+        addFood("Butter","Dairy",0,1,84,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.chees);
-        addFood("cheese","Dairy",3,25,37,img_bitmap);
+        addFood("cheese","Dairy",3,25,37,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.yogurt);
-        addFood("yogurt","Dairy",6,5,2,img_bitmap);
+        addFood("yogurt","Dairy",6,5,2,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.milk);
-        addFood("Milk","Dairy",6,4,2,img_bitmap);
+        addFood("Milk","Dairy",6,4,2,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.bluecheese);
-        addFood("bluecheese","Dairy",2,24,32,img_bitmap);
+        addFood("bluecheese","Dairy",2,24,32,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.cheddar);
-        addFood("cheddar","Dairy",3,26,37,img_bitmap);
+        addFood("cheddar","Dairy",3,26,37,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.mozzarella);
-        addFood("mozzarella","Dairy",2,25,25,img_bitmap);
+        addFood("mozzarella","Dairy",2,25,25,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.parmesan);
-        addFood("parmesan","Dairy",14,28,28,img_bitmap);
+        addFood("parmesan","Dairy",14,28,28,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.bread);
-        addFood("bread","Cereal",48,13,2,img_bitmap);
+        addFood("bread","Cereal",48,13,2,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.kellogs);
-        addFood("cornflakes","Cereal",73,19,2,img_bitmap);
+        addFood("cornflakes","Cereal",73,19,2,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.pasta);
-        addFood("pasta","Cereal",80,7,2,img_bitmap);
+        addFood("pasta","Cereal",80,7,2,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.spaghetti);
-        addFood("spaghetti","Cereal",74,13,1,img_bitmap);
+        addFood("spaghetti","Cereal",74,13,1,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.rice);
-        addFood("rice","Cereal",28,2,0,img_bitmap);
+        addFood("rice","Cereal",28,2,0,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.ricecake);
-        addFood("ricecake","Cereal",81,8,3,img_bitmap);
+        addFood("ricecake","Cereal",81,8,3,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.corn);
-        addFood("corn","Cereal",74,10,5,img_bitmap);
+        addFood("corn","Cereal",74,10,5,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.rusk);
-        addFood("rusk","Cereal",72,13,7,img_bitmap);
+        addFood("rusk","Cereal",72,13,7,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.biscuits1);
-        addFood("biscuit1","Cereal",70,7,10,img_bitmap);
+        addFood("biscuit1","Cereal",70,7,10,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.biscuits2);
-        addFood("cookie","Cereal",60,5,27,img_bitmap);
+        addFood("cookie","Cereal",60,5,27,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.oreo);
-        addFood("oreo","Cereal",68,5,19,img_bitmap);
+        addFood("oreo","Cereal",68,5,19,0,img_bitmap);
 
     }
 

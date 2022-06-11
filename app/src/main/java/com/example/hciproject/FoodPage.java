@@ -34,7 +34,7 @@ public class FoodPage extends AppCompatActivity {
     public Boolean changes = false;
 
     DBHelper db;
-    ArrayList<String> food_name_list, food_category_list, food_carb_list, food_prot_list, food_fat_list;
+    ArrayList<String> food_name_list, food_category_list, food_carb_list, food_prot_list, food_fat_list, food_kal_list;
     ArrayList<Bitmap> food_img_list;
     RecyclerView recyclerView;
     CustomAdapterFood customAdapterFood;
@@ -255,6 +255,7 @@ public class FoodPage extends AppCompatActivity {
         food_prot_list.clear();
         food_fat_list.clear();
         food_img_list.clear();
+        food_kal_list.clear();
         if ((cursor != null) && (cursor.getCount() == 0)){
             Toast.makeText(FoodPage.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
             //Toast.makeText(FoodPage.this,"No Data",Toast.LENGTH_SHORT).show();
@@ -266,6 +267,7 @@ public class FoodPage extends AppCompatActivity {
                 food_carb_list.add(cursor.getString(2).toLowerCase());
                 food_prot_list.add(cursor.getString(3).toLowerCase());
                 food_fat_list.add(cursor.getString(4).toLowerCase());
+                food_kal_list.add(cursor.getString(5).toLowerCase());
             }
         }
         adapter = (ArrayAdapter<String>) new ArrayAdapter<String>(this, R.layout.autocomlete_layout,food_name_list);
@@ -280,9 +282,10 @@ public class FoodPage extends AppCompatActivity {
         food_carb_list = new ArrayList<String>();
         food_prot_list = new ArrayList<String>();
         food_fat_list = new ArrayList<String>();
+        food_kal_list = new ArrayList<String>();
         food_img_list = new ArrayList<Bitmap>();
 
-        customAdapterFood = new CustomAdapterFood(FoodPage.this,food_name_list, food_category_list, food_carb_list, food_prot_list, food_fat_list, food_img_list);
+        customAdapterFood = new CustomAdapterFood(FoodPage.this,food_name_list, food_category_list, food_carb_list, food_prot_list, food_fat_list,food_kal_list, food_img_list);
         recyclerView.setAdapter(customAdapterFood);
         recyclerView.setLayoutManager(new LinearLayoutManager(FoodPage.this));
 
@@ -310,7 +313,8 @@ public class FoodPage extends AppCompatActivity {
                 String carb = food_carb_list.get(position).toLowerCase();
                 String prot = food_prot_list.get(position).toLowerCase();
                 String fat = food_fat_list.get(position).toLowerCase();
-                passData(name,category,carb,prot,fat);
+                String kal = food_kal_list.get(position).toLowerCase();
+                passData(name,category,carb,prot,fat,kal);
                 Intent intent = new Intent(FoodPage.this, UpdateFoodPage.class);
                 startActivity(intent);
                 return;
@@ -320,7 +324,7 @@ public class FoodPage extends AppCompatActivity {
         customAdapterFood.notifyDataSetChanged();
     }
 
-    public void passData(String name, String category, String carb, String prot, String fat){
+    public void passData(String name, String category, String carb, String prot, String fat,String kal){
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("food_name",name);
@@ -328,6 +332,7 @@ public class FoodPage extends AppCompatActivity {
         editor.putString("food_carb",carb);
         editor.putString("food_prot",prot);
         editor.putString("food_fat",fat);
+        editor.putString("food_kal",kal);
         editor.putBoolean("food_changes",changes);
         editor.apply();
     }

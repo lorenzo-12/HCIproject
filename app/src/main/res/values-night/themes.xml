@@ -4,7 +4,7 @@
     <!-- <style name="Theme.HCIproject" parent="Theme.MaterialComponents.NoActionBar"> -->
     <!-- per eliminare spazio actiobar -->
     <!-- <item name="android:actionBarSize">0dp</item> -->
-    <style name="Theme.HCIproject" parent="Theme.MaterialComponents">
+    <style name="Theme.HCIproject" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_200</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>

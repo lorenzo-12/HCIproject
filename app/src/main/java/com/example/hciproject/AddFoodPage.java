@@ -29,7 +29,7 @@ public class AddFoodPage extends AppCompatActivity implements AdapterView.OnItem
     public static final int SELECT_IMAGE = 1;
 
     DBHelper db;
-    EditText input_name,input_carb,input_prot,input_fat;
+    EditText input_name,input_carb,input_prot,input_fat,input_kal;
     Spinner input_category_spinner;
     Button addFoodbtn;
     String input_category;
@@ -63,11 +63,12 @@ public class AddFoodPage extends AppCompatActivity implements AdapterView.OnItem
         input_carb = findViewById(R.id.food_carb_text);
         input_prot = findViewById(R.id.food_prot_text);
         input_fat = findViewById(R.id.food_fat_text);
+        input_kal = findViewById(R.id.food_kal_text);
         addFoodbtn = findViewById(R.id.addFoodbtn);
         image = findViewById(R.id.foodimageview_add);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(AddFoodPage.this,R.array.food_category_possible, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(AddFoodPage.this,R.array.food_category_possible, R.layout.color_spinner_layout);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
         input_category_spinner.setAdapter(adapter);
 
         input_category_spinner.setOnItemSelectedListener(this);
@@ -125,7 +126,7 @@ public class AddFoodPage extends AppCompatActivity implements AdapterView.OnItem
         }
         addFoodbtn.setEnabled(true);
 
-        int carb,prot,fat;
+        int carb,prot,fat,kal;
         try {
             carb = Integer.parseInt(input_carb.getText().toString());
             if (carb<0) carb = -carb;
@@ -147,6 +148,13 @@ public class AddFoodPage extends AppCompatActivity implements AdapterView.OnItem
             fat = 0;
             error += "Fat field not a number\n";
         }
+        try {
+            kal = Integer.parseInt(input_kal.getText().toString());
+            if (kal<0) fat = -kal;
+        } catch (Exception e3){
+            kal = 0;
+            error += "Kal field not a number\n";
+        }
 
         Boolean check = db.findFood(name);
         Boolean result = false;
@@ -154,7 +162,7 @@ public class AddFoodPage extends AppCompatActivity implements AdapterView.OnItem
             Toast.makeText(AddFoodPage.this, "Food already exist",Toast.LENGTH_SHORT).show();
             return false;
         } else {
-            result = db.addFood(name,input_category,carb,prot,fat,image_bitmap);
+            result = db.addFood(name,input_category,carb,prot,fat,kal,image_bitmap);
             return result;
         }
 

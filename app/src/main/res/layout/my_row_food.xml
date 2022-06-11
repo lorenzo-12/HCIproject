@@ -17,6 +17,27 @@
             android:padding="12dp">
 
             <TextView
+                android:id="@+id/food_kal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="80dp"
+                android:text="kal"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/testo_fisso_kal"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/testo_fisso_kal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="80dp"
+                android:text="kal:"
+                app:layout_constraintStart_toEndOf="@+id/food_fat"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
                 android:id="@+id/food_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -98,7 +119,7 @@
                 android:id="@+id/testo_fisso_carb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="80dp"
                 android:text="carb:"
                 app:layout_constraintStart_toEndOf="@+id/food_img"
@@ -108,7 +129,7 @@
                 android:id="@+id/testo_fisso_prot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="80dp"
                 android:text="prot:"
                 app:layout_constraintStart_toEndOf="@+id/food_carb"
@@ -118,7 +139,7 @@
                 android:id="@+id/tsto_fisso_fat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="80dp"
                 android:text="fat:"
                 app:layout_constraintStart_toEndOf="@+id/food_prot"
