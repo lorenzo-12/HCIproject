@@ -1,11 +1,14 @@
 package com.example.hciproject;
 
+import android.app.DatePickerDialog;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,7 +18,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
+import java.text.DateFormat;
+import java.util.Calendar;
+
+public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
     public static final String USER_LOGGED = "user_logged";
     public String user_logged;
@@ -27,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     TextView database;
     Button workoutActivitybtn, diaryActivitybtn, FoodActivitybtn,timerbtn;
     ImageView userView;
-    Button debug;
+    Button debug,button;
     DBHelper db;
     BottomNavigationView nav;
 
@@ -53,25 +59,9 @@ public class MainActivity extends AppCompatActivity {
         //associo a ogni variabile il corrispettivo bottone/testo ecc...
         //layout = findViewById(R.id.constraintLayout);
         //layout.setBackgroundColor(Color.WHITE);
-        workoutActivitybtn = findViewById(R.id.ExerciseButton);
-        diaryActivitybtn = findViewById(R.id.DiaryButton);
-        FoodActivitybtn = findViewById(R.id.FoodButton);
-        timerbtn = findViewById(R.id.TimerButton);
         userView = findViewById(R.id.userbutton);
         debug = findViewById(R.id.buttondebug);
         database = findViewById(R.id.databse);
-
-        workoutActivitybtn.setVisibility(View.INVISIBLE);
-        diaryActivitybtn.setVisibility(View.INVISIBLE);
-        FoodActivitybtn.setVisibility(View.INVISIBLE);
-        timerbtn.setVisibility(View.INVISIBLE);
-        //userView.setVisibility(View.INVISIBLE);
-
-        workoutActivitybtn.setClickable(false);
-        diaryActivitybtn.setClickable(false);
-        FoodActivitybtn.setClickable(false);
-        timerbtn.setClickable(false);
-        userView.setClickable(false);
 
         nav = findViewById(R.id.bottomnavigatorview);
         //così quando apro l'app mi da fin  da subito selezionata l'icona del diario
@@ -125,6 +115,27 @@ public class MainActivity extends AppCompatActivity {
         }
 
         database.setText(db.viewUsers());
+
+        button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment datePicker = new DatePickerFragment();
+                datePicker.show(getFragmentManager(), "date picker");
+            }
+        });
+
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, i);
+        c.set(Calendar.MONTH, i1);
+        c.set(Calendar.DAY_OF_MONTH, i2);
+        String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
+        TextView textView = (TextView) findViewById(R.id.textView);
+        textView.setText(currentDateString);
     }
 
 
