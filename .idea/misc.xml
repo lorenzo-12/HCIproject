@@ -3,6 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Gianluca/OneDrive/Documenti/GitHub/HCIproject2/app/src/main/res/layout/activity_addexercisepage.xml" value="0.17592592592592593" />
+        <entry key="..\:/Users/Gianluca/OneDrive/Documenti/GitHub/HCIproject2/app/src/main/res/layout/activity_addfoodpage.xml" value="0.3567708333333333" />
+        <entry key="..\:/Users/Gianluca/OneDrive/Documenti/GitHub/HCIproject2/app/src/main/res/layout/activity_exercisepage.xml" value="0.3567708333333333" />
+        <entry key="..\:/Users/Gianluca/OneDrive/Documenti/GitHub/HCIproject2/app/src/main/res/layout/activity_foodpage.xml" value="0.3567708333333333" />
+        <entry key="..\:/Users/Gianluca/OneDrive/Documenti/GitHub/HCIproject2/app/src/main/res/layout/activity_main.xml" value="0.4" />
+        <entry key="..\:/Users/Gianluca/OneDrive/Documenti/GitHub/HCIproject2/app/src/main/res/layout/activity_row_exercise.xml" value="0.3567708333333333" />
+        <entry key="..\:/Users/Gianluca/OneDrive/Documenti/GitHub/HCIproject2/app/src/main/res/layout/activity_row_food.xml" value="0.3567708333333333" />
+        <entry key="..\:/Users/Gianluca/OneDrive/Documenti/GitHub/HCIproject2/app/src/main/res/layout/my_row_exercise.xml" value="0.3567708333333333" />
+        <entry key="..\:/Users/Gianluca/OneDrive/Documenti/GitHub/HCIproject2/app/src/main/res/layout/my_row_food.xml" value="0.3567708333333333" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/drawable/arrow_down_green.xml" value="0.3765" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/drawable/bottom_diary.xml" value="0.3625" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/drawable/bottom_food.xml" value="0.302" />

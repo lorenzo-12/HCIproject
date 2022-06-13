@@ -14,6 +14,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.Locale;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -46,6 +47,29 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CREPS_EXERCISE = "exercise_reps";
     public static final String CSERIES_EXERCISE = "exercise_series";
 
+
+    //diary = username | date | or | food | exercise | quantity | sets | reps
+    public static final String DIARY_TABLE = "diary";
+    public static final String CNAME_USER = "username";
+    public static final String CDATE = "date";
+    // 1 stands for food, 0 stands for exercise
+    public static final String COR = "cor";
+    public static final String CFOOD = "food";
+    public static final String CEXERCISE = "exercise";
+    public static final String CQUANTITY = "quantity";
+    public static final String CSETS = "sets";
+    public static final String CREPS = "reps";
+
+    /*
+    CREATE TABLE Persons (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    CONSTRAINT PK_Person PRIMARY KEY (ID,LastName)
+    );
+
+     */
     /*
     1)  stringa per creare tabella
 
@@ -146,6 +170,17 @@ public class DBHelper extends SQLiteOpenHelper {
                                                                                             + CREPS_EXERCISE +" INTEGER, "
                                                                                             + CSERIES_EXERCISE +" INTEGER );";
 
+    public static final String CREATE_DIARY_TABLE = "CREATE TABLE "+DIARY_TABLE+" (  "+CNAME_USER+" TEXT NOT NULL, "
+            +CDATE+" TEXT NOT NULL, "
+            +COR+" INTEGER, "
+            +CFOOD+" TEXT NOT NULL, "
+            +CEXERCISE+" TEXT NOT NULL, "
+            +CQUANTITY+" INTEGER, "
+            +CSETS+" INTEGER, "
+            +CREPS+" INTEGER, "
+            +"CONSTRAINT PK_Diary PRIMARY KEY ("+CNAME_USER+","+CDATE+","+CFOOD+","+","+CEXERCISE+"));";
+
+
     public DBHelper(Context ctx) {
         super(ctx, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = ctx;
@@ -204,6 +239,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_USER_TABLE);
         db.execSQL(CREATE_FOOD_TABLE);
         db.execSQL(CREATE_EXERCISE_TABLE);
+        db.execSQL(CREATE_DIARY_TABLE);
     }
 
     @Override
@@ -211,7 +247,123 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+ USER_TABLE);
         db.execSQL("DROP TABLE IF EXISTS "+ FOOD_TABLE);
         db.execSQL("DROP TABLE IF EXISTS "+ EXERCISE_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS "+ DIARY_TABLE);
     }
+
+    /*
+     ***********************************************
+     */
+
+    // addFoodToDiary username | date | or | food | exercise | quantity | sets | reps
+    public Boolean addFoodToDiary(String username, String date, String food, int q){
+        boolean exist = findFoodFromDiary(username, food, date);
+        if (exist == true) return false;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(CNAME_USER,username.toLowerCase());
+        cv.put(CDATE,date.toLowerCase());
+        cv.put(COR,1);
+        cv.put(CFOOD,food.toLowerCase());
+        cv.put(CEXERCISE, "");
+        cv.put(CQUANTITY, q);
+        cv.put(CSETS, 0);
+        cv.put(CREPS, 0);
+
+        long result = db.insert(DIARY_TABLE,null,cv);
+        if (result == -1) return false;
+        return true;
+    }
+
+    public Boolean addExerciseToDiary(String username, String date, String exercise, int s, int r){
+
+        boolean exist = findExerciseFromDiary(username, exercise, date);
+        if (exist == true) return false;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(CNAME_USER,username.toLowerCase());
+        cv.put(CDATE,date.toLowerCase());
+        cv.put(COR,0);
+        cv.put(CFOOD,"");
+        cv.put(CEXERCISE, exercise.toLowerCase());
+        cv.put(CQUANTITY, 0);
+        cv.put(CSETS, s);
+        cv.put(CREPS, r);
+
+        long result = db.insert(DIARY_TABLE,null,cv);
+        if (result == -1) return false;
+        return true;
+    }
+
+    public Boolean deleteElement(String username, String date, String food, String exercise){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DIARY_TABLE + " WHERE username = ? AND food = ? AND exercise = ? AND date = ? ", new String[]{username, food, exercise, date});
+        if (cursor.getCount() > 0) {
+            long result = db.delete(DIARY_TABLE," WHERE username = ? AND food = ? AND exercise = ? AND date = ? ", new String[]{username, food, exercise, date});
+            if (result == -1) return false;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public Boolean findFoodFromDiary(String username, String food, String data){
+        String query = "SELECT * FROM "+DIARY_TABLE+" WHERE username = ? AND food = ? AND data = ?";
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (db == null) return false;
+        Cursor cursor = db.rawQuery(query, new String[]{username, food, data});
+        if(cursor.getCount() == 0) return false;
+        return true;
+    }
+
+    public Boolean findExerciseFromDiary(String username, String exercise, String data){
+        String query = "SELECT * FROM "+DIARY_TABLE+" WHERE username = ? AND exercise = ? AND data = ?";
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (db == null) return false;
+        Cursor cursor = db.rawQuery(query, new String[]{username, exercise, data});
+        if(cursor.getCount() == 0) return false;
+        return true;
+    }
+
+    public Boolean modifyFoodFromDiary(String username,String date,String food, int quantity){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(CQUANTITY, quantity);
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DIARY_TABLE + " WHERE username = ? AND food = ? AND data = ? ", new String[]{username, food, date});
+        if (cursor.getCount() > 0) {
+            long result = db.update(FOOD_TABLE, cv, "username = ? AND food = ? AND data = ?", new String[]{username, food, date});
+            if (result == -1) return false;
+            return true;
+        }
+        else return false;
+
+    }
+
+    public Boolean modifyExerciseFromDiary(String username,String date, String exercise, int r, int s){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(CREPS, r);
+        cv.put(CSETS, s);
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DIARY_TABLE + " WHERE username = ? AND exercise = ? AND data = ? ", new String[]{username, exercise, date});
+        if (cursor.getCount() > 0) {
+            long result = db.update(FOOD_TABLE, cv, "username = ? AND exercise = ? AND data = ?", new String[]{username, exercise, date});
+            if (result == -1) return false;
+            return true;
+        }
+        else return false;
+    }
+
+    /*
+    ***********************************************
+     */
 
     public Boolean addExercise(String name, String category, int reps, int series){
         boolean exist = findFood(name);

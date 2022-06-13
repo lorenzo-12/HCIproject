@@ -26,7 +26,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     public static final String USER_LOGGED = "user_logged";
     public String user_logged;
     public String user_img_path;
+    public String current_date;
     Boolean FirstAccess = false;
+
 
 
     //variabili globali usate dalla Main page
@@ -114,7 +116,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             startThreadExercise();
         }
 
-        database.setText(db.viewUsers());
+        //TODO
+        Calendar c = Calendar.getInstance();
+        current_date = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
+        database.setText(db.viewUsers()+current_date);
 
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -136,6 +141,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
         TextView textView = (TextView) findViewById(R.id.textView);
         textView.setText(currentDateString);
+        //TODO
+        database = findViewById(R.id.databse);
+        current_date = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
+        database.setText(current_date);
     }
 
 
