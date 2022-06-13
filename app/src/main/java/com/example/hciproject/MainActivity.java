@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,10 +17,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
@@ -38,6 +43,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     Button debug,button;
     DBHelper db;
     BottomNavigationView nav;
+
+    ArrayList<String> food_name_list, food_category_list, food_carb_list, food_prot_list, food_fat_list,food_kal_list;
+    ArrayList<Bitmap> food_img_list;
+    RecyclerView recyclerView;
+    CustomAdapterDiaryFood customAdapterDiaryFood;
 
     @Override
     public void onResume() {
@@ -64,6 +74,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         userView = findViewById(R.id.userbutton);
         debug = findViewById(R.id.buttondebug);
         database = findViewById(R.id.databse);
+
+        recyclerView = findViewById(R.id.recycleViewDiet);
 
         nav = findViewById(R.id.bottomnavigatorview);
         //così quando apro l'app mi da fin  da subito selezionata l'icona del diario
@@ -130,6 +142,85 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             }
         });
 
+        buildRecyclerView();
+        storeDataInArrays();
+
+    }
+
+    public void storeDataInArrays(){
+        Cursor cursor = null;
+        cursor = db.findAllUserFoodFromDiary(user_logged, current_date);
+        food_name_list.clear();
+        food_category_list.clear();
+        food_carb_list.clear();
+        food_prot_list.clear();
+        food_fat_list.clear();
+        food_img_list.clear();
+        food_kal_list.clear();
+        if ((cursor != null) && (cursor.getCount() == 0)){
+            Toast.makeText(MainActivity.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
+            //Toast.makeText(FoodPage.this,"No Data",Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(MainActivity.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
+            while ((cursor != null) && (cursor.moveToNext())){
+                food_name_list.add(cursor.getString(0).toLowerCase());
+                food_category_list.add(cursor.getString(1).toLowerCase());
+                food_carb_list.add(cursor.getString(2).toLowerCase());
+                food_prot_list.add(cursor.getString(3).toLowerCase());
+                food_fat_list.add(cursor.getString(4).toLowerCase());
+                food_kal_list.add(cursor.getString(5).toLowerCase());
+            }
+        }
+
+    }
+
+    public void buildRecyclerView(){
+        db = new DBHelper(this);
+        food_name_list = new ArrayList<String>();
+        food_category_list = new ArrayList<String>();
+        food_carb_list = new ArrayList<String>();
+        food_prot_list = new ArrayList<String>();
+        food_fat_list = new ArrayList<String>();
+        food_kal_list = new ArrayList<String>();
+        food_img_list = new ArrayList<Bitmap>();
+
+        customAdapterDiaryFood = new CustomAdapterDiaryFood(MainActivity.this,food_name_list, food_category_list, food_carb_list, food_prot_list, food_fat_list,food_kal_list, food_img_list);
+        recyclerView.setAdapter(customAdapterDiaryFood);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
+        customAdapterDiaryFood.setOnItemClickListener(new CustomAdapterDiaryFood.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                String index = String.valueOf(position);
+                //Toast.makeText(FoodPage.this,"clicked: "+index,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onDeleteClick(int position) {
+                String index = String.valueOf(position);
+                //Toast.makeText(FoodPage.this,food_name_list.get(position).toString(),Toast.LENGTH_SHORT).show();
+                Boolean result = db.deleteFood(food_name_list.get(position).toLowerCase());
+                storeDataInArrays();
+                customAdapterDiaryFood.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onUpdateClick(int position) {
+                //Toast.makeText(FoodPage.this,"Update",Toast.LENGTH_SHORT).show();
+                String name = food_name_list.get(position).toLowerCase();
+                String category = food_category_list.get(position).toLowerCase();
+                String carb = food_carb_list.get(position).toLowerCase();
+                String prot = food_prot_list.get(position).toLowerCase();
+                String fat = food_fat_list.get(position).toLowerCase();
+                String kal = food_kal_list.get(position).toLowerCase();
+                //passData(name,category,carb,prot,fat,kal);
+                Intent intent = new Intent(MainActivity.this, UpdateFoodPage.class);
+                startActivity(intent);
+                return;
+            }
+        });
+
+        customAdapterDiaryFood.notifyDataSetChanged();
     }
 
     @Override

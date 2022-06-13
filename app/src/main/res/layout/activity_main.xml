@@ -53,15 +53,14 @@
             android:id="@+id/userbutton"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginTop="8dp"
             android:scaleType="fitXY"
             android:visibility="visible"
             app:layout_anchorGravity="center"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.138"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttondebug"
-            app:srcCompat="@drawable/no_image2" />
+            app:srcCompat="@drawable/no_image2"
+            tools:layout_editor_absoluteY="116dp" />
 
         <TextView
             android:id="@+id/databse"
@@ -85,10 +84,10 @@
             android:textSize="20dp"
             app:layout_constraintBottom_toTopOf="@+id/button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.749"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userbutton"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <Button
             android:id="@+id/button"
@@ -98,13 +97,15 @@
             android:text="open date picker"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.388" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycleViewDiet"
-            android:layout_width="306dp"
-            android:layout_height="99dp"
+            android:layout_width="match_parent"
+            android:layout_height="141dp"
             android:scrollbars="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

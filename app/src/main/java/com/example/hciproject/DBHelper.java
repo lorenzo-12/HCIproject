@@ -14,7 +14,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.Locale;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -178,7 +177,7 @@ public class DBHelper extends SQLiteOpenHelper {
             +CQUANTITY+" INTEGER, "
             +CSETS+" INTEGER, "
             +CREPS+" INTEGER, "
-            +"CONSTRAINT PK_Diary PRIMARY KEY ("+CNAME_USER+","+CDATE+","+CFOOD+","+","+CEXERCISE+"));";
+            +"CONSTRAINT PK_Diary PRIMARY KEY ("+CNAME_USER+","+CDATE+","+CFOOD+","+CEXERCISE+"));";
 
 
     public DBHelper(Context ctx) {
@@ -309,6 +308,13 @@ public class DBHelper extends SQLiteOpenHelper {
         else {
             return false;
         }
+    }
+
+    public Cursor findAllUserFoodFromDiary(String username, String data){
+        String query = "SELECT * FROM "+DIARY_TABLE+" WHERE username = ? AND data = ?";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, new String[]{username, data});
+        return cursor;
     }
 
     public Boolean findFoodFromDiary(String username, String food, String data){
