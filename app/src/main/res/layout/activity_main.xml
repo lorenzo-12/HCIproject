@@ -28,7 +28,9 @@
             app:menu="@menu/bottom_nav"
 
             app:itemTextColor="@color/nav_color"
-            app:itemIconTint="@color/nav_color"/>
+            app:itemIconTint="@color/nav_color">
+
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 
@@ -41,7 +43,7 @@
             android:id="@+id/buttondebug"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="116dp"
+            android:layout_marginTop="48dp"
             android:background="@color/green"
             android:text="******"
             app:layout_constraintEnd_toEndOf="parent"
@@ -53,20 +55,20 @@
             android:id="@+id/userbutton"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:layout_marginTop="48dp"
             android:scaleType="fitXY"
             android:visibility="visible"
             app:layout_anchorGravity="center"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.138"
+            app:layout_constraintHorizontal_bias="0.086"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/no_image2"
-            tools:layout_editor_absoluteY="116dp" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/no_image2" />
 
         <TextView
             android:id="@+id/databse"
             android:layout_width="357dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="16dp"
+            android:layout_height="50dp"
             android:text="TextView"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="parent"
@@ -78,16 +80,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="24dp"
+            android:layout_marginTop="56dp"
+            android:layout_marginEnd="92dp"
             android:text="date"
             android:textColor="@color/black"
             android:textSize="20dp"
-            app:layout_constraintBottom_toTopOf="@+id/button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.749"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/userbutton"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/button"
@@ -97,22 +96,22 @@
             android:text="open date picker"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintHorizontal_bias="0.69"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.388" />
+            app:layout_constraintVertical_bias="0.153" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycleViewDiet"
             android:layout_width="match_parent"
-            android:layout_height="141dp"
+            android:layout_height="220dp"
             android:scrollbars="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button"
-            app:layout_constraintVertical_bias="0.09">
+            app:layout_constraintVertical_bias="0.046">
 
         </androidx.recyclerview.widget.RecyclerView>
 
@@ -130,6 +129,17 @@
             app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/blue"
+        app:borderWidth="0dp"
+        android:clickable="true"
+        app:layout_anchor="@+id/constraintLayout2"
+        app:layout_anchorGravity="bottom|center"
+        app:srcCompat="@android:drawable/ic_input_add" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

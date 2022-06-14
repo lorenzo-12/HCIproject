@@ -9,12 +9,13 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="2dp">
+        android:backgroundTint="@color/green">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp">
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp">
 
             <TextView
                 android:id="@+id/food_kal_diary"
@@ -51,11 +52,24 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/quantity_name_diary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="quantity"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/food_name_diary"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
                 android:id="@+id/food_carb_diary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="30dp"
                 android:text="carb"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/testo_fisso_carb_diary"
@@ -76,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="30dp"
                 android:text="prot"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/testo_fisso_prot_diary"
@@ -86,9 +100,9 @@
                 android:id="@+id/delete_food_img_diary"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginStart="4dp"
                 android:layout_marginTop="4dp"
-                app:layout_constraintStart_toEndOf="@+id/modify_food_img_diary"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_delete_24" />
 
@@ -96,9 +110,8 @@
                 android:id="@+id/modify_food_img_diary"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginStart="88dp"
                 android:layout_marginTop="4dp"
-                app:layout_constraintStart_toEndOf="@+id/food_name_diary"
+                app:layout_constraintEnd_toStartOf="@+id/delete_food_img_diary"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_create_24" />
 
@@ -107,7 +120,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="30dp"
                 android:text="carb:"
                 app:layout_constraintStart_toEndOf="@+id/food_img_diary"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -117,7 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="30dp"
                 android:text="prot:"
                 app:layout_constraintStart_toEndOf="@+id/food_carb_diary"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -126,17 +139,16 @@
                 android:id="@+id/tsto_fisso_fat_diary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="50dp"
                 android:text="fat:"
-                app:layout_constraintStart_toEndOf="@+id/food_prot_diary"
+                app:layout_constraintStart_toEndOf="@+id/food_img_diary"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/food_img_diary"
                 android:layout_width="78dp"
                 android:layout_height="67dp"
-                android:layout_marginStart="4dp"
                 android:layout_marginTop="4dp"
                 android:scaleType="fitXY"
                 app:layout_constraintStart_toStartOf="parent"
