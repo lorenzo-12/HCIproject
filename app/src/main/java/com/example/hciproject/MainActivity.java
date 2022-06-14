@@ -63,6 +63,13 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     Button dialog_close,dialog_ok;
     ImageView dialog_food_btn,dialog_exercise_btn;
 
+    Dialog dialog2;
+    TextView dialog2_set_txt, dialog2_rep_txt, dialog2_quantity_txt;
+    EditText dialog2_set, dialog2_rep, dialog2_quantity;
+    Button dialog2_ok_btn, dialog2_back_btn;
+    String user,date,item_name,value1,value2;
+    Boolean type;
+
     @Override
     public void onResume() {
         // After a pause OR at startup
@@ -74,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             debug.setText("USER: "+user_logged);
             userView.setImageBitmap(db.loadImage(user_logged));
         }
+
     }
 
 
@@ -108,6 +116,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                     case R.id.bottom_exercise:
                         Toast.makeText(MainActivity.this,"exercise",Toast.LENGTH_SHORT).show();
                         openactivityexercise();
+                        db.addExerciseToDiary(user_logged,"friday, july 1, 2022","lunge",1,1);
+                        db.addFoodToDiary(user_logged,"friday, july 1, 2022","apples",2);
+
+                        db.addExerciseToDiary(user_logged,"saturday, july 2, 2022","bench_press",1,1);
+                        db.addFoodToDiary(user_logged,"saturday, july 2, 2022","avocadoes",2);
                         return true;
                     case R.id.bottom_food:
                         Toast.makeText(MainActivity.this,"food",Toast.LENGTH_SHORT).show();
@@ -132,10 +145,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             public void onClick(View view) {
                 DialogFragment datePicker = new DatePickerFragment();
                 datePicker.show(getFragmentManager(), "date picker");
-                Boolean check = db.deleteFoodFromDiary(user_logged,current_date,"apples");
-                Cursor c = db.findAllUserFoodFromDiary(user_logged,current_date);
-                storeDataInArrays();
-                customAdapterDiaryFood.notifyDataSetChanged();
             }
         });
 
@@ -188,8 +197,36 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             }
         });
 
+        dialog2 = new Dialog(this);
+        dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog2.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.dialog)));
+        dialog2.setCanceledOnTouchOutside(false);
+        dialog2.setContentView(R.layout.layout_custom_dialog2);
 
+        dialog2_set_txt = dialog2.findViewById(R.id.dialog2_set_text);
+        dialog2_rep_txt = dialog2.findViewById(R.id.dialog2_rep_text);
+        dialog2_quantity_txt = dialog2.findViewById(R.id.dialog2_quantity_text);
+        dialog2_set = dialog2.findViewById(R.id.dialog2_set_input);
+        dialog2_rep = dialog2.findViewById(R.id.dialog2_rep_input);
+        dialog2_quantity = dialog2.findViewById(R.id.dialog2_quantity_input);
+        dialog2_ok_btn = dialog2.findViewById(R.id.dialog2_ok_btn);
+        dialog2_back_btn = dialog2.findViewById(R.id.dialog2_back_btn);
 
+        dialog2_ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateItem();
+                dialog2.dismiss();
+            }
+        });
+
+        dialog2_back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog2.dismiss();
+            }
+        });
 
 
         loadData();
@@ -232,6 +269,58 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         buildDialogRecyclerView();
         storeDialogDataInArrays();
         dialog.show();
+    }
+
+    public void showDialog2(String user, String date, String item_name,Boolean type,String value1, String value2){
+        if (type==true){
+            dialog2_set_txt.setVisibility(View.INVISIBLE);
+            dialog2_set_txt.setClickable(false);
+            dialog2_set.setVisibility(View.INVISIBLE);
+            dialog2_set.setClickable(false);
+
+            dialog2_rep_txt.setVisibility(View.INVISIBLE);
+            dialog2_rep_txt.setClickable(false);
+            dialog2_rep.setVisibility(View.INVISIBLE);
+            dialog2_rep.setClickable(false);
+
+            dialog2_quantity_txt.setVisibility(View.VISIBLE);
+            dialog2_quantity_txt.setClickable(true);
+            dialog2_quantity.setVisibility(View.VISIBLE);
+            dialog2_quantity.setClickable(true);
+
+            dialog2_quantity.setText(value1);
+        }
+        else {
+            dialog2_set_txt.setVisibility(View.VISIBLE);
+            dialog2_set_txt.setClickable(true);
+            dialog2_set.setVisibility(View.VISIBLE);
+            dialog2_set.setClickable(true);
+
+            dialog2_rep_txt.setVisibility(View.VISIBLE);
+            dialog2_rep_txt.setClickable(true);
+            dialog2_rep.setVisibility(View.VISIBLE);
+            dialog2_rep.setClickable(true);
+
+            dialog2_quantity_txt.setVisibility(View.INVISIBLE);
+            dialog2_quantity_txt.setClickable(false);
+            dialog2_quantity.setVisibility(View.INVISIBLE);
+            dialog2_quantity.setClickable(false);
+
+            dialog2_set.setText(value1);
+            dialog2_rep.setText(value2);
+        }
+        dialog2.show();
+    }
+
+    public void updateItem(){
+        Boolean a;
+        String x = dialog2_set.getText().toString();
+        String y = dialog2_rep.getText().toString();
+        String z = dialog2_quantity.getText().toString();
+        if (type==true) a=  db.modifyFoodFromDiary(user,date,item_name,Integer.parseInt(z));
+        else a = db.modifyExerciseFromDiary(user,date,item_name,Integer.parseInt(x),Integer.parseInt(y));
+        Toast.makeText(this, "ddd: "+String.valueOf(a), Toast.LENGTH_SHORT).show();
+        storeDataInArrays();
     }
 
     public void buildDialogRecyclerView(){
@@ -282,6 +371,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     public void storeDataInArrays(){
         Cursor cursor = null;
         cursor = db.findAllUserFoodFromDiary(user_logged, current_date);
+        Cursor cursor2 = null;
+        cursor2 = db.findAllUserExerciseFromDiary(user_logged,current_date);
         Toast.makeText(MainActivity.this,"aaa: "+String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
         username_list.clear();
         date_list.clear();
@@ -308,7 +399,23 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 reps_list.add(cursor.getString(7).toLowerCase());
             }
         }
-
+        if ((cursor2 != null) && (cursor2.getCount() == 0)){
+            Toast.makeText(MainActivity.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
+            //Toast.makeText(FoodPage.this,"No Data",Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(MainActivity.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
+            while ((cursor2 != null) && (cursor2.moveToNext())){
+                username_list.add(cursor2.getString(0).toLowerCase());
+                date_list.add(cursor2.getString(1).toLowerCase());
+                or_list.add(cursor2.getString(2).toLowerCase());
+                food_list.add(cursor2.getString(3).toLowerCase());
+                exercise_list.add(cursor2.getString(4).toLowerCase());
+                quantity_list.add(cursor2.getString(5).toLowerCase());
+                sets_list.add(cursor2.getString(6).toLowerCase());
+                reps_list.add(cursor2.getString(7).toLowerCase());
+            }
+        }
+        customAdapterDiaryFood.notifyDataSetChanged();
     }
 
     public void buildRecyclerView(){
@@ -338,22 +445,34 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             public void onDeleteClick(int position) {
                 String index = String.valueOf(position);
                 //Toast.makeText(FoodPage.this,food_name_list.get(position).toString(),Toast.LENGTH_SHORT).show();
-                Boolean result = db.deleteFoodFromDiary(user_logged,current_date,food_list.get(position).toLowerCase());
+                if (or_list.get(position).equals("1")) {
+                    db.deleteFoodFromDiary(user_logged, current_date, food_list.get(position).toLowerCase());
+                }
+                else {
+                    db.deleteExerciseFromDiary(user_logged,current_date,exercise_list.get(position).toLowerCase());
+                }
                 storeDataInArrays();
                 customAdapterDiaryFood.notifyDataSetChanged();
             }
 
             @Override
             public void onUpdateClick(int position) {
-                //Toast.makeText(FoodPage.this,"Update",Toast.LENGTH_SHORT).show();
-                String name = username_list.get(position).toLowerCase();
-                String date = date_list.get(position).toLowerCase();
-                String or = or_list.get(position).toLowerCase();
-                String food = food_list.get(position).toLowerCase();
-                String exercise = exercise_list.get(position).toLowerCase();
-                String quantity = quantity_list.get(position).toLowerCase();
-                String sets = sets_list.get(position).toLowerCase();
-                String reps = reps_list.get(position).toLowerCase();
+                type = or_list.get(position).equals("1");
+                user = username_list.get(position);
+                date = date_list.get(position);
+                value1 = "0";
+                value2 = "0";
+                if (type) {
+                    item_name = food_list.get(position);
+                    value1 = quantity_list.get(position);
+                }
+                else {
+                    item_name = exercise_list.get(position);
+                    value1 = sets_list.get(position);
+                    value2 = reps_list.get(position);
+                }
+
+                showDialog2(user,date,item_name,type,value1,value2);
                 return;
             }
         });
@@ -370,10 +489,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
         TextView textView = (TextView) findViewById(R.id.textView);
         textView.setText(currentDateString);
-        //TODO
         database = findViewById(R.id.databse);
         current_date = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
         database.setText(current_date);
+        storeDataInArrays();
+        customAdapterDiaryFood.notifyDataSetChanged();
     }
 
 

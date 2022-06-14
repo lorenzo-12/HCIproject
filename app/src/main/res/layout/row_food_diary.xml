@@ -12,6 +12,7 @@
         android:backgroundTint="@color/green">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/background_view_diary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="2dp"
@@ -82,7 +83,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="50dp"
                 android:text="fat"
-                app:layout_constraintStart_toEndOf="@+id/tsto_fisso_fat_diary"
+                app:layout_constraintStart_toEndOf="@+id/testo_fisso_fat_diary"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -136,7 +137,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tsto_fisso_fat_diary"
+                android:id="@+id/testo_fisso_fat_diary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -154,6 +155,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_fastfood_24" />
+
+            <TextView
+                android:id="@+id/set_reps_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="30dp"
+                android:text="nada"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:visibility="invisible"
+                app:layout_constraintStart_toEndOf="@+id/food_img_diary"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

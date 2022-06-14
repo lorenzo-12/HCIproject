@@ -233,7 +233,14 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public Cursor findAllUserFoodFromDiary(String username, String data){
-        String query = "SELECT * FROM "+DIARY_TABLE+" WHERE username = ? AND date = ?";
+        String query = "SELECT * FROM "+DIARY_TABLE+" WHERE username = ? AND date = ? AND cor = 1";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, new String[]{username.toLowerCase(), data.toLowerCase()});
+        return cursor;
+    }
+
+    public Cursor findAllUserExerciseFromDiary(String username, String data){
+        String query = "SELECT * FROM "+DIARY_TABLE+" WHERE username = ? AND date = ? AND cor = 0";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, new String[]{username.toLowerCase(), data.toLowerCase()});
         return cursor;
@@ -263,9 +270,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
         cv.put(CQUANTITY, quantity);
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + DIARY_TABLE + " WHERE username = ? AND food = ? AND date = ? ", new String[]{username, food, date});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DIARY_TABLE + " WHERE username = ? AND food = ? AND date = ? ", new String[]{username, food, date.toLowerCase()});
         if (cursor.getCount() > 0) {
-            long result = db.update(FOOD_TABLE, cv, "username = ? AND food = ? AND data = ?", new String[]{username, food, date});
+            long result = db.update(DIARY_TABLE, cv, "username = ? AND food = ? AND date = ?", new String[]{username, food, date.toLowerCase()});
             if (result == -1) return false;
             return true;
         }
@@ -273,16 +280,16 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    public Boolean modifyExerciseFromDiary(String username,String date, String exercise, int r, int s){
+    public Boolean modifyExerciseFromDiary(String username,String date, String exercise, int s, int r){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put(CREPS, r);
         cv.put(CSETS, s);
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + DIARY_TABLE + " WHERE username = ? AND exercise = ? AND date = ? ", new String[]{username, exercise, date});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DIARY_TABLE + " WHERE username = ? AND exercise = ? AND date = ? ", new String[]{username, exercise, date.toLowerCase()});
         if (cursor.getCount() > 0) {
-            long result = db.update(FOOD_TABLE, cv, "username = ? AND exercise = ? AND data = ?", new String[]{username, exercise, date});
+            long result = db.update(DIARY_TABLE, cv, "username = ? AND exercise = ? AND date = ?", new String[]{username, exercise, date.toLowerCase()});
             if (result == -1) return false;
             return true;
         }
