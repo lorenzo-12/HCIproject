@@ -112,7 +112,6 @@ public class CustomAdapterDiaryFood extends RecyclerView.Adapter<CustomAdapterDi
 
         String a = or_list.get(position);
         if (a.equals("1")) {
-
             holder.name_txt.setText(String.valueOf(food_list.get(position)));
             Integer int_q = Integer.valueOf(quantity_list.get(position));
             String str_q = String.valueOf(int_q) + "g";
