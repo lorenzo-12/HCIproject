@@ -29,7 +29,6 @@ public class CustomAdapterDialogItem extends RecyclerView.Adapter<CustomAdapterD
     public interface OnItemClickListener {
         void onQuantityClick(int position, MyViewHolder v);
         void onQuantity2Click(int position, MyViewHolder v);
-        //void onSelectClick(int position, MyViewHolder v);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -100,7 +99,7 @@ public class CustomAdapterDialogItem extends RecyclerView.Adapter<CustomAdapterD
                     if (mlistener != null){
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION){
-                            //mlistener.onQuantityClick(position,vh);
+                            mlistener.onQuantityClick(position,vh);
                         }
                     }
                 }
@@ -149,26 +148,11 @@ public class CustomAdapterDialogItem extends RecyclerView.Adapter<CustomAdapterD
                     if (mlistener != null){
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION){
-                            //mlistener.onQuantity2Click(position,vh);
+                            mlistener.onQuantity2Click(position,vh);
                         }
                     }
                 }
             });
-
-            /*
-            mselectbtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mlistener != null){
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION){
-                            mlistener.onSelectClick(position,vh);
-                        }
-                    }
-                }
-            });
-
-             */
 
         }
     }
@@ -191,6 +175,7 @@ public class CustomAdapterDialogItem extends RecyclerView.Adapter<CustomAdapterD
         Boolean cor = db.findFood(item_list.get(position).toString().toLowerCase());
         if (cor){
             holder.quantity2_txt.setVisibility(View.INVISIBLE);
+            holder.quantity_txt.setHint("quantity");
         }
         else{
             holder.quantity2_txt.setVisibility(View.VISIBLE);

@@ -370,19 +370,25 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         String cor = "1";
         if (db.findFood(item_name)) cor = "1";
         if (db.findExercise(item_name)) cor = "0";
-        Toast.makeText(MainActivity.this, "cor: "+cor, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(MainActivity.this, "cor: "+cor, Toast.LENGTH_SHORT).show();
 
         if (cor.equals("1")){
-            Toast.makeText(this, "q_txt: "+q_text, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "q_txt: "+q_text, Toast.LENGTH_SHORT).show();
             v.mselectbtn.setChecked(false);
+            if (map.containsKey(item_name)) map.remove(item_name);
             if (q_text.equals("")==false && q_text.equals("0")==false){
-                if (map.containsKey(item_name)) map.remove(item_name);
+                ArrayList<String> tmp = new ArrayList<String>();
+                tmp.add(cor);
+                tmp.add(q_text);
+                tmp.add(q2_txt);
+                map.put(item_name,tmp);
                 v.mselectbtn.setChecked(true);
             }
         }
         if (cor.equals("0")){
-            Toast.makeText(this, "q_txt: "+q_text+" q2_txt: "+q2_txt, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "q_txt: "+q_text+" q2_txt: "+q2_txt, Toast.LENGTH_SHORT).show();
             v.mselectbtn.setChecked(false);
+            if (map.containsKey(item_name)) map.remove(item_name);
             if (q_text.equals("")==false && q2_txt.equals("")==false){
                 v.mselectbtn.setChecked(true);
                 ArrayList<String> tmp = new ArrayList<String>();
@@ -392,6 +398,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 map.put(item_name,tmp);
             }
         }
+        //Toast.makeText(this, "map size: "+ String.valueOf(map.size()), Toast.LENGTH_SHORT).show();
+
         /*
         if (q_text.equals("") || q_text.equals("0")){
             if (map.containsKey(item_name)) map.remove(item_name);
@@ -407,6 +415,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         }
 
          */
+
+
     }
 
     public void buildDialogRecyclerView(){
@@ -428,19 +438,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             public void onQuantity2Click(int position, CustomAdapterDialogItem.MyViewHolder v) {
                 updateMap(position,v);
             }
-            /*
-            @Override
-            public void onSelectClick(int position, CustomAdapterDialogItem.MyViewHolder v) {
-                String index = String.valueOf(position);
-                Boolean tmp = v.mselectbtn.isChecked();
-                Toast.makeText(MainActivity.this,"select: "+String.valueOf(tmp),Toast.LENGTH_SHORT).show();
-            }
 
-             */
 
         });
-        //storeDataInArrays();
-        //customAdapterDiaryFood.notifyDataSetChanged();
+        
     }
 
 
@@ -551,7 +552,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
             @Override
             public void onUpdateClick(int position) {
-                type = db.findFood(user);
+                type = db.findFood(food_list.get(position));
                 user = username_list.get(position);
                 date = date_list.get(position);
                 value1 = "0";
