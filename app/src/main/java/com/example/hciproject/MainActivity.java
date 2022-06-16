@@ -3,20 +3,15 @@ package com.example.hciproject;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -35,8 +30,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
@@ -46,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     public String current_date;
     public Integer dialog_filter = 0;
     Boolean FirstAccess = false;
-    public Map<String, ArrayList<String>> map = new HashMap<String,ArrayList<String>>();
 
     //variabili globali usate dalla Main page
     TextView database;
@@ -67,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     ArrayList<Bitmap> dialog_food_img_list;
     EditText dialog_quantity;
     RecyclerView dialogRecycleView;
-    CustomAdapterDialogItem customAdapterDialogItem;
+    CustomAdapterDialogFood customAdapterDialogFood;
     Button dialog_close,dialog_ok;
     ImageView dialog_food_btn,dialog_exercise_btn;
 
@@ -92,31 +84,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     }
 
-    //codice per fare si che quando un utente clicca fuori da un Edittext si perde il focus
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            View v = getCurrentFocus();
-            if ( v instanceof EditText) {
-                Rect outRect = new Rect();
-                v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
-                    v.clearFocus();
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                }
-            }
-        }
-        return super.dispatchTouchEvent( event );
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //View overlay = findViewById(R.id.constraintLayout);
-        //overlay.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN);
 
         db = new DBHelper(this);
         userView = findViewById(R.id.userbutton);
@@ -138,23 +110,28 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.bottom_diary:
-                        //Toast.makeText(MainActivity.this,"diary",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this,"diary",Toast.LENGTH_SHORT).show();
                         //do nothing since we are already in the Diary activity
                         return true;
                     case R.id.bottom_exercise:
-                        //Toast.makeText(MainActivity.this,"exercise",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this,"exercise",Toast.LENGTH_SHORT).show();
                         openactivityexercise();
+                        db.addExerciseToDiary(user_logged,"friday, july 1, 2022","lunge",1,1);
+                        db.addFoodToDiary(user_logged,"friday, july 1, 2022","apples",2);
+
+                        db.addExerciseToDiary(user_logged,"saturday, july 2, 2022","bench_press",1,1);
+                        db.addFoodToDiary(user_logged,"saturday, july 2, 2022","avocadoes",2);
                         return true;
                     case R.id.bottom_food:
-                        //Toast.makeText(MainActivity.this,"food",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this,"food",Toast.LENGTH_SHORT).show();
                         openactivityFood();
                         return true;
                     case R.id.bottom_time:
-                        //Toast.makeText(MainActivity.this,"timer",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this,"timer",Toast.LENGTH_SHORT).show();
                         openactivitytimer();
                         return true;
                     case R.id.bottom_user:
-                        //Toast.makeText(MainActivity.this,"user",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this,"user",Toast.LENGTH_SHORT).show();
                         openactivityuser();
                         return true;
                 }
@@ -181,8 +158,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.dialog)));
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.dialog)));
 
         dialog.setCanceledOnTouchOutside(false);
         dialog.setContentView(R.layout.layout_custom_dialog);
@@ -201,7 +177,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         dialog_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addMapItem();
                 dialog.dismiss();
             }
         });
@@ -225,8 +200,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         dialog2 = new Dialog(this);
         dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
         //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        //dialog2.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.dialog)));
-        dialog2.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog2.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.dialog)));
         dialog2.setCanceledOnTouchOutside(false);
         dialog2.setContentView(R.layout.layout_custom_dialog2);
 
@@ -298,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
     public void showDialog2(String user, String date, String item_name,Boolean type,String value1, String value2){
-        if (type){
+        if (type==true){
             dialog2_set_txt.setVisibility(View.INVISIBLE);
             dialog2_set_txt.setClickable(false);
             dialog2_set.setVisibility(View.INVISIBLE);
@@ -345,68 +319,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         String z = dialog2_quantity.getText().toString();
         if (type==true) a=  db.modifyFoodFromDiary(user,date,item_name,Integer.parseInt(z));
         else a = db.modifyExerciseFromDiary(user,date,item_name,Integer.parseInt(x),Integer.parseInt(y));
-        //Toast.makeText(this, "ddd: "+String.valueOf(a), Toast.LENGTH_SHORT).show();
-        buildRecyclerView();
+        Toast.makeText(this, "ddd: "+String.valueOf(a), Toast.LENGTH_SHORT).show();
         storeDataInArrays();
-        customAdapterDiaryFood.notifyDataSetChanged();
-    }
-
-    public void addMapItem(){
-        for ( Map.Entry<String,ArrayList<String>> e : map.entrySet()) {
-            Toast.makeText(MainActivity.this, "item type: "+e.getValue().get(0), Toast.LENGTH_SHORT).show();
-            if (e.getValue().get(0).equals("1")) db.addFoodToDiary(user_logged, current_date, e.getKey(), Integer.parseInt(e.getValue().get(1)));
-            else db.addExerciseToDiary(user_logged, current_date, e.getKey(), Integer.parseInt(e.getValue().get(1)),Integer.parseInt(e.getValue().get(2)));
-        }
-        map.clear();
-        buildRecyclerView();
-        storeDataInArrays();
-        customAdapterDiaryFood.notifyDataSetChanged();
-    }
-
-    public void updateMap(int position,CustomAdapterDialogItem.MyViewHolder v){
-        String q_text = v.quantity_txt.getText().toString();
-        String q2_txt = v.quantity2_txt.getText().toString();
-        String item_name = v.name_txt.getText().toString().toLowerCase();
-        String cor = "1";
-        if (db.findFood(item_name)) cor = "1";
-        if (db.findExercise(item_name)) cor = "0";
-        Toast.makeText(MainActivity.this, "cor: "+cor, Toast.LENGTH_SHORT).show();
-
-        if (cor.equals("1")){
-            Toast.makeText(this, "q_txt: "+q_text, Toast.LENGTH_SHORT).show();
-            v.mselectbtn.setChecked(false);
-            if (q_text.equals("")==false && q_text.equals("0")==false){
-                if (map.containsKey(item_name)) map.remove(item_name);
-                v.mselectbtn.setChecked(true);
-            }
-        }
-        if (cor.equals("0")){
-            Toast.makeText(this, "q_txt: "+q_text+" q2_txt: "+q2_txt, Toast.LENGTH_SHORT).show();
-            v.mselectbtn.setChecked(false);
-            if (q_text.equals("")==false && q2_txt.equals("")==false){
-                v.mselectbtn.setChecked(true);
-                ArrayList<String> tmp = new ArrayList<String>();
-                tmp.add(cor);
-                tmp.add(q_text);
-                tmp.add(q2_txt);
-                map.put(item_name,tmp);
-            }
-        }
-        /*
-        if (q_text.equals("") || q_text.equals("0")){
-            if (map.containsKey(item_name)) map.remove(item_name);
-            v.mselectbtn.setChecked(false);
-        }
-        else {
-            v.mselectbtn.setChecked(true);
-            ArrayList<String> tmp = new ArrayList<String>();
-            tmp.add(cor);
-            tmp.add(q_text);
-            tmp.add(q2_txt);
-            map.put(item_name,tmp);
-        }
-
-         */
     }
 
     public void buildDialogRecyclerView(){
@@ -414,35 +328,28 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         dialog_food_list = new ArrayList<String>();
         dialog_food_img_list = new ArrayList<Bitmap>();
 
-        customAdapterDialogItem = new CustomAdapterDialogItem(MainActivity.this,dialog_food_list,dialog_food_img_list);
-        dialogRecycleView.setAdapter(customAdapterDialogItem);
+        customAdapterDialogFood = new CustomAdapterDialogFood(MainActivity.this,dialog_food_list,dialog_food_img_list);
+        dialogRecycleView.setAdapter(customAdapterDialogFood);
         dialogRecycleView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
-        customAdapterDialogItem.setOnItemClickListener(new CustomAdapterDialogItem.OnItemClickListener() {
+        customAdapterDialogFood.setOnItemClickListener(new CustomAdapterDialogFood.OnItemClickListener() {
             @Override
-            public void onQuantityClick(int position, CustomAdapterDialogItem.MyViewHolder v) {
-                updateMap(position,v);
-            }
-
-            @Override
-            public void onQuantity2Click(int position, CustomAdapterDialogItem.MyViewHolder v) {
-                updateMap(position,v);
-            }
-            /*
-            @Override
-            public void onSelectClick(int position, CustomAdapterDialogItem.MyViewHolder v) {
+            public void onQuantityClick(int position) {
                 String index = String.valueOf(position);
-                Boolean tmp = v.mselectbtn.isChecked();
-                Toast.makeText(MainActivity.this,"select: "+String.valueOf(tmp),Toast.LENGTH_SHORT).show();
+                //Toast.makeText(FoodPage.this,"clicked: "+index,Toast.LENGTH_SHORT).show();
             }
 
-             */
-
+            @Override
+            public void onSelectClick(int position) {
+                String index = String.valueOf(position);
+                //Toast.makeText(FoodPage.this,food_name_list.get(position).toString(),Toast.LENGTH_SHORT).show();
+                storeDataInArrays();
+                customAdapterDiaryFood.notifyDataSetChanged();
+            }
         });
-        //storeDataInArrays();
-        //customAdapterDiaryFood.notifyDataSetChanged();
-    }
 
+        customAdapterDiaryFood.notifyDataSetChanged();
+    }
 
     public void storeDialogDataInArrays(){
         Cursor cursor = null;
@@ -450,15 +357,15 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         if (dialog_filter==1) cursor = db.readAllDataExercise();
         dialog_food_list.clear();
         if ((cursor != null) && (cursor.getCount() == 0)){
-            //Toast.makeText(MainActivity.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
             //Toast.makeText(FoodPage.this,"No Data",Toast.LENGTH_SHORT).show();
         }else {
-            //Toast.makeText(MainActivity.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
             while ((cursor != null) && (cursor.moveToNext())){
                 dialog_food_list.add(cursor.getString(0).toLowerCase());
             }
         }
-        customAdapterDialogItem.notifyDataSetChanged();
+        customAdapterDialogFood.notifyDataSetChanged();
     }
 
     public void storeDataInArrays(){
@@ -466,7 +373,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         cursor = db.findAllUserFoodFromDiary(user_logged, current_date);
         Cursor cursor2 = null;
         cursor2 = db.findAllUserExerciseFromDiary(user_logged,current_date);
-        //Toast.makeText(MainActivity.this,"aaa: "+String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this,"aaa: "+String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
         username_list.clear();
         date_list.clear();
         or_list.clear();
@@ -477,10 +384,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         sets_list.clear();
         reps_list.clear();
         if ((cursor != null) && (cursor.getCount() == 0)){
-            //Toast.makeText(MainActivity.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
             //Toast.makeText(FoodPage.this,"No Data",Toast.LENGTH_SHORT).show();
         }else {
-            //Toast.makeText(MainActivity.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
             while ((cursor != null) && (cursor.moveToNext())){
                 username_list.add(cursor.getString(0).toLowerCase());
                 date_list.add(cursor.getString(1).toLowerCase());
@@ -493,10 +400,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             }
         }
         if ((cursor2 != null) && (cursor2.getCount() == 0)){
-            //Toast.makeText(MainActivity.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
             //Toast.makeText(FoodPage.this,"No Data",Toast.LENGTH_SHORT).show();
         }else {
-            //Toast.makeText(MainActivity.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
             while ((cursor2 != null) && (cursor2.moveToNext())){
                 username_list.add(cursor2.getString(0).toLowerCase());
                 date_list.add(cursor2.getString(1).toLowerCase());
@@ -544,14 +451,13 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 else {
                     db.deleteExerciseFromDiary(user_logged,current_date,exercise_list.get(position).toLowerCase());
                 }
-                buildRecyclerView();
                 storeDataInArrays();
                 customAdapterDiaryFood.notifyDataSetChanged();
             }
 
             @Override
             public void onUpdateClick(int position) {
-                type = db.findFood(user);
+                type = or_list.get(position).equals("1");
                 user = username_list.get(position);
                 date = date_list.get(position);
                 value1 = "0";
@@ -569,9 +475,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 showDialog2(user,date,item_name,type,value1,value2);
                 return;
             }
-
         });
 
+        customAdapterDiaryFood.notifyDataSetChanged();
     }
 
     @Override
@@ -606,7 +512,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     public void openactivityFood(){
         saveData();
-        //Toast.makeText(MainActivity.this,"Loading",Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this,"Loading",Toast.LENGTH_LONG).show();
         Intent intentDiet = new Intent(this, FoodPage.class);
         startActivity(intentDiet);
     }

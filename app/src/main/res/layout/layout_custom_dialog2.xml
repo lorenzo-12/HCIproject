@@ -2,14 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="300dp"
+    android:layout_width="400dp"
     android:layout_height="170dp"
-    android:orientation="vertical"
-    android:background="@drawable/rounded_conners">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/dialog2_quantity_text"
-        android:layout_width="130dp"
+        android:layout_width="213dp"
         android:layout_height="44dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="36dp"
@@ -36,7 +35,7 @@
 
     <TextView
         android:id="@+id/dialog2_set_text"
-        android:layout_width="130dp"
+        android:layout_width="213dp"
         android:layout_height="44dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -50,7 +49,7 @@
 
     <TextView
         android:id="@+id/dialog2_rep_text"
-        android:layout_width="130dp"
+        android:layout_width="213dp"
         android:layout_height="44dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
@@ -101,7 +100,7 @@
         <!-- some views -->
         <Button
             android:id="@+id/dialog2_back_btn"
-            android:layout_width="75dp"
+            android:layout_width="135dp"
             android:layout_height="50dp"
             android:text="back"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -110,7 +109,7 @@
 
         <Button
             android:id="@+id/dialog2_ok_btn"
-            android:layout_width="75dp"
+            android:layout_width="135dp"
             android:layout_height="50dp"
             android:text="ok"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -164,8 +164,8 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public Boolean addFoodToDiary(String username, String date, String food, int q){
-        boolean exist = findFoodFromDiary(username,date, food);
-        if (exist == true) return modifyFoodFromDiary(username,date,food,q);
+        boolean exist = findFoodFromDiary(username, food, date);
+        if (exist == true) return false;
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -186,8 +186,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Boolean addExerciseToDiary(String username, String date, String exercise, int s, int r){
 
-        boolean exist = findExerciseFromDiary(username, date,exercise);
-        if (exist == true) return modifyExerciseFromDiary(username,date,exercise,s,r);
+        boolean exist = findExerciseFromDiary(username, exercise, date);
+        if (exist == true) return false;
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -246,20 +246,20 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public Boolean findFoodFromDiary(String username, String data, String food){
+    public Boolean findFoodFromDiary(String username, String food, String data){
         String query = "SELECT * FROM "+DIARY_TABLE+" WHERE username = ? AND food = ? AND date = ?";
         SQLiteDatabase db = this.getReadableDatabase();
         if (db == null) return false;
-        Cursor cursor = db.rawQuery(query, new String[]{username, food, data.toLowerCase()});
+        Cursor cursor = db.rawQuery(query, new String[]{username, food, data});
         if(cursor.getCount() == 0) return false;
         return true;
     }
 
-    public Boolean findExerciseFromDiary(String username, String data, String exercise){
+    public Boolean findExerciseFromDiary(String username, String exercise, String data){
         String query = "SELECT * FROM "+DIARY_TABLE+" WHERE username = ? AND exercise = ? AND date = ?";
         SQLiteDatabase db = this.getReadableDatabase();
         if (db == null) return false;
-        Cursor cursor = db.rawQuery(query, new String[]{username, exercise, data.toLowerCase()});
+        Cursor cursor = db.rawQuery(query, new String[]{username, exercise, data});
         if(cursor.getCount() == 0) return false;
         return true;
     }
