@@ -110,8 +110,11 @@ public class CustomAdapterDiaryFood extends RecyclerView.Adapter<CustomAdapterDi
     @Override
     public void onBindViewHolder(@NonNull CustomAdapterDiaryFood.MyViewHolder holder, int position) {
 
-        String a = or_list.get(position);
-        if (a.equals("1")) {
+        String n = String.valueOf(food_list.get(position));
+        String n2 = String.valueOf(exercise_list.get(position));
+        Boolean f = db.findFood(n.toLowerCase());
+        //Log.d("debug","item: "+n+n2+" type: "+f);
+        if (f) {
             holder.name_txt.setText(String.valueOf(food_list.get(position)));
             Integer int_q = Integer.valueOf(quantity_list.get(position));
             String str_q = String.valueOf(int_q) + "g";
@@ -128,8 +131,22 @@ public class CustomAdapterDiaryFood extends RecyclerView.Adapter<CustomAdapterDi
                 holder.fat_txt.setText(String.valueOf(food_info.get(2) * int_q /100));
                 holder.kal_txt.setText(String.valueOf(food_info.get(3) * int_q /100));
             }
+            holder.cl.setBackgroundColor(Color.parseColor("#0F9D58"));
+            holder.set_reps.setVisibility(View.INVISIBLE);
+            holder.c.setVisibility(View.VISIBLE);
+            holder.p.setVisibility(View.VISIBLE);
+            holder.f.setVisibility(View.VISIBLE);
+            holder.k.setVisibility(View.VISIBLE);
+            holder.carb_txt.setVisibility(View.VISIBLE);
+            holder.prot_txt.setVisibility(View.VISIBLE);
+            holder.fat_txt.setVisibility(View.VISIBLE);
+            holder.kal_txt.setVisibility(View.VISIBLE);
+            holder.quantity_txt.setVisibility(View.VISIBLE);
+
+            holder.set_reps.setVisibility(View.INVISIBLE);
         }
-        else {
+        if(!f) {
+            //Log.d("debug", "sto eseguendo questo perchè: "+n+n2+" "+f);
             holder.name_txt.setText(String.valueOf(exercise_list.get(position)));
             holder.set_reps.setText("set: "+String.valueOf(sets_list.get(position))+" rep: "+String.valueOf(reps_list.get(position)));
             Bitmap b = db.loadImage(String.valueOf(exercise_list.get(position)));

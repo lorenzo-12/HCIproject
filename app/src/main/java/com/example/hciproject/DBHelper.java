@@ -246,6 +246,20 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public Cursor findAllFoodNotInDiary(String username, String data){
+        String query = "SELECT * FROM "+FOOD_TABLE+" WHERE "+CNAME_FOOD+" NOT IN ( SELECT "+CFOOD+" FROM "+DIARY_TABLE+" WHERE username = ? AND date = ?  ) ORDER BY "+CNAME_FOOD;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,new String[] {username.toLowerCase(),data.toLowerCase()});
+        return cursor;
+    }
+
+    public Cursor findAllExerciseNotInDiary(String username, String data){
+        String query = "SELECT * FROM "+EXERCISE_TABLE+" WHERE "+CNAME_EXERCISE+" NOT IN ( SELECT "+CEXERCISE+" FROM "+DIARY_TABLE+" WHERE username = ? AND date = ? ) ORDER BY "+CNAME_EXERCISE;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,new String[] {username.toLowerCase(),data.toLowerCase()});
+        return cursor;
+    }
+
     public Boolean findFoodFromDiary(String username, String data, String food){
         String query = "SELECT * FROM "+DIARY_TABLE+" WHERE username = ? AND food = ? AND date = ?";
         SQLiteDatabase db = this.getReadableDatabase();

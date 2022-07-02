@@ -2,9 +2,9 @@ package com.example.hciproject;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -54,12 +54,12 @@ public class UserPage extends AppCompatActivity {
     public Boolean image_selected = false;
 
     Integer sex = 0; //0: not selected, 1: male, 2: female
-    Integer weight_value,height_value,carb_value,prot_value,fat_value,kal_value;
+    Integer weight_value,height_value,carb_value,prot_value,fat_value, cal_value;
 
     ConstraintLayout layout;
-    EditText username,password;
-    Button login,signup,select;
-    ImageView image;
+    EditText old_pasword, new_password,carb,prot,fat,cal;
+    Button change_image,change_password,change_goals;
+    ImageView image,logout;
     DBHelper db;
     Uri imageuri;
     Bitmap image_bitmap;
@@ -89,11 +89,12 @@ public class UserPage extends AppCompatActivity {
 
     }
 
+    /*
+
     @Override
     public void invalidateOptionsMenu() {
         super.invalidateOptionsMenu();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -107,7 +108,6 @@ public class UserPage extends AppCompatActivity {
         updateButtons();
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -137,6 +137,8 @@ public class UserPage extends AppCompatActivity {
         }
     }
 
+     */
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,17 +146,26 @@ public class UserPage extends AppCompatActivity {
         setContentView(R.layout.activity_userpage);
 
         layout = findViewById(R.id.constraintLayout);
-        username = (EditText) findViewById(R.id.usernametxt);
-        password = (EditText) findViewById(R.id.passwordtxt);
-        login = findViewById(R.id.loginbtn);
-        signup = findViewById(R.id.signupbtn);
+        old_pasword = findViewById(R.id.old_password_EditText);
+        new_password = findViewById(R.id.new_password_EditText);
+        carb = findViewById(R.id.carb_EditText);
+        prot = findViewById(R.id.prot_EditText);
+        fat = findViewById(R.id.fat_EditText);
+        cal = findViewById(R.id.cal_EditText);
+        logout = findViewById(R.id.user_logout_btn);
+        change_password = findViewById(R.id.change_password_btn);
+        change_goals = findViewById(R.id.change_goals_btn);
         db = new DBHelper(this);
 
-        username.addTextChangedListener(resetTextWatcher);
-        password.addTextChangedListener(resetTextWatcher);
+        old_pasword.addTextChangedListener(resetTextWatcher);
+        new_password.addTextChangedListener(resetTextWatcher);
+        carb.addTextChangedListener(resetTextWatcher);
+        prot.addTextChangedListener(resetTextWatcher);
+        fat.addTextChangedListener(resetTextWatcher);
+        cal.addTextChangedListener(resetTextWatcher);
 
         image = findViewById(R.id.userimageview);
-        select = findViewById(R.id.selectimagebtn);
+        change_image = findViewById(R.id.change_image_btn);
 
         nav = findViewById(R.id.bottomnavigatorviewUser);
 
@@ -188,82 +199,44 @@ public class UserPage extends AppCompatActivity {
             }
         });
 
-        select.setOnClickListener(new View.OnClickListener() {
+        change_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                change_user_password();
+            }
+        });
+
+        change_goals.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                change_user_goals();
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout_user();
+            }
+        });
+
+        change_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                if (select.getText().toString().equals("select image")){
-                    select.setText("change image");
+                if (change_image.getText().toString().equals("select image")){
+                    change_image.setText("change image");
                     startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_IMAGE);
                 }
-                else if (select.getText().toString().equals("change image")){
+                else if (change_image.getText().toString().equals("change image")){
                     startActivityForResult(Intent.createChooser(intent,"Change Picture"), CHANGE_IMAGE);
                 }
 
             }
         });
 
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                String usr = username.getText().toString().toLowerCase();
-                String psw = password.getText().toString().toLowerCase();
-
-                if (usr.isEmpty() || psw.isEmpty()) {
-                    Toast.makeText(UserPage.this,"Please fill all the fields",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                Boolean check;
-                try {
-                    BitmapDrawable bd = (BitmapDrawable) image.getDrawable();
-                    image_bitmap = bd.getBitmap();
-                    check = db.addUser(usr,psw,image_bitmap,weight_value,height_value,sex,carb_value,prot_value,fat_value,kal_value);
-                } catch (Exception e){
-                    check = db.addUser(usr,psw,weight_value,height_value,sex,carb_value,prot_value,fat_value,kal_value);
-                }
-
-                if (check){
-                    Toast.makeText(UserPage.this,"OK",Toast.LENGTH_SHORT).show();
-                    user_logged = usr;
-
-                }else {
-                    Toast.makeText(UserPage.this,"FAIL",Toast.LENGTH_SHORT).show();
-                }
-                saveData();
-                updateButtons();
-                onBackPressed();
-            }
-
-
-        });
-
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String usr = username.getText().toString().toLowerCase();
-                String psw = password.getText().toString().toLowerCase();
-
-                if (usr.isEmpty() || psw.isEmpty()) {
-                    Toast.makeText(UserPage.this,"Please fill all the fields",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Boolean check = db.checkUser(usr,psw);
-                if (check){
-                    Toast.makeText(UserPage.this,"OK",Toast.LENGTH_SHORT).show();
-                    user_logged = usr;
-                }else {
-                    Toast.makeText(UserPage.this,"FAIL",Toast.LENGTH_SHORT).show();
-                }
-                String res = db.viewUsers();
-                saveData();
-                updateButtons();
-                onBackPressed();
-            }
-        });
 
         loadData();
         updateButtons();
@@ -271,12 +244,14 @@ public class UserPage extends AppCompatActivity {
         //String res = db.viewUsers();
         //username.setText(res);
 
-        select.setText("select image");
+        change_image.setText("select image");
         if (!user_logged.equals("none")){
             Bitmap b = loadImage(user_logged.toLowerCase());
             image.setImageBitmap(b);
-            select.setText("change image");
+            change_image.setText("change image");
         }
+
+        fill_values();
     }
 
     public Bitmap loadImage(String name){
@@ -302,7 +277,7 @@ public class UserPage extends AppCompatActivity {
             try {
                 image_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imageuri);
                 image.setImageBitmap(image_bitmap);
-                if (user_logged.equals("none")) select.setEnabled(false);
+                if (user_logged.equals("none")) change_image.setEnabled(false);
                 image_selected=true;
             } catch (IOException e) {
                 image.setImageDrawable(getDrawable(R.drawable.no_image2));
@@ -355,6 +330,10 @@ public class UserPage extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(USER_LOGGED,user_logged);
         editor.putBoolean(LIGHTMODE,lightmode);
+        editor.putInt(CARB_S,carb_value);
+        editor.putInt(PROT_S,prot_value);
+        editor.putInt(FAT_S,fat_value);
+        editor.putInt(KAL_S,cal_value);
         editor.apply();
         updateButtons();
     }
@@ -369,7 +348,8 @@ public class UserPage extends AppCompatActivity {
         carb_value = sharedPreferences.getInt(CARB_S,0);
         prot_value = sharedPreferences.getInt(PROT_S,0);
         fat_value = sharedPreferences.getInt(FAT_S,0);
-        kal_value = sharedPreferences.getInt(KAL_S,0);
+        cal_value = sharedPreferences.getInt(KAL_S,0);
+
         updateButtons();
     }
 
@@ -385,13 +365,13 @@ public class UserPage extends AppCompatActivity {
             item_psw_change = menu_bar.findItem(R.id.Change_password_item);
             item_usr_change = menu_bar.findItem(R.id.Change_username_item);
         }
-        String usr = "";
-        String psw = "";
-        if (username != null) {
-            usr = username.getText().toString().toLowerCase();
+        String old_p = "";
+        String new_p = "";
+        if (old_pasword != null) {
+            old_p = old_pasword.getText().toString().toLowerCase();
         }
-        if (password != null) {
-            psw = password.getText().toString().toLowerCase();
+        if (new_password != null) {
+            new_p = new_password.getText().toString().toLowerCase();
         }
         if ((menu_bar != null) && (user_logged.equals("none"))){
             //Toast.makeText(UserPage.this,"if "+user_logged,Toast.LENGTH_SHORT).show();
@@ -405,17 +385,62 @@ public class UserPage extends AppCompatActivity {
             item_psw_change.setEnabled(true);
             item_usr_change.setEnabled(true);
         }
-        if (!usr.isEmpty() && !psw.isEmpty() && (user_logged.equals("none"))) {
-            signup.setEnabled(true);
-            login.setEnabled(true);
-        }
-        else{
-            login.setEnabled(false);
-            signup.setEnabled(false);
-        }
+        if (!old_p.equals("") && !new_p.equals("")) change_password.setClickable(true);
+        else change_password.setClickable(false);
+        if (!user_logged.equals("none")) change_image.setEnabled(true);
 
-        if (!user_logged.equals("none")) select.setEnabled(true);
+        String c,p,f,k;
+        c = carb.getText().toString();
+        p = prot.getText().toString();
+        f = fat.getText().toString();
+        k = cal.getText().toString();
+        if (!c.equals("") && !f.equals("") && !p.equals("") && !k.equals("")) change_goals.setClickable(true);
+        else change_goals.setClickable(false);
 
+    }
+
+    public void fill_values(){
+        Cursor cursor = db.getUserInfo(user_logged);
+        cursor.moveToNext();
+        old_pasword.setText(cursor.getString(1));
+        carb.setText(String.valueOf(cursor.getInt(5)));
+        prot.setText(String.valueOf(cursor.getInt(6)));
+        fat.setText(String.valueOf(cursor.getInt(7)));
+        cal.setText(String.valueOf(cursor.getInt(8)));
+        carb_value = cursor.getInt(5);
+        prot_value = cursor.getInt(6);
+        fat_value = cursor.getInt(7);
+        cal_value = cursor.getInt(8);
+    }
+
+    public void change_user_password(){
+        Boolean check = db.findUser(user_logged);
+        if (check){
+            Cursor cursor = db.getUserInfo(user_logged);
+            if (cursor != null){
+                cursor.moveToNext();
+                if (cursor.getString(1).equals(old_pasword.getText().toString().toLowerCase())){
+                    db.updateUserPassword(user_logged,new_password.getText().toString().toLowerCase());
+                }
+                else Toast.makeText(UserPage.this,"wrong password",Toast.LENGTH_SHORT).show();
+            }
+            else Toast.makeText(UserPage.this,"no info", Toast.LENGTH_SHORT).show();
+        }
+        else Toast.makeText(UserPage.this,"user not exist",Toast.LENGTH_SHORT).show();
+    }
+
+    public void logout_user(){
+        user_logged = "none";
+        saveData();
+        openactivityFitlife();
+    }
+
+    public void change_user_goals(){
+        Boolean check = db.updateUserGoals(user_logged,Integer.parseInt(carb.getText().toString()),Integer.parseInt(prot.getText().toString()),Integer.parseInt(fat.getText().toString()),Integer.parseInt(cal.getText().toString()));
+        Toast.makeText(UserPage.this, check.toString(), Toast.LENGTH_SHORT).show();
+        saveData();
+        loadData();
+        fill_values();
     }
 
     public void openactivityDiary(){

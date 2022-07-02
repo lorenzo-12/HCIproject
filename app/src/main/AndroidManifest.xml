@@ -16,9 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HCIproject">
         <activity
-            android:name=".ChangeGoalsPage"
-            android:exported="false" />
-        <activity
             android:name=".SignupPage"
             android:exported="false" />
         <activity
@@ -49,11 +46,6 @@
             android:name=".TimerPage"
             android:exported="false"
             android:label="TimerPage" /> <!-- android:parentActivityName=".MainActivity" -->
-        <activity
-            android:name=".ChangePasswordPage"
-            android:exported="false"
-            android:label="UserOptionPage"
-            android:parentActivityName=".UserPage" />
         <activity
             android:name=".UserPage"
             android:exported="false"

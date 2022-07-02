@@ -11,109 +11,193 @@
     android:background="@color/white"
     android:theme="@style/Theme.MaterialComponents">
 
-    <Button
-        android:id="@+id/selectimagebtn"
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/change_goals_btn"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="88dp"
+        android:background="@color/green"
+        android:text="change goals"
+        app:layout_constraintStart_toStartOf="@+id/fat_layout"
+        app:layout_constraintTop_toBottomOf="@+id/fat_layout" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/change_image_btn"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/green"
+        android:text="change image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/userimageview" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/old_password_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="select image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userimageview" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/username_TextInputLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
-        android:hint="username"
-        app:counterEnabled="true"
-        app:counterMaxLength="20"
-        app:endIconMode="clear_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:startIconDrawable="@drawable/ic_baseline_person_24"
-        app:boxStrokeColor="@color/green"
+        android:hint="old password"
         android:textColorHint="@color/black"
-        app:hintTextColor="@color/black">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/usernametxt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLength="20"
-            android:textColor="@color/black"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/password_TextInputLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="32dp"
-        android:hint="password"
+        app:boxStrokeColor="@color/green"
         app:counterEnabled="true"
         app:counterMaxLength="20"
         app:endIconMode="password_toggle"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:endIconTint="@color/black"
+        app:helperText="Required"
+        app:helperTextTextColor="@color/red"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.329"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username_TextInputLayout"
-        app:layout_constraintVertical_bias="0.016"
+        app:layout_constraintTop_toTopOf="parent"
         app:startIconDrawable="@drawable/ic_baseline_vpn_key_24"
-        app:boxStrokeColor="@color/green"
-        android:textColorHint="@color/black"
-        app:hintTextColor="@color/black">
+        app:startIconTint="@color/black">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/passwordtxt"
-            android:layout_width="match_parent"
+            android:id="@+id/old_password_EditText"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
+            android:inputType="textPassword"
             android:maxLength="20"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/loginbtn"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/new_password_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:enabled="true"
-        android:text="login"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.284"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.418" />
+        android:hint="new password"
+        android:textColorHint="@color/black"
+        app:boxStrokeColor="@color/green"
+        app:counterEnabled="true"
+        app:counterMaxLength="20"
+        app:endIconMode="password_toggle"
+        app:endIconTint="@color/black"
+        app:helperText="Required"
+        app:helperTextTextColor="@color/red"
+        app:layout_constraintStart_toStartOf="@+id/old_password_layout"
+        app:layout_constraintTop_toBottomOf="@+id/old_password_layout"
+        app:startIconDrawable="@drawable/ic_baseline_vpn_key_24"
+        app:startIconTint="@color/black">
 
-    <Button
-        android:id="@+id/signupbtn"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/new_password_EditText"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:maxLength="20"
+            android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/carb_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:enabled="true"
-        android:text="signup"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.66"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:hint="carb"
+        android:textColorHint="@color/black"
+        app:boxStrokeColor="@color/green"
+        app:counterEnabled="true"
+        app:counterMaxLength="20"
+        app:helperTextTextColor="@color/red"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.418" />
+        app:layout_constraintTop_toBottomOf="@+id/change_password_btn">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/carb_EditText"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="20"
+            android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/prot_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:hint="protein"
+        android:textColorHint="@color/black"
+        app:boxStrokeColor="@color/green"
+        app:counterEnabled="true"
+        app:counterMaxLength="20"
+        app:helperTextTextColor="@color/red"
+        app:layout_constraintStart_toEndOf="@+id/carb_layout"
+        app:layout_constraintTop_toTopOf="@+id/carb_layout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/prot_EditText"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="20"
+            android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/fat_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="fat"
+        android:textColorHint="@color/black"
+        app:boxStrokeColor="@color/green"
+        app:counterEnabled="true"
+        app:counterMaxLength="20"
+        app:helperTextTextColor="@color/red"
+        app:layout_constraintStart_toStartOf="@+id/carb_layout"
+        app:layout_constraintTop_toBottomOf="@+id/carb_layout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fat_EditText"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="20"
+            android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/cal_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="calories"
+        android:textColorHint="@color/black"
+        app:boxStrokeColor="@color/green"
+        app:counterEnabled="true"
+        app:counterMaxLength="20"
+        app:helperTextTextColor="@color/red"
+        app:layout_constraintStart_toStartOf="@+id/prot_layout"
+        app:layout_constraintTop_toBottomOf="@+id/prot_layout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/cal_EditText"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="20"
+            android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
         android:id="@+id/userimageview"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="192dp"
+        android:layout_height="161dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.073"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signupbtn"
         app:srcCompat="@drawable/no_image2" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -145,6 +229,27 @@
         </com.google.android.material.bottomappbar.BottomAppBar>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <ImageView
+        android:id="@+id/user_logout_btn"
+        android:layout_width="49dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_logout_24" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/change_password_btn"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="56dp"
+        android:background="@color/green"
+        android:text="change goals"
+        app:layout_constraintStart_toStartOf="@+id/new_password_layout"
+        app:layout_constraintTop_toBottomOf="@+id/new_password_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
