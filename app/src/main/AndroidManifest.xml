@@ -16,6 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HCIproject">
         <activity
+            android:name=".ChangePassword"
+            android:exported="false" />
+        <activity
+            android:name=".RecoverPassword"
+            android:exported="false" />
+        <activity
             android:name=".SignupPage"
             android:exported="false" />
         <activity

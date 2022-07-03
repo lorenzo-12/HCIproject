@@ -23,73 +23,69 @@
         app:layout_constraintTop_toBottomOf="@+id/fat_layout" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/change_stats_btn"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="88dp"
+        android:background="@color/green"
+        android:text="change body Stats"
+        app:layout_constraintStart_toStartOf="@+id/weight_layout"
+        app:layout_constraintTop_toBottomOf="@+id/weight_layout" />
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/change_image_btn"
         android:layout_width="150dp"
         android:layout_height="50dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="8dp"
         android:background="@color/green"
         android:text="change image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/userimageview" />
+        app:layout_constraintEnd_toEndOf="@+id/userimageview"
+        app:layout_constraintTop_toBottomOf="@+id/userimageview" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/old_password_layout"
+        android:id="@+id/weight_layout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
-        android:hint="old password"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:hint="weight"
         android:textColorHint="@color/black"
         app:boxStrokeColor="@color/green"
         app:counterEnabled="true"
         app:counterMaxLength="20"
-        app:endIconMode="password_toggle"
-        app:endIconTint="@color/black"
-        app:helperText="Required"
         app:helperTextTextColor="@color/red"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.329"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:startIconDrawable="@drawable/ic_baseline_vpn_key_24"
-        app:startIconTint="@color/black">
+        app:layout_constraintTop_toBottomOf="@+id/cal_text_show_userpage">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/old_password_EditText"
-            android:layout_width="250dp"
+            android:id="@+id/weight_EditText"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
+            android:inputType="number"
             android:maxLength="20"
             android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/new_password_layout"
+        android:id="@+id/height_layout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="new password"
+        android:layout_marginStart="8dp"
+        android:hint="height"
         android:textColorHint="@color/black"
         app:boxStrokeColor="@color/green"
         app:counterEnabled="true"
         app:counterMaxLength="20"
-        app:endIconMode="password_toggle"
-        app:endIconTint="@color/black"
-        app:helperText="Required"
         app:helperTextTextColor="@color/red"
-        app:layout_constraintStart_toStartOf="@+id/old_password_layout"
-        app:layout_constraintTop_toBottomOf="@+id/old_password_layout"
-        app:startIconDrawable="@drawable/ic_baseline_vpn_key_24"
-        app:startIconTint="@color/black">
+        app:layout_constraintStart_toEndOf="@+id/weight_layout"
+        app:layout_constraintTop_toTopOf="@+id/weight_layout">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/new_password_EditText"
-            android:layout_width="250dp"
+            android:id="@+id/height_EditText"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
+            android:inputType="number"
             android:maxLength="20"
             android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -100,7 +96,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:hint="carb"
         android:textColorHint="@color/black"
         app:boxStrokeColor="@color/green"
@@ -108,7 +104,7 @@
         app:counterMaxLength="20"
         app:helperTextTextColor="@color/red"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/change_password_btn">
+        app:layout_constraintTop_toBottomOf="@+id/change_stats_btn">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/carb_EditText"
@@ -124,7 +120,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:hint="protein"
         android:textColorHint="@color/black"
         app:boxStrokeColor="@color/green"
@@ -191,13 +187,12 @@
 
     <ImageView
         android:id="@+id/userimageview"
-        android:layout_width="192dp"
-        android:layout_height="161dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.073"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/no_image2" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -230,26 +225,77 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <ImageView
-        android:id="@+id/user_logout_btn"
-        android:layout_width="49dp"
-        android:layout_height="51dp"
+    <TextView
+        android:id="@+id/username_text_show_userpage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:scaleType="fitXY"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_logout_24" />
+        android:text="username"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/change_password_btn"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="56dp"
-        android:background="@color/green"
-        android:text="change goals"
-        app:layout_constraintStart_toStartOf="@+id/new_password_layout"
-        app:layout_constraintTop_toBottomOf="@+id/new_password_layout" />
+    <TextView
+        android:id="@+id/weight_text_show_userpage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="weight"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/username_text_show_userpage"
+        app:layout_constraintTop_toBottomOf="@+id/username_text_show_userpage" />
+
+    <TextView
+        android:id="@+id/height_text_show_userpage"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:text="height"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/weight_text_show_userpage"
+        app:layout_constraintTop_toBottomOf="@+id/weight_text_show_userpage" />
+
+    <TextView
+        android:id="@+id/carb_text_show_userpage"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:text="carb goals"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/height_text_show_userpage"
+        app:layout_constraintTop_toBottomOf="@+id/height_text_show_userpage" />
+
+    <TextView
+        android:id="@+id/prot_text_show_userpage"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:text="prot goals"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/carb_text_show_userpage"
+        app:layout_constraintTop_toBottomOf="@+id/carb_text_show_userpage" />
+
+    <TextView
+        android:id="@+id/fat_text_show_userpage"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:text="fat goals"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/prot_text_show_userpage"
+        app:layout_constraintTop_toBottomOf="@+id/prot_text_show_userpage" />
+
+    <TextView
+        android:id="@+id/cal_text_show_userpage"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:text="calories goals"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/fat_text_show_userpage"
+        app:layout_constraintTop_toBottomOf="@+id/fat_text_show_userpage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

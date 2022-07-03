@@ -26,7 +26,7 @@ public class LoginPage extends AppCompatActivity {
 
     EditText username,password;
     DBHelper db;
-    Button login;
+    Button login,forgot;
 
 
     @Override
@@ -66,6 +66,7 @@ public class LoginPage extends AppCompatActivity {
         username = findViewById(R.id.usernametxt_login);
         password = findViewById(R.id.passwordtxt_login);
         login = findViewById(R.id.login_button);
+        forgot = findViewById(R.id.forgot_password_btn);
 
         db = new DBHelper(this);
 
@@ -91,6 +92,13 @@ public class LoginPage extends AppCompatActivity {
                 openactivityMain();
             }
         });
+
+        forgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openactivityRecover();
+            }
+        });
         loadData();
     }
 
@@ -111,6 +119,12 @@ public class LoginPage extends AppCompatActivity {
     public void openactivityMain(){
         saveData();
         Intent intentMain = new Intent(this, MainActivity.class);
+        startActivity(intentMain);
+    }
+
+    public void openactivityRecover(){
+        saveData();
+        Intent intentMain = new Intent(this, RecoverPassword.class);
         startActivity(intentMain);
     }
 }

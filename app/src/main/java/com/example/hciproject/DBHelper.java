@@ -32,6 +32,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CPROT_GOAL = "protgoal";
     public static final String CFAT_GOAL = "fatgoal";
     public static final String CKAL_GOAL = "kalgoal";
+    public static final String QUESTION = "question";
 
     public static final String FOOD_TABLE = "food";
     public static final String CNAME_FOOD = "food_name";
@@ -69,7 +70,8 @@ public class DBHelper extends SQLiteOpenHelper {
                                                                                     +CCARB_GOAL+" INTEGER, "
                                                                                     +CPROT_GOAL+" INTEGER, "
                                                                                     +CFAT_GOAL+" INTEGER, "
-                                                                                    +CKAL_GOAL+" INTEGER );";
+                                                                                    +CKAL_GOAL+" INTEGER, "
+                                                                                    +QUESTION+" TEXT );";
 
     public static final String CREATE_FOOD_TABLE = "CREATE TABLE "+FOOD_TABLE+" (  "+CNAME_FOOD+" TEXT PRIMARY KEY, "
                                                                                     +CCATEGORY_FOOD+" TEXT, "
@@ -560,7 +562,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    public Boolean addUser(String username,String password, int weight, int height, int sex, int carb_goal, int prot_goal, int fat_goal, int kal_goal){
+    public Boolean addUser(String username,String password, int weight, int height, int sex, int carb_goal, int prot_goal, int fat_goal, int kal_goal, String question){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -575,13 +577,14 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(CPROT_GOAL,prot_goal);
         cv.put(CFAT_GOAL,fat_goal);
         cv.put(CKAL_GOAL,kal_goal);
+        cv.put(QUESTION,question);
 
         long result = db.insert(USER_TABLE,null,cv);
         if (result == -1) return false;
         return true;
     }
 
-    public Boolean addUser(String username,String password,Bitmap img, int weight, int height, int sex, int carb_goal, int prot_goal, int fat_goal, int kal_goal){
+    public Boolean addUser(String username,String password,Bitmap img, int weight, int height, int sex, int carb_goal, int prot_goal, int fat_goal, int kal_goal, String question){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -596,10 +599,31 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(CPROT_GOAL,prot_goal);
         cv.put(CFAT_GOAL,fat_goal);
         cv.put(CKAL_GOAL,kal_goal);
+        cv.put(QUESTION,question);
 
         long result = db.insert(USER_TABLE,null,cv);
         if (result == -1) return false;
         return true;
+    }
+
+    public String getUserAnswer(String username){
+        String query = "SELECT "+QUESTION+" FROM "+USER_TABLE+" WHERE username=?";
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (db == null) return "";
+        Cursor cursor = db.rawQuery(query, new String[]{username});
+        if(cursor.getCount() == 0) return "";
+        cursor.moveToNext();
+        return cursor.getString(0);
+    }
+
+    public String getUserPassword(String username){
+        String query = "SELECT "+CPASSWORD+" FROM "+USER_TABLE+" WHERE username=?";
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (db == null) return "";
+        Cursor cursor = db.rawQuery(query, new String[]{username});
+        if(cursor.getCount() == 0) return "";
+        cursor.moveToNext();
+        return cursor.getString(0);
     }
 
     public Boolean updateUserPassword(String username,String password){
@@ -622,6 +646,20 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(CPROT_GOAL,prot);
         cv.put(CFAT_GOAL,fat);
         cv.put(CKAL_GOAL,kal);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE username = ? ", new String[]{username});
+        if (cursor.getCount() > 0) {
+            long result = db.update(USER_TABLE, cv, "username=?", new String[]{username});
+            if (result == -1) return false;
+            return true;
+        }
+        else return false;
+    }
+
+    public Boolean updateUserStat(String username,int weight, int height){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(CWEIGHT,weight);
+        cv.put(CHEIGHT,height);
         Cursor cursor = db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE username = ? ", new String[]{username});
         if (cursor.getCount() > 0) {
             long result = db.update(USER_TABLE, cv, "username=?", new String[]{username});

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,9 +34,10 @@ public class SignupPage extends AppCompatActivity {
     Integer sex = 0; //0: not selected, 1: male, 2: female
     Integer weight_value,height_value,carb_value,prot_value,fat_value,kal_value;
 
-    EditText username,password;
+    EditText username,password,confirm,answer;
     Button signup,back;
     DBHelper db;
+    TextView password_error,error;
 
     //codice per fare si che quando un utente clicca fuori da un Edittext si perde il focus
     @Override
@@ -81,8 +83,12 @@ public class SignupPage extends AppCompatActivity {
 
         username = findViewById(R.id.usernametxt_signup);
         password = findViewById(R.id.passwordtxt_singup);
+        confirm = findViewById(R.id.confir_mpasswordtxt_singup);
+        answer = findViewById(R.id.answertxt_singup);
         signup = findViewById(R.id.signup_button);
         back = findViewById(R.id.signup_back_btn);
+        password_error = findViewById(R.id.error_password_text_signup);
+        error = findViewById(R.id.error_fillup_text_signup);
         db = new DBHelper(this);
 
         loadData();
@@ -93,18 +99,29 @@ public class SignupPage extends AppCompatActivity {
 
                 String usr = username.getText().toString().toLowerCase();
                 String psw = password.getText().toString().toLowerCase();
+                String cnf = confirm.getText().toString().toLowerCase();
+                String ans = answer.getText().toString().toLowerCase();
 
-                if (usr.isEmpty() || psw.isEmpty()) {
-                    Toast.makeText(SignupPage.this,"Please fill all the fields",Toast.LENGTH_SHORT).show();
-                    return;
+                error.setVisibility(View.INVISIBLE);
+                password_error.setVisibility(View.INVISIBLE);
+                Boolean ret = false;
+                if (usr.isEmpty() || psw.isEmpty() || cnf.isEmpty() || ans.isEmpty()) {
+                    error.setVisibility(View.VISIBLE);
+                    ret = true;
                 }
+
+                if ( !psw.equals(cnf) ){
+                    password_error.setVisibility(View.VISIBLE);
+                    ret = true;
+                }
+                if (ret) return;
 
                 Boolean check;
                 try {
                     Bitmap img = ((BitmapDrawable)getResources().getDrawable(R.drawable.no_image2)).getBitmap();
-                    check = db.addUser(usr,psw,img,weight_value,height_value,sex,carb_value,prot_value,fat_value,kal_value);
+                    check = db.addUser(usr,psw,img,weight_value,height_value,sex,carb_value,prot_value,fat_value,kal_value,ans);
                 } catch (Exception e){
-                    check = db.addUser(usr,psw,weight_value,height_value,sex,carb_value,prot_value,fat_value,kal_value);
+                    check = db.addUser(usr,psw,weight_value,height_value,sex,carb_value,prot_value,fat_value,kal_value,ans);
                 }
 
                 if (check){
