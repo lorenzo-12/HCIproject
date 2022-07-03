@@ -44,14 +44,14 @@
         android:id="@+id/search_exercise_text"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/white"
+        android:background="@color/green"
         android:completionThreshold="1"
         android:drawableEnd="@drawable/ic_baseline_search_24"
-        android:hint="search"
         android:drawableTint="@color/black"
-        android:textColorHint="@color/black"
-        android:textColor="@color/black"
+        android:hint="search"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"/>
+        android:paddingRight="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

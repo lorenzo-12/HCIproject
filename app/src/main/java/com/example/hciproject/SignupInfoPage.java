@@ -168,11 +168,11 @@ public class SignupInfoPage extends AppCompatActivity {
             female.setBackgroundColor(getResources().getColor(R.color.grey));
         }
         else if (s == 1){
-            male.setBackgroundColor(getResources().getColor(R.color.green));
+            male.setBackgroundColor(getResources().getColor(R.color.celeste));
             female.setBackgroundColor(getResources().getColor(R.color.grey));
         }
         else {
-            female.setBackgroundColor(getResources().getColor(R.color.green));
+            female.setBackgroundColor(getResources().getColor(R.color.celeste));
             male.setBackgroundColor(getResources().getColor(R.color.grey));
         }
     }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginPage"
-    android:background="@color/white">
+    android:background="@drawable/background">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/username_TextInputLayout_login"
@@ -13,7 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="124dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="32dp"
         android:hint="username"
         android:textColorHint="@color/black"
@@ -70,13 +70,15 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/login_button"
-        android:layout_width="160dp"
-        android:layout_height="85dp"
-        android:layout_marginStart="124dp"
-        android:layout_marginBottom="204dp"
+        android:layout_width="210dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="224dp"
         android:background="@color/green"
         android:text="login"
+        android:textColor="@color/grey"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button

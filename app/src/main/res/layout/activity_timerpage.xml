@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TimerPage">
+    tools:context=".TimerPage"
+    android:background="@color/grey">
 
     <NumberPicker
         android:id="@+id/numpicker_hours"
@@ -37,6 +38,7 @@
         android:layout_marginStart="36dp"
         android:layout_marginTop="20dp"
         android:text="seconds"
+        android:textColor="@color/black"
         app:layout_constraintStart_toEndOf="@+id/textView_minutes"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -47,6 +49,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="20dp"
         android:text="minutes"
+        android:textColor="@color/black"
         app:layout_constraintStart_toEndOf="@+id/textView_hours"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -57,6 +60,7 @@
         android:layout_marginStart="88dp"
         android:layout_marginTop="20dp"
         android:text="hours"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,31 +88,35 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
+
     <Button
         android:id="@+id/countdown_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="116dp"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:backgroundTint="@color/green"
         android:text="Start"
+        android:textColor="@color/grey"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.715"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.711"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar"
+        app:layout_constraintVertical_bias="0.0" />
+
 
     <Button
         android:id="@+id/countdown_reset_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="116dp"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:backgroundTint="@color/green"
         android:text="Reset"
+        android:textColor="@color/grey"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.287"
+        app:layout_constraintHorizontal_bias="0.209"
         app:layout_constraintStart_toStartOf="parent"
-        tools:visibility="visible" />
-
-
-
+        app:layout_constraintTop_toBottomOf="@+id/progressBar"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -153,5 +161,6 @@
         </com.google.android.material.bottomappbar.BottomAppBar>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

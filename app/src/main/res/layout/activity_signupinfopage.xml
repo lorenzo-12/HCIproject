@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SignupInfoPage"
-    android:background="@color/white">
+    android:background="@drawable/background">
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/female_button"
@@ -32,23 +32,27 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/signup_next_button"
-        android:layout_width="88dp"
+        android:layout_width="120dp"
         android:layout_height="47dp"
-        android:layout_marginStart="248dp"
         android:layout_marginTop="16dp"
-        android:background="@color/green"
+        android:background="@drawable/custom_button"
         android:text="next"
+        android:textColor="@color/grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.735"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signup_kal_goal" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/signup_back_button"
-        android:layout_width="88dp"
+        android:layout_width="120dp"
         android:layout_height="47dp"
         android:layout_marginStart="44dp"
         android:layout_marginTop="16dp"
-        android:background="@color/green"
+        android:background="@drawable/custom_button"
         android:text="back"
+        android:textColor="@color/grey"
+        app:layout_constraintEnd_toStartOf="@+id/signup_next_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signup_kal_goal" />
 
@@ -56,7 +60,8 @@
         android:id="@+id/signup_weight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="@color/green"
         android:drawableEnd="@drawable/kg_image"
         android:ems="6"
@@ -64,8 +69,6 @@
         android:inputType="number"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.154"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/male_button" />
 
@@ -73,7 +76,7 @@
         android:id="@+id/signup_height"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="@color/green"
         android:drawableEnd="@drawable/height_image"
         android:ems="6"
@@ -82,8 +85,8 @@
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.252"
+        app:layout_constraintStart_toEndOf="@+id/signup_weight"
         app:layout_constraintTop_toBottomOf="@+id/female_button" />
 
     <EditText
@@ -94,7 +97,7 @@
         android:backgroundTint="@color/green"
         android:drawableEnd="@drawable/grams_image"
         android:ems="10"
-        android:hint="carb goal"
+        android:hint="carbs goal"
         android:inputType="number"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
@@ -111,7 +114,7 @@
         android:backgroundTint="@color/green"
         android:drawableEnd="@drawable/grams_image"
         android:ems="10"
-        android:hint="protein goal"
+        android:hint="proteins goal"
         android:inputType="number"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
@@ -128,7 +131,7 @@
         android:backgroundTint="@color/green"
         android:drawableEnd="@drawable/grams_image"
         android:ems="10"
-        android:hint="fat goal"
+        android:hint="fats goal"
         android:inputType="number"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
@@ -140,12 +143,11 @@
     <EditText
         android:id="@+id/signup_kal_goal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_marginTop="8dp"
         android:backgroundTint="@color/green"
-        android:drawableEnd="@drawable/grams_image"
         android:ems="10"
-        android:hint="kalories goal"
+        android:hint="calories goal"
         android:inputType="number"
         android:textColor="@color/black"
         android:textColorHint="@color/black"

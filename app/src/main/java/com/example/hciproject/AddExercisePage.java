@@ -64,8 +64,8 @@ public class AddExercisePage extends AppCompatActivity implements AdapterView.On
         addExercisebtn = findViewById(R.id.addWorkoutbtn);
         image = findViewById(R.id.exercisedimageview_add);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(AddExercisePage.this,R.array.workout_category_possible, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(AddExercisePage.this,R.array.workout_category_possible, R.layout.color_spinner_layout);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
         input_category_spinner.setAdapter(adapter);
 
         input_category_spinner.setOnItemSelectedListener(this);

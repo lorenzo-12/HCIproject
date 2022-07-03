@@ -11,11 +11,14 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
-    <color name="green">#0F9D58</color>
+    <color name="green2">#0F9D58</color>
     <color name="cool">#188FCF</color>
     <color name="warm">#F1D416</color>
     <color name="blue">#0f1cd6</color>
     <color name="red">#c7000a</color>
-    <color name="grey">#949494</color>
+    <color name="grey2">#949494</color>
     <color name="dialog">#ABB2B9</color>
+    <color name="green">#3CB371</color>
+    <color name="grey">#C0C0C0</color>
+    <color name="celeste">#4169E1</color>
 </resources>

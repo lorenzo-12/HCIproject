@@ -91,6 +91,7 @@ public class SignupPage extends AppCompatActivity {
         error = findViewById(R.id.error_fillup_text_signup);
         db = new DBHelper(this);
 
+
         loadData();
 
         signup.setOnClickListener(new View.OnClickListener() {
