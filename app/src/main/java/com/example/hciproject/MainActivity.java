@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+
+    public static final String CARB_S = "SINGUP_CARB";
+    public static final String PROT_S = "SINGUP_PROT";
+    public static final String FAT_S = "SINGUP_FAT";
+    public static final String KAL_S = "SINGUP_KAL";
+    Integer carb_value,prot_value,fat_value, cal_value;
 
     public static final String USER_LOGGED = "user_logged";
     public String user_logged;
@@ -77,6 +84,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     Button dialog2_ok_btn, dialog2_back_btn;
     String user,date,item_name,value1,value2;
     Boolean type;
+
+    int progress = 0;
+    int total_cal,total_carb,total_prot,total_fat;
+    ProgressBar progressBar;
+    TextView text_cal,text_carb,text_prot,text_fat,text_value_carb,text_value_prot,text_value_fat,text_value_cal;
+
 
     @Override
     public void onResume() {
@@ -129,6 +142,17 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         current_date = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
         database.setText(db.viewUsers()+current_date);
 
+        progressBar = findViewById(R.id.CircularProgressBar);
+        text_cal = findViewById(R.id.calories_label);
+        text_carb = findViewById(R.id.carb_label);
+        text_prot = findViewById(R.id.protein_label);
+        text_fat = findViewById(R.id.fat_label);
+        text_value_carb = findViewById(R.id.carb_value_text);
+        text_value_prot = findViewById(R.id.prot_value_text);
+        text_value_fat = findViewById(R.id.fat_value_text);
+        text_value_cal = findViewById(R.id.cal_value_text);
+
+
         nav = findViewById(R.id.bottomnavigatorview);
         //così quando apro l'app mi da fin  da subito selezionata l'icona del diario
         nav.setSelectedItemId(R.id.bottom_diary);
@@ -170,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 datePicker.show(getFragmentManager(), "date picker");
             }
         });
+        button.setText(current_date);
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -273,7 +298,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         buildRecyclerView();
         storeDataInArrays();
-
+        set_progress();
     }
 
     public void setDialogFilter(){
@@ -441,7 +466,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
 
         });
-        
+        set_progress();
     }
 
 
@@ -460,6 +485,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             }
         }
         customAdapterDialogItem.notifyDataSetChanged();
+        set_progress();
     }
 
     public void storeDataInArrays(){
@@ -510,6 +536,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             }
         }
         customAdapterDiaryFood.notifyDataSetChanged();
+        set_progress();
     }
 
     public void buildRecyclerView(){
@@ -572,7 +599,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             }
 
         });
-
+        set_progress();
     }
 
     @Override
@@ -582,8 +609,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         c.set(Calendar.MONTH, i1);
         c.set(Calendar.DAY_OF_MONTH, i2);
         String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
-        TextView textView = (TextView) findViewById(R.id.textView);
-        textView.setText(currentDateString);
+        button.setText(currentDateString);
         database = findViewById(R.id.databse);
         current_date = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
         database.setText(current_date);
@@ -647,9 +673,44 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
         user_logged = sharedPreferences.getString(USER_LOGGED, "none");
         FirstAccess = sharedPreferences.getBoolean("FirstAccess",false);
+        carb_value = sharedPreferences.getInt(CARB_S,0);
+        prot_value = sharedPreferences.getInt(PROT_S,0);
+        fat_value = sharedPreferences.getInt(FAT_S,0);
+        cal_value = sharedPreferences.getInt(KAL_S,0);
     }
 
-
+    public void set_progress(){
+        total_carb = 0;
+        total_prot = 0;
+        total_fat = 0;
+        total_cal = 0;
+        Cursor cursor = db.findAllUserFoodFromDiary(user_logged,current_date);
+        if ((cursor != null) && (cursor.getCount() == 0)){
+            //Toast.makeText(MainActivity.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
+            //Toast.makeText(FoodPage.this,"No Data",Toast.LENGTH_SHORT).show();
+        }else {
+            //Toast.makeText(MainActivity.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
+            while ((cursor != null) && (cursor.moveToNext())){
+                String food_name_string = cursor.getString(3).toString().toLowerCase();
+                int food_quantity_int = cursor.getInt(5);
+                ArrayList<Integer> food_info = db.getFoodInfo(food_name_string);
+                total_carb = total_carb+food_info.get(0)*food_quantity_int/100;
+                total_prot = total_prot+food_info.get(1)*food_quantity_int/100;
+                total_fat = total_fat+food_info.get(2)*food_quantity_int/100;
+                total_cal = total_cal+food_info.get(3)*food_quantity_int/100;
+            }
+        }
+        text_carb.setText("CARBS ");
+        text_value_carb.setText(String.valueOf(total_carb)+" / "+carb_value+" g");
+        text_prot.setText("PROTEINS ");
+        text_value_prot.setText(String.valueOf(total_prot)+" / "+prot_value+" g");
+        text_fat.setText("FATS ");
+        text_value_fat.setText(String.valueOf(total_fat)+" / "+fat_value+" g");
+        text_cal.setText("CALORIES ");
+        text_value_cal.setText(String.valueOf(total_cal)+" / "+cal_value+" kcal");
+        progressBar.setMax(cal_value);
+        progressBar.setProgress(total_cal);
+    }
 
     public void startThreadFood(){
         FoodThread t = new FoodThread();
