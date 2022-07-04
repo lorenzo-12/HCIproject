@@ -306,11 +306,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     public void setDialogFilter(){
         if (dialog_filter==0) {
-            dialog_food_btn.setBackgroundColor(getResources().getColor(R.color.blue));
+            dialog_food_btn.setBackgroundColor(getResources().getColor(R.color.celeste));
             dialog_exercise_btn.setBackgroundColor(getResources().getColor(R.color.dialog));
         }
         else {
-            dialog_exercise_btn.setBackgroundColor(getResources().getColor(R.color.red));
+            dialog_exercise_btn.setBackgroundColor(getResources().getColor(R.color.celeste));
             dialog_food_btn.setBackgroundColor(getResources().getColor(R.color.dialog));
         }
         storeDialogDataInArrays();

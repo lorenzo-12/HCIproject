@@ -69,7 +69,7 @@ public class UserPage extends AppCompatActivity {
     Uri imageuri;
     Bitmap image_bitmap;
     BottomNavigationView nav;
-    TextView username_text,weight_text,height_text,carb_text,prot_text,fat_text,cal_text;
+    TextView username_text;
 
 
     @Override
@@ -164,12 +164,6 @@ public class UserPage extends AppCompatActivity {
         change_goals = findViewById(R.id.change_goals_btn);
         change_stat = findViewById(R.id.change_stats_btn);
         username_text = findViewById(R.id.username_text_show_userpage);
-        weight_text = findViewById(R.id.weight_text_show_userpage);
-        height_text = findViewById(R.id.height_text_show_userpage);
-        carb_text = findViewById(R.id.carb_text_show_userpage);
-        prot_text = findViewById(R.id.prot_text_show_userpage);
-        fat_text = findViewById(R.id.fat_text_show_userpage);
-        cal_text = findViewById(R.id.cal_text_show_userpage);
         db = new DBHelper(this);
 
         carb.addTextChangedListener(resetTextWatcher);
@@ -379,11 +373,8 @@ public class UserPage extends AppCompatActivity {
         p = prot.getText().toString();
         f = fat.getText().toString();
         k = cal.getText().toString();
-        if (!c.equals("") && !f.equals("") && !p.equals("") && !k.equals("")) change_goals.setClickable(true);
         if ( w.isEmpty() || h.isEmpty() ) change_stat.setClickable(false);
-        else change_goals.setClickable(false);
-
-
+        if( c.isEmpty() || p.isEmpty() || f.isEmpty() || k.isEmpty()) change_goals.setClickable(false);
 
     }
 
@@ -402,13 +393,6 @@ public class UserPage extends AppCompatActivity {
         prot_value = cursor.getInt(6);
         fat_value = cursor.getInt(7);
         cal_value = cursor.getInt(8);
-
-        weight_text.setText("Weight: "+String.valueOf(weight_value));
-        height_text.setText("Height: "+String.valueOf(height_value));
-        carb_text.setText("Carb goal: "+String.valueOf(carb_value));
-        prot_text.setText("Carb goal: "+String.valueOf(prot_value));
-        fat_text.setText("Carb goal: "+String.valueOf(fat_value));
-        cal_text.setText("Carb goal: "+String.valueOf(cal_value));
     }
 
     public void logout_user(){
@@ -419,7 +403,11 @@ public class UserPage extends AppCompatActivity {
 
     public void change_user_goals(){
         Boolean check = db.updateUserGoals(user_logged,Integer.parseInt(carb.getText().toString()),Integer.parseInt(prot.getText().toString()),Integer.parseInt(fat.getText().toString()),Integer.parseInt(cal.getText().toString()));
-        Toast.makeText(UserPage.this, check.toString(), Toast.LENGTH_SHORT).show();
+        if (check){
+            Toast.makeText(UserPage.this, "Changes Applied successfully", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(UserPage.this, "Error", Toast.LENGTH_SHORT).show();
+        }
         saveData();
         loadData();
         fill_values();
@@ -427,7 +415,11 @@ public class UserPage extends AppCompatActivity {
 
     public void change_user_stat(){
         Boolean check = db.updateUserStat(user_logged,Integer.parseInt(weight.getText().toString()),Integer.parseInt(height.getText().toString()));
-        Toast.makeText(UserPage.this, check.toString(), Toast.LENGTH_SHORT).show();
+        if (check){
+            Toast.makeText(UserPage.this, "Changes Applied successfully", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(UserPage.this, "Error", Toast.LENGTH_SHORT).show();
+        }
         saveData();
         loadData();
         fill_values();

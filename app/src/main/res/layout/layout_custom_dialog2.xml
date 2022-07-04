@@ -99,22 +99,25 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <!-- some views -->
-        <Button
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/dialog2_back_btn"
-            android:layout_width="75dp"
-            android:layout_height="50dp"
-            android:text="back"
+            android:layout_width="110dp"
+            android:layout_height="40dp"
+            android:text="close"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginRight="40dp"/>
+            android:background="@drawable/custom_button_2"/>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/dialog2_ok_btn"
-            android:layout_width="75dp"
-            android:layout_height="50dp"
-            android:text="ok"
+            android:layout_width="110dp"
+            android:layout_height="40dp"
+            android:text="Apply"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/custom_button_2"/>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

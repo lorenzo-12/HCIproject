@@ -131,7 +131,8 @@ public class CustomAdapterDiaryFood extends RecyclerView.Adapter<CustomAdapterDi
                 holder.fat_txt.setText(String.valueOf(food_info.get(2) * int_q /100));
                 holder.kal_txt.setText(String.valueOf(food_info.get(3) * int_q /100));
             }
-            holder.cl.setBackgroundColor(Color.parseColor("#0F9D58"));
+            holder.cl.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+            //holder.cl.setBackgroundColor(Color.parseColor("#0F9D58"));
             holder.set_reps.setVisibility(View.INVISIBLE);
             holder.c.setVisibility(View.VISIBLE);
             holder.p.setVisibility(View.VISIBLE);
@@ -147,11 +148,12 @@ public class CustomAdapterDiaryFood extends RecyclerView.Adapter<CustomAdapterDi
         }
         if(!f) {
             //Log.d("debug", "sto eseguendo questo perchè: "+n+n2+" "+f);
+            holder.cl.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+            //holder.cl.setBackgroundColor(Color.CYAN);
             holder.name_txt.setText(String.valueOf(exercise_list.get(position)));
             holder.set_reps.setText("set: "+String.valueOf(sets_list.get(position))+" rep: "+String.valueOf(reps_list.get(position)));
             Bitmap b = db.loadImage(String.valueOf(exercise_list.get(position)));
             holder.food_img.setImageBitmap(b);
-            holder.cl.setBackgroundColor(Color.CYAN);
             holder.set_reps.setVisibility(View.VISIBLE);
             holder.c.setVisibility(View.INVISIBLE);
             holder.p.setVisibility(View.INVISIBLE);
