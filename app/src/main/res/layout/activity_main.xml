@@ -7,7 +7,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey"
+    android:background="@color/green"
     tools:context=".MainActivity"
     android:orientation="vertical">
 
@@ -18,7 +18,8 @@
         android:layout_height="590dp"
         android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ProgressBar
             android:id="@+id/CircularProgressBar"
@@ -88,19 +89,24 @@
             android:textSize="20dp"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:backgroundTint="@color/green"
             android:text="add"
-            android:textColor="@color/grey"
+            android:textColor="@color/black"
+            app:icon="@drawable/ic_baseline_calendar_month_24"
+            app:iconGravity="textStart"
+            app:iconTint="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycleViewDiet"
@@ -119,7 +125,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
-            android:backgroundTint="@color/blue"
+            android:backgroundTint="@color/celeste"
             android:clickable="true"
             app:borderWidth="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -142,7 +148,7 @@
             android:id="@+id/protein_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="52dp"
+            android:layout_marginStart="40dp"
             android:text="PROTEIN"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -153,7 +159,7 @@
             android:id="@+id/fat_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="24dp"
             android:text="FAT"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -213,6 +219,30 @@
             app:layout_constraintEnd_toEndOf="@+id/CircularProgressBar"
             app:layout_constraintStart_toStartOf="@+id/CircularProgressBar"
             app:layout_constraintTop_toBottomOf="@+id/calories_label" />
+
+        <ProgressBar
+            android:id="@+id/progressBar_carb"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/carb_value_text"
+            app:layout_constraintTop_toBottomOf="@+id/carb_value_text" />
+
+        <ProgressBar
+            android:id="@+id/progressBar_prot"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/prot_value_text"
+            app:layout_constraintTop_toBottomOf="@+id/prot_value_text" />
+
+        <ProgressBar
+            android:id="@+id/progressBar_fat"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/fat_value_text"
+            app:layout_constraintTop_toBottomOf="@+id/fat_value_text" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     int progress = 0;
     int total_cal,total_carb,total_prot,total_fat;
-    ProgressBar progressBar;
+    ProgressBar progressBar,progressBar_carb,progressBar_prot,progressBar_fat;
     TextView text_cal,text_carb,text_prot,text_fat,text_value_carb,text_value_prot,text_value_fat,text_value_cal;
 
 
@@ -143,6 +143,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         database.setText(db.viewUsers()+current_date);
 
         progressBar = findViewById(R.id.CircularProgressBar);
+        progressBar_carb = findViewById(R.id.progressBar_carb);
+        progressBar_prot = findViewById(R.id.progressBar_prot);
+        progressBar_fat = findViewById(R.id.progressBar_fat);
         text_cal = findViewById(R.id.calories_label);
         text_carb = findViewById(R.id.carb_label);
         text_prot = findViewById(R.id.protein_label);
@@ -710,6 +713,18 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         text_value_cal.setText(String.valueOf(total_cal)+" / "+cal_value+" kcal");
         progressBar.setMax(cal_value);
         progressBar.setProgress(total_cal);
+        progressBar_carb.setMax(carb_value);
+        progressBar_carb.setProgress(total_carb);
+        progressBar_carb.getProgressDrawable().setColorFilter(
+                Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
+        progressBar_prot.setMax(prot_value);
+        progressBar_prot.setProgress(total_prot);
+        progressBar_prot.getProgressDrawable().setColorFilter(
+                Color.GREEN, android.graphics.PorterDuff.Mode.SRC_IN);
+        progressBar_fat.setMax(fat_value);
+        progressBar_fat.setProgress(total_fat);
+        progressBar_fat.getProgressDrawable().setColorFilter(
+                Color.MAGENTA, android.graphics.PorterDuff.Mode.SRC_IN);
     }
 
     public void startThreadFood(){
