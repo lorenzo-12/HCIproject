@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -41,6 +42,7 @@ public class FoodPage extends AppCompatActivity {
     BottomNavigationView nav;
     AutoCompleteTextView search;
     ArrayAdapter adapter;
+    FloatingActionButton add_food_btn;
 
     @Override
     public void onBackPressed() {
@@ -85,17 +87,12 @@ public class FoodPage extends AppCompatActivity {
         MenuItem filter_meat = menu.findItem(R.id.MeatFishEgg_filter);
         MenuItem filter_sweet = menu.findItem(R.id.Sweet_filter);
         MenuItem filter_other = menu.findItem(R.id.OtherFood_filter);
-        MenuItem addFood = menu.findItem(R.id.addfooditem);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.addfooditem:
-                Intent intent = new Intent(FoodPage.this, AddFoodPage.class);
-                startActivity(intent);
-                return true;
             case R.id.AllFood_filter:
                 filter = "all";
                 filter_type = 0;
@@ -153,6 +150,7 @@ public class FoodPage extends AppCompatActivity {
         search = findViewById(R.id.search_food_text);
         adapter = (ArrayAdapter<String>) new ArrayAdapter<String>(this, R.layout.autocomlete_layout,food_name_list);
         search.setAdapter(adapter);
+        add_food_btn = findViewById(R.id.add_food_btn_foodpage);
         //search.setDropDownBackgroundResource(R.color.white);
 
         nav = findViewById(R.id.bottomnavigatorviewFood);
@@ -199,6 +197,14 @@ public class FoodPage extends AppCompatActivity {
                     }
                 }
                 return false;
+            }
+        });
+
+        add_food_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FoodPage.this, AddFoodPage.class);
+                startActivity(intent);
             }
         });
 

@@ -621,49 +621,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
 
-    //relative funzioni che vengono chiamete quando premiamo un bottone
-    public void openactivityDiary(){
-        saveData();
-        Intent intentDiary = new Intent(this, MainActivity.class);
-        startActivity(intentDiary);
-    }
-
-    public void openactivityFitlife(){
-        saveData();
-        Intent intentFitlife = new Intent(this, FitlifePage.class);
-        startActivity(intentFitlife);
-    }
-
-    public void openactivityFood(){
-        saveData();
-        //Toast.makeText(MainActivity.this,"Loading",Toast.LENGTH_LONG).show();
-        Intent intentDiet = new Intent(this, FoodPage.class);
-        startActivity(intentDiet);
-    }
-
-    public void openactivityexercise(){
-        saveData();
-        Intent intentExercise = new Intent(this, ExercisePage.class);
-        startActivity(intentExercise);
-    }
-
-    public void openactivitytimer(){
-        saveData();
-        Intent intentTimer = new Intent(this, TimerPage.class);
-        startActivity(intentTimer);
-    }
-
-    public void openactivityuser() {
-        saveData();
-        Intent intentUser;
-        //creo la nuova pagina (intentUser)
-        intentUser = new Intent(this, UserPage.class);
-        //se non mi interessa ricevere delle informazioni dalla pagina figlia allora posso usare
-        //direttamente STARTACTIVITY
-        startActivity(intentUser);
-
-    }
-
     public void saveData(){
         SharedPreferences sharedPreferences = getSharedPreferences("ALL_ACTIVITY", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -755,5 +712,48 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             FirstAccess = true;
             saveData();
         }
+    }
+
+    //relative funzioni che vengono chiamete quando premiamo un bottone
+    public void openactivityDiary(){
+        saveData();
+        Intent intentDiary = new Intent(this, MainActivity.class);
+        startActivity(intentDiary);
+    }
+
+    public void openactivityFitlife(){
+        saveData();
+        Intent intentFitlife = new Intent(this, FitlifePage.class);
+        startActivity(intentFitlife);
+    }
+
+    public void openactivityFood(){
+        saveData();
+        //Toast.makeText(MainActivity.this,"Loading",Toast.LENGTH_LONG).show();
+        Intent intentDiet = new Intent(this, FoodPage.class);
+        startActivity(intentDiet);
+    }
+
+    public void openactivityexercise(){
+        saveData();
+        Intent intentExercise = new Intent(this, ExercisePage.class);
+        startActivity(intentExercise);
+    }
+
+    public void openactivitytimer(){
+        saveData();
+        Intent intentTimer = new Intent(this, TimerPage.class);
+        startActivity(intentTimer);
+    }
+
+    public void openactivityuser() {
+        saveData();
+        Intent intentUser;
+        //creo la nuova pagina (intentUser)
+        intentUser = new Intent(this, UserPage.class);
+        //se non mi interessa ricevere delle informazioni dalla pagina figlia allora posso usare
+        //direttamente STARTACTIVITY
+        startActivity(intentUser);
+
     }
 }

@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -41,6 +42,7 @@ public class ExercisePage extends AppCompatActivity {
     BottomNavigationView nav;
     AutoCompleteTextView search;
     ArrayAdapter adapter;
+    FloatingActionButton add_exercise_btn;
 
     @Override
     public void onBackPressed() {
@@ -86,16 +88,12 @@ public class ExercisePage extends AppCompatActivity {
         MenuItem filter_arms = menu.findItem(R.id.Arms_filter);
         MenuItem filter_beck = menu.findItem(R.id.Beck_filter);
         MenuItem filter_other = menu.findItem(R.id.OtherExercise_filter);
-        MenuItem addExercise = menu.findItem(R.id.addExerciseitem);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.addExerciseitem:
-                Intent intent = new Intent(ExercisePage.this, AddExercisePage.class);
-                startActivity(intent);
             case R.id.AllExercise_filter:
                 filter = "all";
                 storeDataInArrays();
@@ -151,6 +149,7 @@ public class ExercisePage extends AppCompatActivity {
         adapter = (ArrayAdapter<String>) new ArrayAdapter<String>(this, R.layout.autocomlete_layout,exercise_name_list);
         search.setAdapter(adapter);
         nav = findViewById(R.id.bottomnavigatorviewExercise);
+        add_exercise_btn = findViewById(R.id.add_exercise_btn_exercisepage);
 
         nav.setSelectedItemId(R.id.bottom_exercise);
         nav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -192,6 +191,14 @@ public class ExercisePage extends AppCompatActivity {
                     }
                 }
                 return false;
+            }
+        });
+
+        add_exercise_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ExercisePage.this, AddExercisePage.class);
+                startActivity(intent);
             }
         });
 

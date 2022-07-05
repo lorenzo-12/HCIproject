@@ -8,15 +8,14 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="2dp"
-        >
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:padding="12dp">
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
 
             <TextView
                 android:id="@+id/food_kal"
@@ -45,7 +44,7 @@
                 android:id="@+id/food_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:text="category"
                 android:textColor="@color/black"
@@ -58,7 +57,7 @@
                 android:id="@+id/food_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
                 android:text="food"
                 android:textColor="@color/black"
@@ -107,19 +106,24 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/modify_food_img"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.071"
                 app:srcCompat="@drawable/ic_baseline_delete_24" />
 
             <ImageView
                 android:id="@+id/modify_food_img"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginStart="260dp"
-                android:layout_marginTop="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.832"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.114"
                 app:srcCompat="@drawable/ic_baseline_create_24" />
 
             <TextView
@@ -161,8 +165,11 @@
                 android:layout_height="100dp"
                 android:scaleType="fitXY"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.025"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.4"
                 app:srcCompat="@drawable/ic_baseline_fastfood_24" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

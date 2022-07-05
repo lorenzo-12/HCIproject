@@ -101,7 +101,8 @@
             android:text="close"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:background="@drawable/custom_button_2"/>
+            android:background="@drawable/custom_button_2"
+            android:layout_marginRight="20dp"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/dialog_ok_btn"

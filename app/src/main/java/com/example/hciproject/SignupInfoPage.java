@@ -261,7 +261,7 @@ public class SignupInfoPage extends AppCompatActivity {
         fat_value = sharedPreferences.getInt(FAT_S,0);
         kal_value = sharedPreferences.getInt(KAL_S,0);
         setsex(sex);
-        setvalues(weight_value,height_value,carb_value,prot_value,fat_value,kal_value);
+        //setvalues(weight_value,height_value,carb_value,prot_value,fat_value,kal_value);
         Log.d("test",sex.toString()+weight_value.toString());
     }
 

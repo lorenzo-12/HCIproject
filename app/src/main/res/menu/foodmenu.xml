@@ -30,8 +30,4 @@
                 android:title="Other"/>
         </menu>
     </item>
-    <item
-        android:id="@+id/addfooditem"
-        android:title="Add Food"
-        app:showAsAction="always"/>
 </menu>

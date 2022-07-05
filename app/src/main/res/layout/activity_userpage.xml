@@ -18,7 +18,7 @@
         android:layout_height="41dp"
         android:layout_marginStart="88dp"
         android:background="@drawable/custom_button_2"
-        android:text="change goals"
+        android:text="change daily goals"
         app:layout_constraintStart_toStartOf="@+id/fat_layout"
         app:layout_constraintTop_toBottomOf="@+id/fat_layout" />
 

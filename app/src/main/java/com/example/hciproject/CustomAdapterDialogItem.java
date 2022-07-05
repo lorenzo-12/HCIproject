@@ -41,6 +41,7 @@ public class CustomAdapterDialogItem extends RecyclerView.Adapter<CustomAdapterD
         public EditText quantity_txt,quantity2_txt;
         public CheckBox mselectbtn;
         public ImageView food_img;
+        public TextView grams;
         public MyViewHolder vh;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -51,6 +52,7 @@ public class CustomAdapterDialogItem extends RecyclerView.Adapter<CustomAdapterD
             food_img = itemView.findViewById(R.id.food_img_dialog);
             quantity_txt = itemView.findViewById(R.id.dialog_quantity_txt);
             quantity2_txt = itemView.findViewById(R.id.dialog_quantity2_txt);
+            grams = itemView.findViewById(R.id.grams_text_dialog);
             vh = this;
             db = new DBHelper(context);
             vh.mselectbtn.setClickable(false);
@@ -176,10 +178,12 @@ public class CustomAdapterDialogItem extends RecyclerView.Adapter<CustomAdapterD
         if (cor){
             holder.quantity2_txt.setVisibility(View.INVISIBLE);
             holder.quantity_txt.setHint("quantity");
+            holder.grams.setVisibility(View.VISIBLE);
         }
         else{
             holder.quantity2_txt.setVisibility(View.VISIBLE);
             holder.quantity_txt.setHint("set");
+            holder.grams.setVisibility(View.INVISIBLE);
         }
 
     }

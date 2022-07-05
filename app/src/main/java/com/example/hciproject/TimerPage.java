@@ -39,6 +39,7 @@ public class TimerPage extends AppCompatActivity {
     BottomNavigationView nav;
     ProgressBar progressBar;
     int count = 0;
+    int deb = 0;
 
     NumberPicker hh,mm,ss;
 
@@ -84,7 +85,7 @@ public class TimerPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timerpage);
 
-
+        startTimeMilliseconds = 0;
         countdown_txt = findViewById(R.id.countdown_text);
         buttonStartPause = findViewById(R.id.countdown_btn);
         buttonReset = findViewById(R.id.countdown_reset_btn);
@@ -176,20 +177,14 @@ public class TimerPage extends AppCompatActivity {
                 resetTimer();
            }
        });
+       //resetTimer();
+       //progressBar.setProgress(100000000);
        updateCountDownText();
 
-
-
-    }
-
-    public void setTimer(long milliseconds){
-        startTimeMilliseconds = milliseconds;
-        resetTimer();
-        closeKeyboard();
-        progressBar.setProgress(100000000);
     }
 
     public void startTimer(){
+        //Toast.makeText(this, "ST debug: "+String.valueOf(deb++), Toast.LENGTH_SHORT).show();
         hh.setEnabled(false);
         mm.setEnabled(false);
         ss.setEnabled(false);
@@ -213,6 +208,7 @@ public class TimerPage extends AppCompatActivity {
     }
 
     public void pauseTimer(){
+        //Toast.makeText(this, "PT debug: "+String.valueOf(deb++), Toast.LENGTH_SHORT).show();
         hh.setEnabled(true);
         mm.setEnabled(true);
         ss.setEnabled(true);
@@ -223,6 +219,7 @@ public class TimerPage extends AppCompatActivity {
     }
 
     public void resetTimer(){
+        //Toast.makeText(this, "RT debug: "+String.valueOf(deb++), Toast.LENGTH_SHORT).show();
         hh.setEnabled(true);
         mm.setEnabled(true);
         ss.setEnabled(true);
@@ -245,11 +242,17 @@ public class TimerPage extends AppCompatActivity {
         String format;
         format = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds);
         countdown_txt.setText(format);
+        //Toast.makeText(this, "UCT "+String.valueOf(deb++)+"time: "+String.valueOf(startTimeMilliseconds)+String.valueOf(hours)+":"+String.valueOf(minutes)+":"+String.valueOf(seconds), Toast.LENGTH_SHORT).show();
         if (startTimeMilliseconds!=0) dec = 100000000/(startTimeMilliseconds/1000);
-        else dec = 0;
-        progressBar.setProgress(progressBar.getProgress()-(int) dec);
-        if (((timeLeftMilliseconds/1000)%60)<1) progressBar.setProgress(0);
-        //Toast.makeText(TimerPage.this, Double.toString(dec), Toast.LENGTH_SHORT).show();
+        else {
+            dec = 0;
+            startTimeMilliseconds = timeLeftMilliseconds;
+            progressBar.setProgress(100000000);
+        }
+        double test = ((double) timeLeftMilliseconds / (double) startTimeMilliseconds)*100000000;
+        progressBar.setProgress((int)test-(int)dec);
+        //progressBar.setProgress(progressBar.getProgress()-(int) dec);
+        //if (((timeLeftMilliseconds/1000)%60)<1) progressBar.setProgress(0);
 
     }
 
@@ -259,6 +262,9 @@ public class TimerPage extends AppCompatActivity {
             buttonStartPause.setText("PAUSE");
         } else {
             buttonStartPause.setText("START");
+            hh.setEnabled(true);
+            mm.setEnabled(true);
+            ss.setEnabled(true);
             if (timeLeftMilliseconds < 1000){
                 buttonStartPause.setEnabled(false);
             }else {
@@ -276,6 +282,7 @@ public class TimerPage extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        //Toast.makeText(this, "onStop debug: "+String.valueOf(deb++), Toast.LENGTH_SHORT).show();
 
         SharedPreferences prefs = getSharedPreferences("ALL_ACTIVITY",MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -295,11 +302,14 @@ public class TimerPage extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        //Toast.makeText(this, "onStart debug: "+String.valueOf(deb++), Toast.LENGTH_SHORT).show();
 
         SharedPreferences prefs = getSharedPreferences("ALL_ACTIVITY",MODE_PRIVATE);
         timeLeftMilliseconds = prefs.getLong("millisecondsleft",startTimeMilliseconds);
         timerRunning = prefs.getBoolean("timerrunning",false);
         startTimeMilliseconds = prefs.getLong("starttimemillies",0);
+
+        //Toast.makeText(this, "OnStart start_time: "+String.valueOf(startTimeMilliseconds)+ "timer_running: "+String.valueOf(timerRunning), Toast.LENGTH_SHORT).show();
 
         updateTimerInterface();
         updateCountDownText();
@@ -324,19 +334,10 @@ public class TimerPage extends AppCompatActivity {
                 startTimer();
             }
         }
-
-
-    }
-
-    public void closeKeyboard(){
-        View view = this.getCurrentFocus();
-        if (view != null){
-            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(),0);
-        }
     }
 
     public void setTimer(){
+        //Toast.makeText(this, "setTimer() debug: "+String.valueOf(deb++), Toast.LENGTH_SHORT).show();
         int hh_hh = hh.getValue();
         int mm_mm = mm.getValue();
         int ss_ss = ss.getValue();
@@ -346,6 +347,26 @@ public class TimerPage extends AppCompatActivity {
         long input_sec = (long) ss_ss * 1000;
         long millisInput = input_hour+input_min+input_sec;
         setTimer(millisInput);
+        //Toast.makeText(this, "setTimer avviato "+String.valueOf(millisInput), Toast.LENGTH_SHORT).show();
+    }
+
+    public void setTimer(long milliseconds){
+        //Toast.makeText(this, "setTimer(milli) debug: "+String.valueOf(deb++), Toast.LENGTH_SHORT).show();
+        startTimeMilliseconds = milliseconds;
+        resetTimer();
+        closeKeyboard();
+        updateTimerInterface();
+        updateCountDownText();
+        progressBar.setProgress(100000000);
+        //Toast.makeText(this, "setTimer2 avviato "+String.valueOf(startTimeMilliseconds), Toast.LENGTH_SHORT).show();
+    }
+
+    public void closeKeyboard(){
+        View view = this.getCurrentFocus();
+        if (view != null){
+            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+        }
     }
 
     public void openactivityDiary(){
