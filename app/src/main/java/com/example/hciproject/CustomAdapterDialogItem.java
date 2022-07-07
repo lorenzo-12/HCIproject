@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,6 +28,7 @@ public class CustomAdapterDialogItem extends RecyclerView.Adapter<CustomAdapterD
     public interface OnItemClickListener {
         void onQuantityClick(int position, MyViewHolder v);
         void onQuantity2Click(int position, MyViewHolder v);
+        void onQuantity3Click(int position, MyViewHolder v);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -38,8 +38,7 @@ public class CustomAdapterDialogItem extends RecyclerView.Adapter<CustomAdapterD
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView name_txt;
-        public EditText quantity_txt,quantity2_txt;
-        public CheckBox mselectbtn;
+        public EditText quantity_txt,quantity2_txt,quantity3_txt;
         public ImageView food_img;
         public TextView grams;
         public MyViewHolder vh;
@@ -48,15 +47,13 @@ public class CustomAdapterDialogItem extends RecyclerView.Adapter<CustomAdapterD
             super(itemView);
 
             name_txt = itemView.findViewById(R.id.food_name_dialog);
-            mselectbtn = itemView.findViewById(R.id.select_food_dialog);
             food_img = itemView.findViewById(R.id.food_img_dialog);
             quantity_txt = itemView.findViewById(R.id.dialog_quantity_txt);
             quantity2_txt = itemView.findViewById(R.id.dialog_quantity2_txt);
+            quantity3_txt = itemView.findViewById(R.id.dialog_quantity3_txt);
             grams = itemView.findViewById(R.id.grams_text_dialog);
             vh = this;
             db = new DBHelper(context);
-            vh.mselectbtn.setClickable(false);
-            vh.mselectbtn.setFocusable(false);
 
             quantity_txt.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -156,6 +153,55 @@ public class CustomAdapterDialogItem extends RecyclerView.Adapter<CustomAdapterD
                 }
             });
 
+            quantity3_txt.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    return false;
+                }
+            });
+
+            quantity3_txt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View view, boolean b) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION){
+                        mlistener.onQuantity3Click(position,vh);
+                    }
+                }
+            });
+
+            quantity3_txt.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    //nulla
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    //nulla
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION){
+                        mlistener.onQuantity3Click(position,vh);
+                    }
+                }
+            });
+
+            quantity3_txt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mlistener != null){
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            mlistener.onQuantity3Click(position,vh);
+                        }
+                    }
+                }
+            });
+
         }
     }
 
@@ -176,13 +222,17 @@ public class CustomAdapterDialogItem extends RecyclerView.Adapter<CustomAdapterD
 
         Boolean cor = db.findFood(item_list.get(position).toString().toLowerCase());
         if (cor){
+            holder.quantity_txt.setVisibility(View.VISIBLE);
             holder.quantity2_txt.setVisibility(View.INVISIBLE);
-            holder.quantity_txt.setHint("quantity");
+            holder.quantity3_txt.setVisibility(View.INVISIBLE);
+            holder.quantity3_txt.setClickable(false);
             holder.grams.setVisibility(View.VISIBLE);
         }
         else{
             holder.quantity2_txt.setVisibility(View.VISIBLE);
-            holder.quantity_txt.setHint("set");
+            holder.quantity3_txt.setVisibility(View.VISIBLE);
+            holder.quantity_txt.setVisibility(View.INVISIBLE);
+            holder.quantity_txt.setClickable(false);
             holder.grams.setVisibility(View.INVISIBLE);
         }
 
