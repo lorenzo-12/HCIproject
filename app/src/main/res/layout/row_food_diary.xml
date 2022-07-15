@@ -25,7 +25,8 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="50dp"
                 android:text="kal"
-                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:textSize="18sp"
                 app:layout_constraintStart_toEndOf="@+id/testo_fisso_kal_diary"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,6 +37,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="50dp"
                 android:text="kal:"
+                android:textSize="18sp"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toEndOf="@+id/food_fat_diary"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -72,7 +75,8 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="30dp"
                 android:text="carb"
-                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:textSize="18sp"
                 app:layout_constraintStart_toEndOf="@+id/testo_fisso_carb_diary"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -83,6 +87,8 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="50dp"
                 android:text="fat"
+                android:textSize="18sp"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toEndOf="@+id/testo_fisso_fat_diary"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -93,7 +99,8 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="30dp"
                 android:text="prot"
-                android:textSize="14sp"
+                android:textSize="18sp"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toEndOf="@+id/testo_fisso_prot_diary"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -123,6 +130,8 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="30dp"
                 android:text="carb:"
+                android:textSize="18sp"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toEndOf="@+id/food_img_diary"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -133,6 +142,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="30dp"
                 android:text="prot:"
+                android:textSize="18sp"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toEndOf="@+id/food_carb_diary"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -143,6 +154,8 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="50dp"
                 android:text="fat:"
+                android:textSize="18sp"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toEndOf="@+id/food_img_diary"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -163,9 +176,8 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="30dp"
                 android:text="nada"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="18sp"
                 android:visibility="invisible"
                 app:layout_constraintStart_toEndOf="@+id/food_img_diary"
                 app:layout_constraintTop_toTopOf="parent" />
