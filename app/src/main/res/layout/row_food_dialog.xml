@@ -37,15 +37,15 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="0.039"
                 app:layout_constraintStart_toEndOf="@+id/food_img_dialog"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.021" />
+                app:layout_constraintVertical_bias="0.033" />
 
             <ImageView
                 android:id="@+id/food_img_dialog"
-                android:layout_width="67dp"
-                android:layout_height="67dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:scaleType="fitXY"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -65,7 +65,7 @@
                 android:textColorHint="#000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="0.045"
                 app:layout_constraintStart_toEndOf="@+id/food_img_dialog"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0" />
@@ -81,7 +81,7 @@
                 android:textColorHint="#000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="0.045"
                 app:layout_constraintStart_toEndOf="@+id/food_img_dialog"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0" />
@@ -96,7 +96,7 @@
                 android:textColorHint="#000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="0.085"
                 app:layout_constraintStart_toEndOf="@+id/dialog_quantity_txt"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0" />
@@ -112,7 +112,7 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.622"
+                app:layout_constraintHorizontal_bias="0.763"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/dialog_quantity2_txt"
                 app:layout_constraintVertical_bias="0.0" />

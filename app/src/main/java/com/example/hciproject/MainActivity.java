@@ -464,8 +464,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     public void storeDialogDataInArrays(){
         Cursor cursor = null;
-        if (dialog_filter==0) cursor = db.readAllDataFood();
-        if (dialog_filter==1) cursor = db.readAllDataExercise();
+        //if (dialog_filter==0) cursor = db.readAllDataFood();
+        //if (dialog_filter==1) cursor = db.readAllDataExercise();
+        if (dialog_filter==0) cursor = db.findAllFoodNotInDiary(user_logged,current_date);
+        if (dialog_filter==1) cursor = db.findAllExerciseNotInDiary(user_logged,current_date);
         dialog_item_list.clear();
         if ((cursor != null) && (cursor.getCount() == 0)){
             //Toast.makeText(MainActivity.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
