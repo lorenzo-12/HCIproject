@@ -380,7 +380,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
     public void addMapItem(){
+        //Log.d("aaaaaa",map.toString());
         for ( Map.Entry<String,ArrayList<String>> e : map.entrySet()) {
+            //Log.d("aaaaaa",e.toString());
             Toast.makeText(MainActivity.this, "item type: "+e.getValue().get(0), Toast.LENGTH_SHORT).show();
             if (e.getValue().get(0).equals("1")) db.addFoodToDiary(user_logged, current_date, e.getKey(), Integer.parseInt(e.getValue().get(1)));
             else db.addExerciseToDiary(user_logged, current_date, e.getKey(), Integer.parseInt(e.getValue().get(1)),Integer.parseInt(e.getValue().get(2)));
@@ -402,10 +404,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         if (db.findExercise(item_name)) cor = "0";
         //Toast.makeText(MainActivity.this, "cor: "+cor, Toast.LENGTH_SHORT).show();
 
+        //Log.d("UpdateMap - prima",map.toString());
         if (cor.equals("1")){
             //Toast.makeText(this, "q_txt: "+q_text, Toast.LENGTH_SHORT).show();
-            if (map.containsKey(item_name)) map.remove(item_name);
-            else if (!q_text.equals("") && !q_text.equals("0")){
+            if (map.containsKey(item_name)) {map.remove(item_name);}
+            if (!q_text.equals("") && !q_text.equals("0")){
                 ArrayList<String> tmp = new ArrayList<String>();
                 tmp.add(cor);
                 tmp.add(q_text);
@@ -416,7 +419,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         if (cor.equals("0")){
             //Toast.makeText(this, "q_txt: "+q_text+" q2_txt: "+q2_txt, Toast.LENGTH_SHORT).show();
             if (map.containsKey(item_name)) map.remove(item_name);
-            else if (!q3_txt.equals("") && !q2_txt.equals("") && !q3_txt.equals("0") && !q2_txt.equals("0")){
+            if (!q3_txt.equals("") && !q2_txt.equals("") && !q3_txt.equals("0") && !q2_txt.equals("0")){
                 ArrayList<String> tmp = new ArrayList<String>();
                 tmp.add(cor);
                 tmp.add(q3_txt);
@@ -425,7 +428,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             }
         }
         //Toast.makeText(this, "map size: "+ String.valueOf(map.size()), Toast.LENGTH_SHORT).show();
-
+        //Log.d("UpdateMap - dopo",map.toString());
     }
 
 
