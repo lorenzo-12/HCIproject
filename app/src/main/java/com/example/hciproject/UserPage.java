@@ -31,6 +31,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.FileInputStream;
@@ -70,6 +76,12 @@ public class UserPage extends AppCompatActivity {
     Bitmap image_bitmap;
     BottomNavigationView nav;
     TextView username_text;
+
+    GoogleSignInClient mGoogleSignInClient;
+    String personName;
+    String personEmail;
+    String personId;
+    Uri personPhoto;
 
 
     @Override
@@ -139,6 +151,7 @@ public class UserPage extends AppCompatActivity {
         //azioni da eseguire quando si preme uno dei possibili item del menu a tendina
         switch (item.getItemId()){
             case R.id.logout_btn_userpage:
+                signOut();
                 logout_user();
                 return true;
             case R.id.changepassword_btn_userpage:
@@ -153,6 +166,21 @@ public class UserPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userpage);
+
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+        if (acct != null) {
+            personName = acct.getDisplayName();
+            personEmail = acct.getEmail();
+            personId = acct.getId();
+            personPhoto = acct.getPhotoUrl();
+
+        }
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         layout = findViewById(R.id.constraintLayout);
         carb = findViewById(R.id.carb_EditText);
@@ -399,6 +427,18 @@ public class UserPage extends AppCompatActivity {
         user_logged = "none";
         saveData();
         openactivityFitlife();
+    }
+
+    private void signOut() {
+        mGoogleSignInClient.signOut()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // ...
+                        Log.d("Google: ","SIGNOUT");
+                        finish();
+                    }
+                });
     }
 
     public void change_user_goals(){

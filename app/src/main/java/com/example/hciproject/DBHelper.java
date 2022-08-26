@@ -210,9 +210,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Boolean deleteFoodFromDiary(String username, String date, String food){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + DIARY_TABLE + " WHERE username = ? AND food = ? AND date = ? ", new String[]{username, food, date.toLowerCase()});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DIARY_TABLE + " WHERE username = ? AND food = ? AND date = ? ", new String[]{username.toLowerCase(), food.toLowerCase(), date.toLowerCase()});
         if (cursor.getCount() > 0) {
-            long result = db.delete(DIARY_TABLE," username = ? AND food = ? AND date = ? ", new String[]{username, food, date.toLowerCase()});
+            long result = db.delete(DIARY_TABLE," username = ? AND food = ? AND date = ? ", new String[]{username.toLowerCase(), food.toLowerCase(), date.toLowerCase()});
             if (result == -1) return false;
             return true;
         }
@@ -223,9 +223,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Boolean deleteExerciseFromDiary(String username, String date, String exercise){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + DIARY_TABLE + " WHERE username = ? AND exercise = ? AND date = ? ", new String[]{username, exercise, date.toLowerCase()});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DIARY_TABLE + " WHERE username = ? AND exercise = ? AND date = ? ", new String[]{username.toLowerCase(), exercise.toLowerCase(), date.toLowerCase()});
         if (cursor.getCount() > 0) {
-            long result = db.delete(DIARY_TABLE," username = ? AND exercise = ? AND date = ? ", new String[]{username, exercise, date.toLowerCase()});
+            long result = db.delete(DIARY_TABLE," username = ? AND exercise = ? AND date = ? ", new String[]{username.toLowerCase(), exercise.toLowerCase(), date.toLowerCase()});
             if (result == -1) return false;
             return true;
         }
@@ -266,7 +266,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String query = "SELECT * FROM "+DIARY_TABLE+" WHERE username = ? AND food = ? AND date = ?";
         SQLiteDatabase db = this.getReadableDatabase();
         if (db == null) return false;
-        Cursor cursor = db.rawQuery(query, new String[]{username, food, data.toLowerCase()});
+        Cursor cursor = db.rawQuery(query, new String[]{username.toLowerCase(), food.toLowerCase(), data.toLowerCase()});
         if(cursor.getCount() == 0) return false;
         return true;
     }
@@ -275,7 +275,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String query = "SELECT * FROM "+DIARY_TABLE+" WHERE username = ? AND exercise = ? AND date = ?";
         SQLiteDatabase db = this.getReadableDatabase();
         if (db == null) return false;
-        Cursor cursor = db.rawQuery(query, new String[]{username, exercise, data.toLowerCase()});
+        Cursor cursor = db.rawQuery(query, new String[]{username.toLowerCase(), exercise.toLowerCase(), data.toLowerCase()});
         if(cursor.getCount() == 0) return false;
         return true;
     }
@@ -286,9 +286,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
         cv.put(CQUANTITY, quantity);
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + DIARY_TABLE + " WHERE username = ? AND food = ? AND date = ? ", new String[]{username, food, date.toLowerCase()});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DIARY_TABLE + " WHERE username = ? AND food = ? AND date = ? ", new String[]{username.toLowerCase(), food.toLowerCase(), date.toLowerCase()});
         if (cursor.getCount() > 0) {
-            long result = db.update(DIARY_TABLE, cv, "username = ? AND food = ? AND date = ?", new String[]{username, food, date.toLowerCase()});
+            long result = db.update(DIARY_TABLE, cv, "username = ? AND food = ? AND date = ?", new String[]{username.toLowerCase(), food.toLowerCase(), date.toLowerCase()});
             if (result == -1) return false;
             return true;
         }
@@ -303,9 +303,9 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(CREPS, r);
         cv.put(CSETS, s);
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + DIARY_TABLE + " WHERE username = ? AND exercise = ? AND date = ? ", new String[]{username, exercise, date.toLowerCase()});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DIARY_TABLE + " WHERE username = ? AND exercise = ? AND date = ? ", new String[]{username.toLowerCase(), exercise.toLowerCase(), date.toLowerCase()});
         if (cursor.getCount() > 0) {
-            long result = db.update(DIARY_TABLE, cv, "username = ? AND exercise = ? AND date = ?", new String[]{username, exercise, date.toLowerCase()});
+            long result = db.update(DIARY_TABLE, cv, "username = ? AND exercise = ? AND date = ?", new String[]{username.toLowerCase(), exercise.toLowerCase(), date.toLowerCase()});
             if (result == -1) return false;
             return true;
         }
@@ -568,8 +568,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         Bitmap img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.no_image2);
 
-        cv.put(CUSERNAME,username);
-        cv.put(CPASSWORD,password);
+        cv.put(CUSERNAME,username.toLowerCase());
+        cv.put(CPASSWORD,password.toLowerCase());
         cv.put(CWEIGHT,weight);
         cv.put(CHEIGHT,height);
         cv.put(CSEX,sex);
@@ -590,8 +590,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         saveImage(img,username);
 
-        cv.put(CUSERNAME,username);
-        cv.put(CPASSWORD,password);
+        cv.put(CUSERNAME,username.toLowerCase());
+        cv.put(CPASSWORD,password.toLowerCase());
         cv.put(CWEIGHT,weight);
         cv.put(CHEIGHT,height);
         cv.put(CSEX,sex);
@@ -610,7 +610,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String query = "SELECT "+QUESTION+" FROM "+USER_TABLE+" WHERE username=?";
         SQLiteDatabase db = this.getReadableDatabase();
         if (db == null) return "";
-        Cursor cursor = db.rawQuery(query, new String[]{username});
+        Cursor cursor = db.rawQuery(query, new String[]{username.toLowerCase()});
         if(cursor.getCount() == 0) return "";
         cursor.moveToNext();
         return cursor.getString(0);
@@ -620,7 +620,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String query = "SELECT "+CPASSWORD+" FROM "+USER_TABLE+" WHERE username=?";
         SQLiteDatabase db = this.getReadableDatabase();
         if (db == null) return "";
-        Cursor cursor = db.rawQuery(query, new String[]{username});
+        Cursor cursor = db.rawQuery(query, new String[]{username.toLowerCase()});
         if(cursor.getCount() == 0) return "";
         cursor.moveToNext();
         return cursor.getString(0);
@@ -629,10 +629,10 @@ public class DBHelper extends SQLiteOpenHelper {
     public Boolean updateUserPassword(String username,String password){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(CPASSWORD,password);
-        Cursor cursor = db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE username = ? ", new String[]{username});
+        cv.put(CPASSWORD,password.toLowerCase());
+        Cursor cursor = db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE username = ? ", new String[]{username.toLowerCase()});
         if (cursor.getCount() > 0) {
-            long result = db.update(USER_TABLE, cv, "username=?", new String[]{username});
+            long result = db.update(USER_TABLE, cv, "username=?", new String[]{username.toLowerCase()});
             if (result == -1) return false;
             return true;
         }
@@ -646,9 +646,9 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(CPROT_GOAL,prot);
         cv.put(CFAT_GOAL,fat);
         cv.put(CKAL_GOAL,kal);
-        Cursor cursor = db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE username = ? ", new String[]{username});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE username = ? ", new String[]{username.toLowerCase()});
         if (cursor.getCount() > 0) {
-            long result = db.update(USER_TABLE, cv, "username=?", new String[]{username});
+            long result = db.update(USER_TABLE, cv, "username=?", new String[]{username.toLowerCase()});
             if (result == -1) return false;
             return true;
         }
@@ -660,9 +660,9 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(CWEIGHT,weight);
         cv.put(CHEIGHT,height);
-        Cursor cursor = db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE username = ? ", new String[]{username});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE username = ? ", new String[]{username.toLowerCase()});
         if (cursor.getCount() > 0) {
-            long result = db.update(USER_TABLE, cv, "username=?", new String[]{username});
+            long result = db.update(USER_TABLE, cv, "username=?", new String[]{username.toLowerCase()});
             if (result == -1) return false;
             return true;
         }
@@ -671,9 +671,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Boolean deleteUser(String username){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE name = ? ", new String[]{username});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE username=? ", new String[]{username.toLowerCase()});
         if (cursor.getCount() > 0) {
-            long result = db.delete(USER_TABLE,"username=?", new String[]{username});
+            long result = db.delete(USER_TABLE,"username=?", new String[]{username.toLowerCase()});
             if (result == -1) return false;
             return true;
         }
@@ -697,7 +697,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String query = "SELECT * FROM "+USER_TABLE+" WHERE username=?";
         SQLiteDatabase db = this.getReadableDatabase();
         if (db == null) return false;
-        Cursor cursor = db.rawQuery(query, new String[]{username});
+        Cursor cursor = db.rawQuery(query, new String[]{username.toLowerCase()});
         if(cursor.getCount() == 0) return false;
         return true;
     }
@@ -706,7 +706,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String query = "SELECT * FROM "+USER_TABLE+" WHERE username=?";
         SQLiteDatabase db = this.getReadableDatabase();
         if (db == null) return null;
-        Cursor cursor = db.rawQuery(query, new String[]{username});
+        Cursor cursor = db.rawQuery(query, new String[]{username.toLowerCase()});
         return cursor;
     }
 
@@ -714,7 +714,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String query = "SELECT * FROM "+USER_TABLE+" WHERE username = ? AND password = ?";
         SQLiteDatabase db = this.getReadableDatabase();
         if (db == null) return false;
-        Cursor cursor = db.rawQuery(query, new String[]{username,password});
+        Cursor cursor = db.rawQuery(query, new String[]{username,password.toLowerCase()});
         if(cursor.getCount() == 0) return false;
         return true;
     }
@@ -797,7 +797,7 @@ public class DBHelper extends SQLiteOpenHelper {
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.calf_raise);
         addExercise("calf_raise","Legs",1,1,img_bitmap);
     }
-
+    /*
     public void addExistingFood() {
         Bitmap img_bitmap;
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.tomatoes);
@@ -924,6 +924,136 @@ public class DBHelper extends SQLiteOpenHelper {
         addFood("cookie","Cereal",60,5,27,0,img_bitmap);
         img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.oreo);
         addFood("oreo","Cereal",68,5,19,0,img_bitmap);
+
+    }
+
+     */
+    public void addExistingFood() {
+        Bitmap img_bitmap;
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.tomatoes);
+        addFood("Tomatoes","FruitVegetable",3,1,0,19,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.bananas);
+        addFood("Bananas","FruitVegetable",21,1,0,89,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.watermelons);
+        addFood("Watermelons","FruitVegetable",8,1,0,30,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.apples);
+        addFood("Apples","FruitVegetable",14,0,0,52,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.oranges);
+        addFood("Oranges","FruitVegetable",10,0,0,45,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.mangoes);
+        addFood("Mangoes","fruitvegetabeles",17,1,0,65,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.pears);
+        addFood("Pears","FruitVegetable",10,0,0,38,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.avocadoes);
+        addFood("Avocadoes","FruitVegetable",2,4,23,238,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.grapes);
+        addFood("Grapes","FruitVegetable",18,1,0,69,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.pineapples);
+        addFood("Pineapples","FruitVegetable",13,1,0,48,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.melons);
+        addFood("Melons","FruitVegetable",8,1,0,34,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.peaches);
+        addFood("Peaches","FruitVegetable",10,1,0,39,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.lemons);
+        addFood("Lemons","FruitVegetable",2,1,0,15,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.plums);
+        addFood("Plums","FruitVegetable",7,1,0,30,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.strawberries);
+        addFood("Strawberries","FruitVegetable",8,1,0,32,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.blueberry);
+        addFood("Blueberry","FruitVegetable",14,1,0,57,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.blackberry);
+        addFood("Blackberry","FruitVegetable",10,1,1,43,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.coconut);
+        addFood("Coconut","FruitVegetable",9,4,35,385,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.kiwi);
+        addFood("Kiwi","FruitVegetable",9,1,1,48,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.pomegranate);
+        addFood("Pomegranate","FruitVegetable",13,0,0,54,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.cherry);
+        addFood("Cherry","FruitVegetable",9,1,0,38,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.cucumber);
+        addFood("Cucumber","FruitVegetable",8,1,0,30,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.potatoes);
+        addFood("potatoes","FruitVegetable",20,2,2,104,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.potatoes);
+        addFood("onions","FruitVegetable",10,1,0,42,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.carrots);
+        addFood("Carrots","FruitVegetable",10,1,0,41,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.lettuce);
+        addFood("lettuce","FruitVegetable",3,1,0,14,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.bellpeppers);
+        addFood("Bellpeppers","FruitVegetable",6,1,0,26,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.cherry);
+        addFood("Cherry","FruitVegetable",9,1,0,38,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.salad);
+        addFood("salad","FruitVegetable",2,1,0,20,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.mushrooms);
+        addFood("mushrooms","FruitVegetable",3,3,0,22,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.corn);
+        addFood("corn","FruitVegetable",19,3,1,86,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.spinach);
+        addFood("spinach","FruitVegetable",4,3,0,23,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.greenbeans);
+        addFood("greenbeans","FruitVegetable",9,2,0,31,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.cabbage);
+        addFood("cabbage","FruitVegetable",6,1,0,24,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.broccoli);
+        addFood("broccoli","FruitVegetable",7,3,0,34,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.pork);
+        addFood("pork","MeatFisheggs",0,27,17,271,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.beef);
+        addFood("beef","MeatFisheggs",0,26,10,288,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.lamb);
+        addFood("Lamb","MeatFisheggs",0,24,21,292,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.chicken);
+        addFood("Chicken","MeatFisheggs",0,30,8,195,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.turkey);
+        addFood("Turkey","MeatFisheggs",0,25,1,104,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.duck);
+        addFood("Duck","MeatFisheggs",0,18,6,132,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.sausage);
+        addFood("Sausage","MeatFisheggs",1,14,31,346,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.wrustel);
+        addFood("wrustel","MeatFisheggs",0,15,20,240,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.butter);
+        addFood("Butter","Dairy",0,1,81,717,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.chees);
+        addFood("cheese","Dairy",5,22,27,350,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.yogurt);
+        addFood("yogurt","Dairy",7,5,2,63,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.milk);
+        addFood("Milk","Dairy",5,3,2,46,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.bluecheese);
+        addFood("bluecheese","Dairy",2,21,29,353,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.cheddar);
+        addFood("cheddar","Dairy",3,25,32,388,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.mozzarella);
+        addFood("mozzarella","Dairy",4,26,20,302,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.parmesan);
+        addFood("parmesan","Dairy",3,36,26,392,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.bread);
+        addFood("bread","Cereal",50,8,3,266,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.kellogs);
+        addFood("cornflakes","Cereal",87,6,2,360,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.pasta);
+        addFood("pasta","Cereal",71,13,2,359,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.spaghetti);
+        addFood("spaghetti","Cereal",71,13,2,359,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.rice);
+        addFood("rice","Cereal",78,7,1,356,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.ricecake);
+        addFood("ricecake","Cereal",20,4,5,387,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.corn);
+        addFood("corn","Cereal",19,3,1,86,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.rusk);
+        addFood("rusk","Cereal",67,13,6,389,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.biscuits1);
+        addFood("biscuit1","Cereal",45,7,16,353,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.biscuits2);
+        addFood("cookie","Cereal",54,5,31,469,img_bitmap);
+        img_bitmap = BitmapFactory.decodeResource(App.getContext().getResources(), R.drawable.oreo);
+        addFood("oreo","Cereal",56,5,35,558,img_bitmap);
 
     }
 

@@ -559,7 +559,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             @Override
             public void onDeleteClick(int position) {
                 String index = String.valueOf(position);
-                //Toast.makeText(FoodPage.this,food_name_list.get(position).toString(),Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this,user_logged+" DELETE "+food_list.get(position).toLowerCase(),Toast.LENGTH_SHORT).show();
                 if (or_list.get(position).equals("1")) {
                     db.deleteFoodFromDiary(user_logged, current_date, food_list.get(position).toLowerCase());
                 }
@@ -652,13 +652,13 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             }
         }
         text_carb.setText("CARBS ");
-        text_value_carb.setText(String.valueOf(total_carb)+" / "+carb_value+" g");
+        text_value_carb.setText(String.valueOf(total_carb)+"/"+carb_value+"g");
         text_prot.setText("PROTEINS ");
-        text_value_prot.setText(String.valueOf(total_prot)+" / "+prot_value+" g");
+        text_value_prot.setText(String.valueOf(total_prot)+"/"+prot_value+"g");
         text_fat.setText("FATS ");
-        text_value_fat.setText(String.valueOf(total_fat)+" / "+fat_value+" g");
+        text_value_fat.setText(String.valueOf(total_fat)+"/"+fat_value+"g");
         text_cal.setText("CALORIES ");
-        text_value_cal.setText(String.valueOf(total_cal)+" / "+cal_value+" kcal");
+        text_value_cal.setText(String.valueOf(total_cal)+"/"+cal_value+"kcal");
         progressBar.setMax(cal_value);
         progressBar.setProgress(total_cal);
         progressBar_carb.setMax(carb_value);
