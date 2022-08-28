@@ -668,7 +668,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         progressBar_prot.setMax(prot_value);
         progressBar_prot.setProgress(total_prot);
         progressBar_prot.getProgressDrawable().setColorFilter(
-                Color.GREEN, android.graphics.PorterDuff.Mode.SRC_IN);
+                Color.BLUE, android.graphics.PorterDuff.Mode.SRC_IN);
         progressBar_fat.setMax(fat_value);
         progressBar_fat.setProgress(total_fat);
         progressBar_fat.getProgressDrawable().setColorFilter(
