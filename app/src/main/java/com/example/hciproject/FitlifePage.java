@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -35,6 +36,10 @@ public class FitlifePage extends AppCompatActivity {
     SignInButton signin;
     GoogleSignInClient mGoogleSignInClient;
     int RC_SIGN_IN = 0;
+    String personName;
+    String personEmail;
+    String personId;
+    Uri personPhoto;
 
 
     //codice per fare si che quando un utente clicca fuori da un Edittext si perde il focus
@@ -134,8 +139,21 @@ public class FitlifePage extends AppCompatActivity {
 
             // Signed in successfully, show authenticated UI.
             Log.d("GOOGLE: ","login: OK");
-            Intent intentgoogle = new Intent(FitlifePage.this, TestGoogle.class);
-            startActivity(intentgoogle);
+            personName = account.getDisplayName();
+            personEmail = account.getEmail();
+            personId = account.getId();
+            personPhoto = account.getPhotoUrl();
+
+            boolean check = db.findUser(personName);
+            if(check) {
+                user_logged = personName;
+                saveData();
+                openactivityMain();
+            }
+            else {
+                Intent intentgoogle = new Intent(FitlifePage.this, TestGoogle.class);
+                startActivity(intentgoogle);
+            }
 
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
