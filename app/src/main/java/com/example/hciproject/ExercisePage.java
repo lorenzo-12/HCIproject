@@ -15,7 +15,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -163,15 +162,15 @@ public class ExercisePage extends AppCompatActivity {
                         //alredy in exercise page
                         return true;
                     case R.id.bottom_food:
-                        Toast.makeText(ExercisePage.this,"food",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(ExercisePage.this,"food",Toast.LENGTH_SHORT).show();
                         openactivityFood();
                         return true;
                     case R.id.bottom_time:
-                        Toast.makeText(ExercisePage.this,"timer",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(ExercisePage.this,"timer",Toast.LENGTH_SHORT).show();
                         openactivitytimer();
                         return true;
                     case R.id.bottom_user:
-                        Toast.makeText(ExercisePage.this,"user",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(ExercisePage.this,"user",Toast.LENGTH_SHORT).show();
                         openactivityuser();
                         return true;
                 }
@@ -185,7 +184,7 @@ public class ExercisePage extends AppCompatActivity {
                 final int DRAWABLE_RIGHT = 2;
                 if(event.getAction() == MotionEvent.ACTION_UP) {
                     if(event.getRawX() >= (search.getRight() - search.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        Toast.makeText(ExercisePage.this,"aaa",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(ExercisePage.this,"aaa",Toast.LENGTH_SHORT).show();
 
                         return true;
                     }
@@ -241,7 +240,7 @@ public class ExercisePage extends AppCompatActivity {
                 //Toast.makeText(FoodPage.this,"FILTER_ALL",Toast.LENGTH_SHORT).show();
             } else {
                 cursor = db.readFilteredExerciseByCategory(filter);
-                Toast.makeText(ExercisePage.this, filter, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ExercisePage.this, filter, Toast.LENGTH_SHORT).show();
             }
         } else if (filter_type==1){
             cursor = db.readFilteredExerciseByName(filter);
@@ -252,7 +251,7 @@ public class ExercisePage extends AppCompatActivity {
         exercise_series_list.clear();
         exercise_img_list.clear();
         if ((cursor != null) && (cursor.getCount() == 0)){
-            Toast.makeText(ExercisePage.this,"No Data",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(ExercisePage.this,"No Data",Toast.LENGTH_SHORT).show();
         }else {
             while ((cursor != null) && (cursor.moveToNext())){
                 exercise_name_list.add(cursor.getString(0).toLowerCase());
@@ -295,7 +294,7 @@ public class ExercisePage extends AppCompatActivity {
 
             @Override
             public void onUpdateClick(int position) {
-                Toast.makeText(ExercisePage.this,"Update",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ExercisePage.this,"Update",Toast.LENGTH_SHORT).show();
                 String name = exercise_name_list.get(position).toLowerCase();
                 String category = exercise_category_list.get(position).toLowerCase();
                 String reps = exercise_reps_list.get(position).toLowerCase();

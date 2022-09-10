@@ -15,7 +15,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -127,12 +126,12 @@ public class SignupPage extends AppCompatActivity {
                 }
 
                 if (check){
-                    Toast.makeText(SignupPage.this,"OK",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(SignupPage.this,"OK",Toast.LENGTH_SHORT).show();
                     user_logged = usr;
                     saveData();
                     openactivityMain();
                 }else {
-                    Toast.makeText(SignupPage.this,"FAIL",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(SignupPage.this,"FAIL",Toast.LENGTH_SHORT).show();
                 }
                 String res = db.viewUsers();
             }

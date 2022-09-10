@@ -24,7 +24,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -217,15 +216,15 @@ public class UserPage extends AppCompatActivity {
                         openactivityDiary();
                         return true;
                     case R.id.bottom_exercise:
-                        Toast.makeText(UserPage.this,"exercise",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(UserPage.this,"exercise",Toast.LENGTH_SHORT).show();
                         openactivityexercise();
                         return true;
                     case R.id.bottom_food:
-                        Toast.makeText(UserPage.this,"food",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(UserPage.this,"food",Toast.LENGTH_SHORT).show();
                         openactivityFood();
                         return true;
                     case R.id.bottom_time:
-                        Toast.makeText(UserPage.this,"timer",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(UserPage.this,"timer",Toast.LENGTH_SHORT).show();
                         openactivitytimer();
                         return true;
                     case R.id.bottom_user:
@@ -444,9 +443,9 @@ public class UserPage extends AppCompatActivity {
     public void change_user_goals(){
         Boolean check = db.updateUserGoals(user_logged,Integer.parseInt(carb.getText().toString()),Integer.parseInt(prot.getText().toString()),Integer.parseInt(fat.getText().toString()),Integer.parseInt(cal.getText().toString()));
         if (check){
-            Toast.makeText(UserPage.this, "Changes Applied successfully", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(UserPage.this, "Changes Applied successfully", Toast.LENGTH_SHORT).show();
         }else {
-            Toast.makeText(UserPage.this, "Error", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(UserPage.this, "Error", Toast.LENGTH_SHORT).show();
         }
         saveData();
         loadData();
@@ -456,9 +455,9 @@ public class UserPage extends AppCompatActivity {
     public void change_user_stat(){
         Boolean check = db.updateUserStat(user_logged,Integer.parseInt(weight.getText().toString()),Integer.parseInt(height.getText().toString()));
         if (check){
-            Toast.makeText(UserPage.this, "Changes Applied successfully", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(UserPage.this, "Changes Applied successfully", Toast.LENGTH_SHORT).show();
         }else {
-            Toast.makeText(UserPage.this, "Error", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(UserPage.this, "Error", Toast.LENGTH_SHORT).show();
         }
         saveData();
         loadData();

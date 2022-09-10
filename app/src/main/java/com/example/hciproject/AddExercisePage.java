@@ -19,7 +19,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -105,7 +104,7 @@ public class AddExercisePage extends AppCompatActivity implements AdapterView.On
             @Override
             public void onClick(View view) {
                 Boolean result = addExercise();
-                Toast.makeText(AddExercisePage.this,result.toString(),Toast.LENGTH_SHORT).show();
+                //Toast.makeText(AddExercisePage.this,result.toString(),Toast.LENGTH_SHORT).show();
                 changes = true;
                 onBackPressed();
             }
@@ -134,11 +133,11 @@ public class AddExercisePage extends AppCompatActivity implements AdapterView.On
 
         String error = "";
         if (name.isEmpty()) {
-            Toast.makeText(AddExercisePage.this,"Please insert a name for the exercise",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(AddExercisePage.this,"Please insert a name for the exercise",Toast.LENGTH_SHORT).show();
             return false;
         }
         if (input_category.isEmpty()){
-            Toast.makeText(AddExercisePage.this,"Please insert a category for the exercise",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(AddExercisePage.this,"Please insert a category for the exercise",Toast.LENGTH_SHORT).show();
             return false;
         }
         addExercisebtn.setEnabled(true);
@@ -160,7 +159,7 @@ public class AddExercisePage extends AppCompatActivity implements AdapterView.On
         Boolean check = db.findExercise(name);
         Boolean result = false;
         if (check){
-            Toast.makeText(AddExercisePage.this, "exercise already exist",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(AddExercisePage.this, "exercise already exist",Toast.LENGTH_SHORT).show();
             return false;
         } else {
             result = db.addExercise(name,input_category,reps,series,image_bitmap);

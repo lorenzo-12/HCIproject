@@ -14,7 +14,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -108,7 +107,7 @@ public class LoginPage extends AppCompatActivity {
                 }
                 Boolean check = db.checkUser(usr,psw);
                 if (check){
-                    Toast.makeText(LoginPage.this,"Login Successful",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(LoginPage.this,"Login Successful",Toast.LENGTH_SHORT).show();
                     user_logged = usr;
                 }else {
                     error.setText("Username or Password Wrong");

@@ -19,7 +19,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -108,7 +107,7 @@ public class AddFoodPage extends AppCompatActivity implements AdapterView.OnItem
             @Override
             public void onClick(View view) {
                 Boolean result = addFood();
-                Toast.makeText(AddFoodPage.this,result.toString(),Toast.LENGTH_SHORT).show();
+                //Toast.makeText(AddFoodPage.this,result.toString(),Toast.LENGTH_SHORT).show();
                 changes = true;
                 onBackPressed();
             }
@@ -138,11 +137,11 @@ public class AddFoodPage extends AppCompatActivity implements AdapterView.OnItem
 
         String error = "";
         if (name.isEmpty()) {
-            Toast.makeText(AddFoodPage.this,"Please insert a name for the food",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(AddFoodPage.this,"Please insert a name for the food",Toast.LENGTH_SHORT).show();
             return false;
         }
         if (input_category.isEmpty()){
-            Toast.makeText(AddFoodPage.this,"Please insert a category for the food",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(AddFoodPage.this,"Please insert a category for the food",Toast.LENGTH_SHORT).show();
             return false;
         }
         addFoodbtn.setEnabled(true);
@@ -180,7 +179,7 @@ public class AddFoodPage extends AppCompatActivity implements AdapterView.OnItem
         Boolean check = db.findFood(name);
         Boolean result = false;
         if (check){
-            Toast.makeText(AddFoodPage.this, "Food already exist",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(AddFoodPage.this, "Food already exist",Toast.LENGTH_SHORT).show();
             return false;
         } else {
             result = db.addFood(name,input_category,carb,prot,fat,kal,image_bitmap);

@@ -23,7 +23,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -383,7 +382,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         //Log.d("aaaaaa",map.toString());
         for ( Map.Entry<String,ArrayList<String>> e : map.entrySet()) {
             //Log.d("aaaaaa",e.toString());
-            Toast.makeText(MainActivity.this, "item type: "+e.getValue().get(0), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MainActivity.this, "item type: "+e.getValue().get(0), Toast.LENGTH_SHORT).show();
             if (e.getValue().get(0).equals("1")) db.addFoodToDiary(user_logged, current_date, e.getKey(), Integer.parseInt(e.getValue().get(1)));
             else db.addExerciseToDiary(user_logged, current_date, e.getKey(), Integer.parseInt(e.getValue().get(1)),Integer.parseInt(e.getValue().get(2)));
         }

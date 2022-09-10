@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -141,18 +140,18 @@ public class TimerPage extends AppCompatActivity {
                         openactivityDiary();
                         return true;
                     case R.id.bottom_exercise:
-                        Toast.makeText(TimerPage.this,"exercise",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(TimerPage.this,"exercise",Toast.LENGTH_SHORT).show();
                         openactivityexercise();
                         return true;
                     case R.id.bottom_food:
-                        Toast.makeText(TimerPage.this,"food",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(TimerPage.this,"food",Toast.LENGTH_SHORT).show();
                         openactivityFood();
                         return true;
                     case R.id.bottom_time:
                         //do nothing, we are already in the time page
                         return true;
                     case R.id.bottom_user:
-                        Toast.makeText(TimerPage.this,"user",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(TimerPage.this,"user",Toast.LENGTH_SHORT).show();
                         openactivityuser();
                         return true;
                 }

@@ -16,7 +16,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -177,12 +176,12 @@ public class TestGoogle extends AppCompatActivity {
                         res = db.addUser(personName,"google_account",weight_value,height_value,sex,carb_value,prot_value,fat_value,kal_value,"google_account");
                         Log.d("TEST: ","res: "+String.valueOf(res));
                         if (res){
-                            Toast.makeText(TestGoogle.this,"OK",Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(TestGoogle.this,"OK",Toast.LENGTH_SHORT).show();
                             user_logged = personName;
                             saveData();
                             openactivityMain();
                         }else {
-                            Toast.makeText(TestGoogle.this,"FAIL",Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(TestGoogle.this,"FAIL",Toast.LENGTH_SHORT).show();
                         }
                     }
                     else {

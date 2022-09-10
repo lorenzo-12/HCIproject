@@ -15,7 +15,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -165,19 +164,19 @@ public class FoodPage extends AppCompatActivity {
                         openactivityDiary();
                         return true;
                     case R.id.bottom_exercise:
-                        Toast.makeText(FoodPage.this,"exercise",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(FoodPage.this,"exercise",Toast.LENGTH_SHORT).show();
                         openactivityexercise();
                         return true;
                     case R.id.bottom_food:
-                        Toast.makeText(FoodPage.this,"food",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(FoodPage.this,"food",Toast.LENGTH_SHORT).show();
                         //do nothing since we are already in the Diary activity
                         return true;
                     case R.id.bottom_time:
-                        Toast.makeText(FoodPage.this,"timer",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(FoodPage.this,"timer",Toast.LENGTH_SHORT).show();
                         openactivitytimer();
                         return true;
                     case R.id.bottom_user:
-                        Toast.makeText(FoodPage.this,"user",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(FoodPage.this,"user",Toast.LENGTH_SHORT).show();
                         openactivityuser();
                         return true;
                 }
@@ -191,7 +190,7 @@ public class FoodPage extends AppCompatActivity {
                 final int DRAWABLE_RIGHT = 2;
                 if(event.getAction() == MotionEvent.ACTION_UP) {
                     if(event.getRawX() >= (search.getRight() - search.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        Toast.makeText(FoodPage.this,"aaa",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(FoodPage.this,"aaa",Toast.LENGTH_SHORT).show();
 
                         return true;
                     }
@@ -250,7 +249,7 @@ public class FoodPage extends AppCompatActivity {
                 //Toast.makeText(FoodPage.this,"FILTER_ALL",Toast.LENGTH_SHORT).show();
             } else {
                 cursor = db.readFilteredFoodByCategory(filter);
-                Toast.makeText(FoodPage.this, filter, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(FoodPage.this, filter, Toast.LENGTH_SHORT).show();
             }
         } else if (filter_type==1){
             cursor = db.readFilteredFoodByName(filter);
@@ -263,10 +262,10 @@ public class FoodPage extends AppCompatActivity {
         food_img_list.clear();
         food_kal_list.clear();
         if ((cursor != null) && (cursor.getCount() == 0)){
-            Toast.makeText(FoodPage.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
+            //Toast.makeText(FoodPage.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
             //Toast.makeText(FoodPage.this,"No Data",Toast.LENGTH_SHORT).show();
         }else {
-            Toast.makeText(FoodPage.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
+            //Toast.makeText(FoodPage.this,String.valueOf(cursor.getCount()),Toast.LENGTH_SHORT).show();
             while ((cursor != null) && (cursor.moveToNext())){
                 food_name_list.add(cursor.getString(0).toLowerCase());
                 food_category_list.add(cursor.getString(1).toLowerCase());
