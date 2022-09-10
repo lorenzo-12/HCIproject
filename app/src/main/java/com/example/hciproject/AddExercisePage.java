@@ -171,7 +171,7 @@ public class AddExercisePage extends AppCompatActivity implements AdapterView.On
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        input_category = adapterView.getItemAtPosition(i).toString().toLowerCase();
+        input_category = adapterView.getItemAtPosition(i).toString();
     }
 
     @Override
