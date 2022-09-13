@@ -8,6 +8,7 @@
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/drawable/background.xml" value="0.3705" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/drawable/background_1.xml" value="0.3115" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/drawable/background_2.xml" value="0.3705" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/drawable/background_tablet.xml" value="0.367" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/drawable/bottom_diary.xml" value="0.3625" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/drawable/bottom_food.xml" value="0.302" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/drawable/bottom_time.xml" value="0.302" />
@@ -22,12 +23,28 @@
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/drawable/rounded_conners.xml" value="0.3125" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/drawable/rounded_corners.xml" value="0.3765" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/drawable/textinputlayout_color.xml" value="0.3705" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/activity_addexercisepage.xml" value="0.18605610561056105" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/activity_addfoodpage.xml" value="0.18605610561056105" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/activity_changepassword.xml" value="0.18605610561056105" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/activity_exercisepage.xml" value="0.290234375" />
-        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/activity_fitlifepage.xml" value="0.33" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/activity_fitlifepage.xml" value="0.25" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/activity_foodpage.xml" value="0.25" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/activity_loginpage.xml" value="0.290234375" />
-        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/activity_main.xml" value="0.33" />
-        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/activity_signupinfopage.xml" value="0.5" />
-        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/activity_timerpage.xml" value="0.33" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/activity_recoverpassword.xml" value="0.18605610561056105" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/activity_signupinfopage.xml" value="0.25" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/activity_signuppage.xml" value="0.22" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/activity_testgoogle.xml" value="0.33" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/activity_timerpage.xml" value="0.25" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/activity_updateexercisepage.xml" value="0.18605610561056105" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/activity_updatefoodpage.xml" value="0.18605610561056105" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/activity_userpage.xml" value="0.25" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/layout_custom_dialog.xml" value="0.25" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/layout_custom_dialog2.xml" value="0.33" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/my_row_exercise.xml" value="0.33" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/my_row_food.xml" value="0.33" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/row_food_dialog.xml" value="0.33" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout-sw600dp/row_food_diary.xml" value="0.33" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/activity_LogoutPage.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/activity_add_workout_page.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/activity_addexercisepage.xml" value="0.38697916666666665" />
@@ -39,8 +56,9 @@
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/activity_changepassword.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/activity_diary.xml" value="0.25" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/activity_diary2.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/activity_diarypage.xml" value="0.31765711842667804" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/activity_exercisepage.xml" value="0.38697916666666665" />
-        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/activity_fitlifepage.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/activity_fitlifepage.xml" value="0.3118766999093382" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/activity_foodpage.xml" value="0.33" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/activity_log_in_page.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/activity_loginpage.xml" value="0.38697916666666665" />
@@ -68,6 +86,7 @@
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/autocomlete_layout.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/autocomplete_layout.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/color_spinner_layout.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/color_spinner_layout_tablet.xml" value="0.31680205215904234" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/fragment_first.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/fragment_second.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/loren/AndroidStudioProjects/HCIproject2/app/src/main/res/layout/layout_custom_dialog.xml" value="0.38697916666666665" />

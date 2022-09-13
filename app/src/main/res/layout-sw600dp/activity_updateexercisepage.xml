@@ -4,34 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddExercisePage"
+    tools:context=".UpdateExercisePage"
     android:background="@drawable/background">
 
-    <EditText
-        android:id="@+id/workout_name_text"
-        android:layout_width="300dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="132dp"
-        android:ems="10"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/workout_name_text_update"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="304dp"
         android:hint="Name"
-        android:inputType="textPersonName"
         android:textColorHint="@color/black"
+        app:boxStrokeColor="@color/green"
+        app:counterEnabled="true"
+        app:counterMaxLength="20"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.475"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txt_workout_name_text_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="20"
+            android:textColor="@color/black"
+            android:textSize="34sp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Spinner
-        android:id="@+id/workout_category_spinner"
-        android:layout_width="300dp"
-        android:layout_height="48dp"
+        android:id="@+id/workout_category_spinner_update"
+        android:layout_width="450dp"
+        android:layout_height="70dp"
         android:layout_marginTop="32dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/workout_name_text" />
+        app:layout_constraintTop_toBottomOf="@+id/workout_name_text_update" />
 
     <EditText
-        android:id="@+id/workout_reps_text"
+        android:id="@+id/workout_reps_text_update"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:clickable="false"
@@ -44,8 +56,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <EditText
-        android:id="@+id/workout_series_text"
+        android:id="@+id/workout_series_text_update"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:clickable="false"
@@ -58,32 +71,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <Button
-        android:id="@+id/addWorkoutbtn"
-        android:layout_width="130dp"
-        android:layout_height="50dp"
+        android:id="@+id/updateWorkoutbtn"
+        android:layout_width="266dp"
+        android:layout_height="105dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="@color/green"
-        android:text="add"
-        android:textColor="@color/grey"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="modify"
+        android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/exercisedimageview_add"
-        app:layout_constraintVertical_bias="0.031" />
-
-
+        app:layout_constraintTop_toBottomOf="@+id/exercisedimageview_update" />
 
     <ImageView
-        android:id="@+id/exercisedimageview_add"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:id="@+id/exercisedimageview_update"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/workout_category_spinner"
+        app:layout_constraintTop_toBottomOf="@+id/workout_category_spinner_update"
         app:srcCompat="@drawable/no_image2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

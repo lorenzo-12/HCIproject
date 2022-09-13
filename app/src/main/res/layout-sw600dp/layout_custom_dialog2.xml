@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="600dp"
+    android:layout_height="400dp"
+    android:background="@drawable/rounded_conners"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/dialog2_quantity_text"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="28dp"
+        android:gravity="center"
+        android:text="QUANTITY:"
+        android:textColor="#000000"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/dialog2_set_text"
+        app:layout_constraintTop_toBottomOf="@+id/dialog2_set_text" />
+
+    <EditText
+        android:id="@+id/dialog2_quantity_input"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginStart="64dp"
+        android:ems="5"
+        android:hint="QUANTITY"
+        android:inputType="number"
+        android:textColorHint="#000000"
+        android:textSize="34sp"
+        app:layout_constraintStart_toEndOf="@+id/dialog2_set_text"
+        app:layout_constraintTop_toTopOf="@+id/dialog2_quantity_text" />
+
+    <TextView
+        android:id="@+id/dialog2_set_text"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="64dp"
+        android:gravity="center|right|center_horizontal"
+        android:text="SET:"
+        android:textColor="#000000"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/dialog2_rep_text"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="104dp"
+        android:gravity="center|right"
+        android:text="REPS: "
+        android:textColor="#000000"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/dialog2_quantity_text"
+        app:layout_constraintTop_toBottomOf="@+id/dialog2_set_text" />
+
+    <EditText
+        android:id="@+id/dialog2_set_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:ems="5"
+        android:hint="SET"
+        android:inputType="number"
+        android:textColorHint="#000000"
+        android:textSize="34sp"
+        app:layout_constraintStart_toEndOf="@+id/dialog2_set_text"
+        app:layout_constraintTop_toTopOf="@+id/dialog2_set_text" />
+
+    <EditText
+        android:id="@+id/dialog2_rep_input"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginStart="64dp"
+        android:ems="5"
+        android:hint="REPS"
+        android:inputType="number"
+        android:textColorHint="#000000"
+        android:textSize="34sp"
+        app:layout_constraintStart_toEndOf="@+id/dialog2_rep_text"
+        app:layout_constraintTop_toTopOf="@+id/dialog2_rep_text" />
+
+    <LinearLayout
+        android:id="@+id/dialog2_section1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- some views -->
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/dialog2_back_btn"
+            android:layout_width="266dp"
+            android:layout_height="70dp"
+            android:background="@drawable/custom_button_2"
+            android:text="close"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/dialog2_ok_btn"
+            android:layout_width="266dp"
+            android:layout_height="70dp"
+            android:background="@drawable/custom_button_2"
+            android:text="Apply"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

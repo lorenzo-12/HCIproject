@@ -161,8 +161,8 @@ public class TestGoogle extends AppCompatActivity {
                 Log.d("TEST: ","permission: "+String.valueOf(permission));
                 if (permission){
                     Boolean check_user = false;
-                    db.deleteUser(personName);
                     check_user = db.findUser(personName);
+                    //Toast.makeText(TestGoogle.this,check_user.toString()+" check_user", Toast.LENGTH_SHORT).show();
                     Log.d("TEST: ","check_user: "+String.valueOf(check_user));
 
                     if (check_user==false){
@@ -172,8 +172,10 @@ public class TestGoogle extends AppCompatActivity {
                         prot_value = Integer.parseInt(prot.getText().toString());
                         fat_value = Integer.parseInt(fat.getText().toString());
                         kal_value = Integer.parseInt(kal.getText().toString());
-                        Boolean res = false;
-                        res = db.addUser(personName,"google_account",weight_value,height_value,sex,carb_value,prot_value,fat_value,kal_value,"google_account");
+                        Boolean res = db.addUser(personName,"google_account",weight_value,height_value,sex,carb_value,prot_value,fat_value,kal_value,"google_account");
+                        String res_s = db.viewUsers();
+                        //Toast.makeText(TestGoogle.this,res.toString()+" res", Toast.LENGTH_SHORT).show();
+                        Log.d("TEST: ",res_s);
                         Log.d("TEST: ","res: "+String.valueOf(res));
                         if (res){
                             //Toast.makeText(TestGoogle.this,"OK",Toast.LENGTH_SHORT).show();
@@ -181,11 +183,13 @@ public class TestGoogle extends AppCompatActivity {
                             saveData();
                             openactivityMain();
                         }else {
-                            //Toast.makeText(TestGoogle.this,"FAIL",Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(TestGoogle.this,"FAIL", Toast.LENGTH_SHORT).show();
                         }
                     }
                     else {
-                        error.setText("user already exist");
+                        user_logged = personName;
+                        saveData();
+                        openactivityMain();
                     }
 
 

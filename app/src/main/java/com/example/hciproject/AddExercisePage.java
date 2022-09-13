@@ -3,6 +3,7 @@ package com.example.hciproject;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.net.Uri;
@@ -85,6 +86,9 @@ public class AddExercisePage extends AppCompatActivity implements AdapterView.On
         image = findViewById(R.id.exercisedimageview_add);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(AddExercisePage.this,R.array.workout_category_possible, R.layout.color_spinner_layout);
+        if (isTablet(this)){
+            adapter = ArrayAdapter.createFromResource(AddExercisePage.this,R.array.workout_category_possible, R.layout.color_spinner_layout_tablet);
+        }
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
         input_category_spinner.setAdapter(adapter);
 
@@ -166,6 +170,10 @@ public class AddExercisePage extends AppCompatActivity implements AdapterView.On
             return result;
         }
 
+    }
+
+    public static boolean isTablet(Context ctx){
+        return (ctx.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
     @Override

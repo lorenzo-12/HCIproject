@@ -7,7 +7,10 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextWatcher;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -86,7 +89,48 @@ public class FoodPage extends AppCompatActivity {
         MenuItem filter_meat = menu.findItem(R.id.MeatFishEgg_filter);
         MenuItem filter_sweet = menu.findItem(R.id.Sweet_filter);
         MenuItem filter_other = menu.findItem(R.id.OtherFood_filter);
+
+        //increase text size menu
+        SpannableString spanString;
+        int end;
+
+        spanString = new SpannableString(filter_all.getTitle().toString());
+        end = spanString.length();
+        spanString.setSpan(new RelativeSizeSpan(1.5f), 0, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        filter_all.setTitle(spanString);
+
+        spanString = new SpannableString(filter_fruit.getTitle().toString());
+        end = spanString.length();
+        spanString.setSpan(new RelativeSizeSpan(1.5f), 0, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        filter_fruit.setTitle(spanString);
+
+        spanString = new SpannableString(filter_cereal.getTitle().toString());
+        end = spanString.length();
+        spanString.setSpan(new RelativeSizeSpan(1.5f), 0, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        filter_cereal.setTitle(spanString);
+
+        spanString = new SpannableString(filter_dairy.getTitle().toString());
+        end = spanString.length();
+        spanString.setSpan(new RelativeSizeSpan(1.5f), 0, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        filter_dairy.setTitle(spanString);
+
+        spanString = new SpannableString(filter_meat.getTitle().toString());
+        end = spanString.length();
+        spanString.setSpan(new RelativeSizeSpan(1.5f), 0, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        filter_meat.setTitle(spanString);
+
+        spanString = new SpannableString(filter_sweet.getTitle().toString());
+        end = spanString.length();
+        spanString.setSpan(new RelativeSizeSpan(1.5f), 0, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        filter_sweet.setTitle(spanString);
+
+        spanString = new SpannableString(filter_other.getTitle().toString());
+        end = spanString.length();
+        spanString.setSpan(new RelativeSizeSpan(1.5f), 0, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        filter_other.setTitle(spanString);
         return true;
+
+
     }
 
     @Override

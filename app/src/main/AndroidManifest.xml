@@ -74,10 +74,7 @@
             android:name=".FoodPage"
             android:exported="false"
             android:label="FoodPage" /> <!-- android:parentActivityName=".MainActivity" -->
-        <activity
-            android:name=".DiaryPage"
-            android:exported="false"
-            android:label="DiaryPage" /> <!-- android:parentActivityName=".MainActivity" -->
+        <!-- android:parentActivityName=".MainActivity" -->
         <activity
             android:name=".FitlifePage"
             android:exported="true">

@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -21,6 +22,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 public class FitlifePage extends AppCompatActivity {
@@ -117,6 +119,7 @@ public class FitlifePage extends AppCompatActivity {
 
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        signOut();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
@@ -180,6 +183,18 @@ public class FitlifePage extends AppCompatActivity {
         saveData();
         Intent intentSignup = new Intent(this, SignupInfoPage.class);
         startActivity(intentSignup);
+    }
+
+    private void signOut() {
+        mGoogleSignInClient.signOut()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // ...
+                        Log.d("Google: ","SIGNOUT");
+                        //finish();
+                    }
+                });
     }
 
     public void openactivityMain(){

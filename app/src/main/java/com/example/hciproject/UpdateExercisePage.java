@@ -3,6 +3,7 @@ package com.example.hciproject;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.net.Uri;
@@ -77,7 +78,7 @@ public class UpdateExercisePage extends AppCompatActivity implements AdapterView
         setContentView(R.layout.activity_updateexercisepage);
 
         db = new DBHelper(this);
-        update_name = findViewById(R.id.workout_name_text_update);
+        update_name = findViewById(R.id.txt_workout_name_text_update);
         update_spinner_category = findViewById(R.id.workout_category_spinner_update);
         update_reps = findViewById(R.id.workout_reps_text_update);
         update_series = findViewById(R.id.workout_series_text_update);
@@ -85,6 +86,9 @@ public class UpdateExercisePage extends AppCompatActivity implements AdapterView
         image = findViewById(R.id.exercisedimageview_update);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(UpdateExercisePage.this,R.array.workout_category_possible, R.layout.color_spinner_layout);
+        if (isTablet(this)){
+            adapter = ArrayAdapter.createFromResource(UpdateExercisePage.this,R.array.workout_category_possible, R.layout.color_spinner_layout_tablet);
+        }
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
         update_spinner_category.setAdapter(adapter);
 
@@ -180,6 +184,10 @@ public class UpdateExercisePage extends AppCompatActivity implements AdapterView
         if (!check_delete) return false;
         Boolean check_insert = db.addExercise(new_name,category,reps,series,image_bitmap);
         return check_insert;
+    }
+
+    public static boolean isTablet(Context ctx){
+        return (ctx.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
     @Override

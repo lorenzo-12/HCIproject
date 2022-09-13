@@ -10,45 +10,43 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/food_name_text_update"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
         android:hint="Name"
         android:textColorHint="@color/black"
         app:boxStrokeColor="@color/green"
         app:counterEnabled="true"
         app:counterMaxLength="20"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txt_food_name_text_update"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLength="20"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="34sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Spinner
         android:id="@+id/food_category_spinner_update"
-        android:layout_width="300dp"
-        android:layout_height="48dp"
+        android:layout_width="450dp"
+        android:layout_height="70dp"
         android:layout_marginTop="16dp"
         android:theme="@style/ThemeOverlay.AppCompat.Light"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/food_name_text_update"
         app:layout_constraintTop_toBottomOf="@+id/food_name_text_update" />
-
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/food_carb_text_update"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:hint="Carbohydrates"
         android:textColorHint="@color/black"
         app:boxStrokeColor="@color/green"
@@ -59,20 +57,19 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txt_food_carb_text_update"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
             android:maxLength="20"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="34sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/food_prot_text_update"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:hint="Protein"
         android:textColorHint="@color/black"
         app:boxStrokeColor="@color/green"
@@ -83,20 +80,19 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txt_food_prot_text_update"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
             android:maxLength="20"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="34sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/food_fat_text_update"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:hint="Fat"
         android:textColorHint="@color/black"
         app:boxStrokeColor="@color/green"
@@ -107,22 +103,22 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txt_food_fat_text_update"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
             android:maxLength="20"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="34sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/food_kal_text_update"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:hint="Calories"
         android:textColorHint="@color/black"
+        app:boxStrokeColor="@color/green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -130,29 +126,29 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txt_food_kal_text_update"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
             android:maxLength="20"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="34sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/updateFoodbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="266dp"
+        android:layout_height="105dp"
         android:layout_marginTop="8dp"
+        android:backgroundTint="@color/green"
         android:text="modify"
+        android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/foodimageview_update"
-        android:backgroundTint="@color/green"/>
+        app:layout_constraintTop_toBottomOf="@+id/foodimageview_update" />
 
     <ImageView
         android:id="@+id/foodimageview_update"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

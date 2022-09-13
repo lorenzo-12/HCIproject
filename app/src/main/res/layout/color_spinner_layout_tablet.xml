@@ -5,6 +5,6 @@
     android:padding="10dp"
     android:textColor="@color/black"
     android:text="aaaaaaa"
-    android:textSize="16sp">
+    android:textSize="34sp">
 
 </CheckedTextView>

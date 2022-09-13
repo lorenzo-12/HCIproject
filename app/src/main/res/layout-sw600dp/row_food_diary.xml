@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/green">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/background_view_diary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp">
+
+            <TextView
+                android:id="@+id/food_kal_diary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="kal"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toEndOf="@+id/testo_fisso_kal_diary"
+                app:layout_constraintTop_toTopOf="@+id/testo_fisso_kal_diary" />
+
+            <TextView
+                android:id="@+id/testo_fisso_kal_diary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="kal:"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toEndOf="@+id/food_fat_diary"
+                app:layout_constraintTop_toTopOf="@+id/food_fat_diary" />
+
+            <TextView
+                android:id="@+id/food_name_diary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:text="food"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/food_img_diary"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/quantity_name_diary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="quantity"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/food_name_diary"
+                app:layout_constraintTop_toTopOf="@+id/food_name_diary" />
+
+            <TextView
+                android:id="@+id/food_carb_diary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="carb"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toEndOf="@+id/testo_fisso_carb_diary"
+                app:layout_constraintTop_toTopOf="@+id/testo_fisso_carb_diary" />
+
+            <TextView
+                android:id="@+id/food_fat_diary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="fat"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toEndOf="@+id/testo_fisso_fat_diary"
+                app:layout_constraintTop_toTopOf="@+id/testo_fisso_fat_diary" />
+
+            <TextView
+                android:id="@+id/food_prot_diary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="prot"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toEndOf="@+id/testo_fisso_prot_diary"
+                app:layout_constraintTop_toTopOf="@+id/testo_fisso_prot_diary" />
+
+            <ImageView
+                android:id="@+id/delete_food_img_diary"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_delete_24" />
+
+            <ImageView
+                android:id="@+id/modify_food_img_diary"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                app:layout_constraintEnd_toStartOf="@+id/delete_food_img_diary"
+                app:layout_constraintTop_toTopOf="@+id/delete_food_img_diary"
+                app:srcCompat="@drawable/ic_baseline_create_24" />
+
+            <TextView
+                android:id="@+id/testo_fisso_carb_diary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="0dp"
+                android:text="carb:"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toEndOf="@+id/food_img_diary"
+                app:layout_constraintTop_toBottomOf="@+id/food_name_diary" />
+
+            <TextView
+                android:id="@+id/testo_fisso_prot_diary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="prot:"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toEndOf="@+id/food_carb_diary"
+                app:layout_constraintTop_toTopOf="@+id/food_carb_diary" />
+
+            <TextView
+                android:id="@+id/testo_fisso_fat_diary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="fat:"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toEndOf="@+id/food_img_diary"
+                app:layout_constraintTop_toBottomOf="@+id/testo_fisso_carb_diary" />
+
+            <ImageView
+                android:id="@+id/food_img_diary"
+                android:layout_width="108dp"
+                android:layout_height="108dp"
+                android:layout_marginTop="4dp"
+                android:scaleType="fitXY"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_fastfood_24" />
+
+            <TextView
+                android:id="@+id/set_reps_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="nada"
+                android:textColor="@color/black"
+                android:textSize="34sp"
+                android:visibility="invisible"
+                app:layout_constraintStart_toEndOf="@+id/food_img_diary"
+                app:layout_constraintTop_toTopOf="@+id/testo_fisso_carb_diary" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

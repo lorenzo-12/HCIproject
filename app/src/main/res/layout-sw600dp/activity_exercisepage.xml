@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="60dp"
+        android:layout_marginTop="70dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleViewWorkout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_exercise_btn_exercisepage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:backgroundTint="@color/celeste"
+            android:clickable="true"
+            app:borderWidth="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@android:drawable/ic_input_add"
+            app:maxImageSize="50dp"
+            app:fabCustomSize="80dp"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomappbarExercise"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom"
+        android:backgroundTint="@color/green"
+        app:contentInsetEnd="0dp"
+        app:contentInsetStart="0dp"
+        app:layout_anchorGravity="bottom|center">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomnavigatorviewExercise"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/green"
+            app:itemIconTint="@color/nav_color"
+            app:itemTextColor="@color/nav_color"
+            app:menu="@menu/bottom_nav" />
+
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
+    <AutoCompleteTextView
+        android:id="@+id/search_exercise_text"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/green"
+        android:completionThreshold="1"
+        android:drawableEnd="@drawable/ic_baseline_search_24"
+        android:drawableTint="@color/black"
+        android:hint="search"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="34sp" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

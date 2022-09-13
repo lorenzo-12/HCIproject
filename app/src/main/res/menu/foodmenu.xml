@@ -9,7 +9,7 @@
         <menu>
             <item
                 android:id="@+id/AllFood_filter"
-                android:title="All"/>
+                android:title="All" />
             <item
                 android:id="@+id/FruitVegetable_filter"
                 android:title="Fruit and Vegetable"/>

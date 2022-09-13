@@ -3,6 +3,7 @@ package com.example.hciproject;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.net.Uri;
@@ -88,6 +89,9 @@ public class AddFoodPage extends AppCompatActivity implements AdapterView.OnItem
         image = findViewById(R.id.foodimageview_add);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(AddFoodPage.this,R.array.food_category_possible, R.layout.color_spinner_layout);
+        if (isTablet(this)){
+            adapter = ArrayAdapter.createFromResource(AddFoodPage.this,R.array.food_category_possible, R.layout.color_spinner_layout_tablet);
+        }
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
         input_category_spinner.setAdapter(adapter);
 
@@ -186,6 +190,10 @@ public class AddFoodPage extends AppCompatActivity implements AdapterView.OnItem
             return result;
         }
 
+    }
+
+    public static boolean isTablet(Context ctx){
+        return (ctx.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
     @Override

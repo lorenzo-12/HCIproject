@@ -3,6 +3,7 @@ package com.example.hciproject;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
@@ -77,16 +78,19 @@ public class UpdateFoodPage extends AppCompatActivity implements AdapterView.OnI
         setContentView(R.layout.activity_updatefoodpage);
 
         db = new DBHelper(this);
-        update_name = findViewById(R.id.food_name_text_update);
+        update_name = findViewById(R.id.txt_food_name_text_update);
         update_spinner_category = findViewById(R.id.food_category_spinner_update);
-        update_carb = findViewById(R.id.food_carb_text_update);
-        update_prot = findViewById(R.id.food_prot_text_update);
-        update_fat = findViewById(R.id.food_fat_text_update);
-        update_kal = findViewById(R.id.food_kal_text_update);
+        update_carb = findViewById(R.id.txt_food_carb_text_update);
+        update_prot = findViewById(R.id.txt_food_prot_text_update);
+        update_fat = findViewById(R.id.txt_food_fat_text_update);
+        update_kal = findViewById(R.id.txt_food_kal_text_update);
         updateFoodbtn = findViewById(R.id.updateFoodbtn);
         image = findViewById(R.id.foodimageview_update);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(UpdateFoodPage.this,R.array.food_category_possible, R.layout.color_spinner_layout);
+        if (isTablet(this)){
+            adapter = ArrayAdapter.createFromResource(UpdateFoodPage.this,R.array.food_category_possible, R.layout.color_spinner_layout_tablet);
+        }
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
         update_spinner_category.setAdapter(adapter);
 
@@ -201,6 +205,10 @@ public class UpdateFoodPage extends AppCompatActivity implements AdapterView.OnI
         Boolean check_modification = db.modifyFood(old_name,new_name,category,img,carb,prot,fat,kal);
         if (!check_modification) return false;
         else return true;
+    }
+
+    public static boolean isTablet(Context ctx){
+        return (ctx.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
     @Override

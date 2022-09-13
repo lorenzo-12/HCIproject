@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FitlifePage"
+    android:background="@drawable/background_tablet">
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="266dp"
+        android:layout_height="105dp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fitlife_signup_button"
+        app:layout_constraintVertical_bias="0.046" />
+
+    <ImageView
+        android:id="@+id/FitLif_logo"
+        android:layout_width="239dp"
+        android:layout_height="176dp"
+        android:layout_marginStart="136dp"
+        android:layout_marginTop="128dp"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/dumbell" />
+
+    <TextView
+        android:id="@+id/FitLife_Text"
+        android:layout_width="293dp"
+        android:layout_height="136dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="152dp"
+        android:text="FitLife"
+        android:textColor="@color/grey"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/FitLif_logo"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/fitlife_login_button"
+        android:layout_width="266dp"
+        android:layout_height="105dp"
+        android:layout_marginTop="284dp"
+        android:background="@drawable/custom_button"
+        android:text="login"
+        android:textColor="@color/grey"
+        android:textSize="48sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/FitLif_logo" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/fitlife_signup_button"
+        android:layout_width="266dp"
+        android:layout_height="105dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/custom_button"
+        android:text="signup"
+        android:textColor="@color/grey"
+        android:textSize="48sp"
+        app:layout_constraintStart_toStartOf="@+id/fitlife_login_button"
+        app:layout_constraintTop_toBottomOf="@+id/fitlife_login_button" />
+</androidx.constraintlayout.widget.ConstraintLayout>
