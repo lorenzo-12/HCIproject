@@ -20,7 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SignupInfoPage extends AppCompatActivity {
 
-    public static final String WEIGHT_S = "SIGNUP_WEIGHT";
+    /* public static final String WEIGHT_S = "SIGNUP_WEIGHT";
     public static final String HEIGHT_S = "SINGUP_HEIGHT";
     public static final String CARB_S = "SINGUP_CARB";
     public static final String PROT_S = "SINGUP_PROT";
@@ -135,7 +135,7 @@ public class SignupInfoPage extends AppCompatActivity {
                     openactivitySignup();
                 }
             }
-        });
+        }); */
 
         /*
         weight.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -163,9 +163,8 @@ public class SignupInfoPage extends AppCompatActivity {
         });
         */
 
-    }
 
-    public void setsex(Integer s) {
+    /* public void setsex(Integer s) {
         sex = s;
         if (s == 0){
             male.setBackgroundColor(getResources().getColor(R.color.grey));
@@ -266,4 +265,4 @@ public class SignupInfoPage extends AppCompatActivity {
     }
 
 
-}
+} */
