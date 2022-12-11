@@ -8,7 +8,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,19 +15,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class SignupPage extends AppCompatActivity {
 
-    /* public static final String WEIGHT_S = "SIGNUP_WEIGHT";
+    public static final String WEIGHT_S = "SIGNUP_WEIGHT";
     public static final String HEIGHT_S = "SINGUP_HEIGHT";
     public static final String CARB_S = "SINGUP_CARB";
     public static final String PROT_S = "SINGUP_PROT";
@@ -36,23 +28,18 @@ public class SignupPage extends AppCompatActivity {
     public static final String KAL_S = "SINGUP_KAL";
     public static final String SEX_S = "SIGNUP_SEX";
     public static final String USER_LOGGED = "user_logged";
-    public String user_logged; */
+    public String user_logged;
 
+    Integer sex = 0; //0: not selected, 1: male, 2: female
+    Integer weight_value,height_value,carb_value,prot_value,fat_value,kal_value;
 
-    /* Integer sex = 0; //0: not selected, 1: male, 2: female
-    Integer weight_value,height_value,carb_value,prot_value,fat_value,kal_value; */
-
-    //EditText username,password,confirm,answer;
-    //Button signup,back;
-    //DBHelper db;
-    //TextView password_error,error;
-    private EditText email;
-    private EditText password;
-    private Button register;
-    private FirebaseAuth auth;
+    EditText username,password,confirm,answer;
+    Button signup,back;
+    DBHelper db;
+    TextView password_error,error;
 
     //codice per fare si che quando un utente clicca fuori da un Edittext si perde il focus
-    /* @Override
+    @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
@@ -94,9 +81,16 @@ public class SignupPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signuppage);
 
-        email = findViewById(R.id.email);
-        password = findViewById(R.id.password);
-        register = findViewById(R.id.register);
+        username = findViewById(R.id.usernametxt_signup);
+        password = findViewById(R.id.passwordtxt_singup);
+        confirm = findViewById(R.id.confir_mpasswordtxt_singup);
+        answer = findViewById(R.id.answertxt_singup);
+        signup = findViewById(R.id.signup_button);
+        back = findViewById(R.id.signup_back_btn);
+        password_error = findViewById(R.id.error_password_text_signup);
+        error = findViewById(R.id.error_fillup_text_signup);
+        db = new DBHelper(this);
+
 
         loadData();
 
@@ -183,48 +177,5 @@ public class SignupPage extends AppCompatActivity {
         Intent intentMain = new Intent(this, MainActivity.class);
         startActivity(intentMain);
     }
-*/
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signuppage);
-
-        email = findViewById(R.id.email);
-        password = findViewById(R.id.password);
-        register = findViewById(R.id.register);
-
-        auth = FirebaseAuth.getInstance();
-
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String txt_email = email.getText().toString();
-                String txt_password = password.getText().toString();
-
-                if (TextUtils.isEmpty(txt_email) || TextUtils.isEmpty(txt_password)){
-                    Toast.makeText(SignupPage.this, "Empty credentials!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(SignupPage.this , SignupInfoPage.class));
-                    finish();
-                } else if (txt_password.length() < 6){
-                    Toast.makeText(SignupPage.this, "Password too short!", Toast.LENGTH_SHORT).show();
-                } else {
-                    registerUser(txt_email , txt_password);
-                }
-            }
-        });
-    }
-
-    private void registerUser(String email, String password) {
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(SignupPage.this , new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(SignupPage.this, "Registering user successful!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(SignupPage.this, "Registration failed!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
 }
